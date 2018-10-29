@@ -16,6 +16,9 @@ TARGET_USES_AOSP := true
 TARGET_USES_AOSP_FOR_AUDIO := false
 TARGET_USES_QCOM_BSP := false
 
+# Enable HYP
+ENABLE_HYP := true
+
 #Default vendor image configuration
 ifeq ($(ENABLE_VENDOR_IMAGE),)
 ENABLE_VENDOR_IMAGE := false
