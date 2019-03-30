@@ -167,11 +167,6 @@ PRODUCT_PACKAGES += \
     android.hardware.contexthub@1.0-impl.generic \
     android.hardware.contexthub@1.0-service
 
-# system prop for Bluetooth SOC type
-PRODUCT_PROPERTY_OVERRIDES += \
-    qcom.bluetooth.soc=rome \
-    vendor.qcom.bluetooth.soc=rome
-
 # MIDI feature
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.midi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.midi.xml
