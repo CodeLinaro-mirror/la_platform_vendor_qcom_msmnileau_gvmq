@@ -1,6 +1,8 @@
 # Enable AVB 2.0
 BOARD_AVB_ENABLE := true
 TARGET_BOARD_AUTO := true
+TARGET_USES_AOSP_FOR_WLAN := false
+BOARD_HAS_QCOM_WLAN := true
 
 $(call inherit-product, device/qcom/common/common64.mk)
 $(call inherit-product, frameworks/native/build/phone-xhdpi-2048-dalvik-heap.mk)
