@@ -117,7 +117,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <hal format="hidl">
         <name>vendor.display.config</name>
         <transport>hwbinder</transport>
-        <version>1.3</version>
+        <version>1.5</version>
         <interface>
             <name>IDisplayConfig</name>
             <instance>default</instance>
@@ -144,7 +144,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <hal format="hidl">
         <name>android.hardware.configstore</name>
         <transport>hwbinder</transport>
-        <version>1.0</version>
+        <version>1.1</version>
         <interface>
             <name>ISurfaceFlingerConfigs</name>
             <instance>default</instance>
@@ -594,7 +594,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <hal format="hidl">
         <name>android.hardware.radio</name>
         <transport>hwbinder</transport>
-        <version>1.0</version>
+        <version>1.2</version>
         <interface>
             <name>IRadio</name>
             <instance>slot1</instance>
@@ -613,7 +613,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
        <version>1.0</version>
        <interface>
            <name>IRadioConfig</name>
-           <instance>radioconfig</instance>
+           <instance>default</instance>
        </interface>
     </hal>
     <!--UICC secure element -->
@@ -643,7 +643,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <hal format="hidl">
         <name>vendor.qti.hardware.vpp</name>
         <transport>hwbinder</transport>
-        <version>1.1</version>
+        <version>1.2</version>
         <interface>
             <name>IHidlVppService</name>
             <instance>vppService</instance>
@@ -866,6 +866,25 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <version>2.0</version>
         <interface>
             <name>IVehicle</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+    <!-- Thermal HAL Service -->
+    <hal format="hidl">
+        <name>android.hardware.thermal</name>
+        <transport>hwbinder</transport>
+        <version>1.0</version>
+        <interface>
+            <name>IThermal</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+    <hal format="hidl">
+        <name>android.hardware.automotive.audiocontrol</name>
+        <transport>hwbinder</transport>
+        <version>1.0</version>
+        <interface>
+            <name>IAudioControl</name>
             <instance>default</instance>
         </interface>
     </hal>

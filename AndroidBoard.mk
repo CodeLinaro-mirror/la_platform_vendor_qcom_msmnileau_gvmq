@@ -15,13 +15,6 @@ $(BUILT_TARGET_FILES_PACKAGE): $(INSTALLED_BOOTLOADER_MODULE)
 droidcore: $(INSTALLED_BOOTLOADER_MODULE)
 endif
 
-#----------------------------------------------------------------------
-# Compile Linux Kernel
-#----------------------------------------------------------------------
-ifeq ($(KERNEL_DEFCONFIG),)
-     KERNEL_DEFCONFIG := $(shell ls ./kernel/msm-4.14/arch/arm64/configs/vendor/ | grep sa8155-gvm_defconfig)
-endif
-
 ifeq ($(TARGET_KERNEL_SOURCE),)
      TARGET_KERNEL_SOURCE := kernel
 endif
@@ -73,6 +66,11 @@ ifeq ($(ENABLE_VENDOR_IMAGE), true)
 LOCAL_POST_INSTALL_CMD := echo $(VENDOR_FSTAB_ENTRY) >> $(LOCAL_MODULE_PATH)/$(LOCAL_MODULE)
 endif
 include $(BUILD_PREBUILT)
+
+# Create firmware folder for graphics
+ifeq ($(ENABLE_HYP),true)
+$(shell mkdir -p $(TARGET_OUT_VENDOR)/firmware/)
+endif
 
 #----------------------------------------------------------------------
 # Radio image

@@ -1,11 +1,30 @@
 # Enable AVB 2.0
 BOARD_AVB_ENABLE := true
 TARGET_BOARD_AUTO := true
+TARGET_USES_AOSP := true
+TARGET_USES_AOSP_FOR_AUDIO := false
+TARGET_USES_QCOM_BSP := false
+TARGET_NO_TELEPHONY := true
+TARGET_NO_QC_PARSER := false
+TARGET_NO_QTI_MPGEN := true
+TARGET_USES_QTIC := false
+TARGET_USES_QTIC_EXTENSION := false
 TARGET_USES_AOSP_FOR_WLAN := false
+ENABLE_HYP := true
+ENABLE_CAR_POWER_MANAGER := true
 BOARD_HAS_QCOM_WLAN := true
+BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := default
+BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := false
 
+TARGET_DEFINES_DALVIK_HEAP := true
 $(call inherit-product, device/qcom/common/common64.mk)
-$(call inherit-product, frameworks/native/build/phone-xhdpi-2048-dalvik-heap.mk)
+#Inherit all except heap growth limit from phone-xhdpi-2048-dalvik-heap.mk
+PRODUCT_PROPERTY_OVERRIDES  += \
+	dalvik.vm.heapstartsize=8m \
+	dalvik.vm.heapsize=512m \
+	dalvik.vm.heaptargetutilization=0.75 \
+	dalvik.vm.heapminfree=512k \
+	dalvik.vm.heapmaxfree=8m
 $(call inherit-product, packages/services/Car/car_product/build/car.mk)
 
 PRODUCT_NAME := msmnile_gvmq
@@ -14,32 +33,19 @@ PRODUCT_BRAND := qti
 PRODUCT_MODEL := msmnile_gvmq for arm64
 
 #Initial bringup flags
-TARGET_USES_AOSP := true
-TARGET_USES_AOSP_FOR_AUDIO := false
-TARGET_USES_QCOM_BSP := false
-
-# Enable HYP
-ENABLE_HYP := true
 
 #Default vendor image configuration
 ifeq ($(ENABLE_VENDOR_IMAGE),)
 ENABLE_VENDOR_IMAGE := false
 endif
-ifeq ($(ENABLE_VENDOR_IMAGE), true)
-#Comment on msm8998 tree says that QTIC does not
-# yet support system/vendor split. So disabling it
-# for msmnile as well
-#TARGET_USES_QTIC := false
-#TARGET_USES_QTIC_EXTENSION := false
 
-endif
 TARGET_KERNEL_VERSION := 4.14
 
 #Enable llvm support for kernel
 KERNEL_LLVM_SUPPORT := true
 
 #Enable sd-llvm suppport for kernel
-KERNEL_SD_LLVM_SUPPORT := true
+KERNEL_SD_LLVM_SUPPORT := false
 
 # default is nosdcard, S/W button enabled in resource
 PRODUCT_CHARACTERISTICS := nosdcard
@@ -71,9 +77,13 @@ ifneq ($(TARGET_DISABLE_DASH), true)
     PRODUCT_BOOT_JARS += qcmediaplayer
 endif
 
-ifneq ($(strip $(QCPATH)),)
+ifeq ($(TARGET_NO_QTI_WFD),)
     PRODUCT_BOOT_JARS += WfdCommon
 endif
+
+# Ethernet configuration file
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.ethernet.xml:system/etc/permissions/android.hardware.ethernet.xml
 
 # Video codec configuration files
 ifeq ($(TARGET_ENABLE_QC_AV_ENHANCEMENTS), true)
@@ -93,6 +103,10 @@ PRODUCT_PACKAGES += android.hardware.media.omx@1.0-impl
 
 # Audio configuration file
 -include $(TOPDIR)hardware/qcom/audio/configs/msmnile_au/msmnile_au.mk
+
+# Display configuration file
+PRODUCT_COPY_FILES += \
+    $(TOPDIR)hardware/qcom/display/config/qdcm_calib_data_default.xml:$(TARGET_COPY_OUT_VENDOR)/etc/qdcm_calib_data_ext_video_mode_dsi_bridge.xml
 
 #Audio DLKM
 AUDIO_DLKM := audio_apr.ko
@@ -121,19 +135,17 @@ PRODUCT_PACKAGES += update_engine \
 #Boot control HAL test app
 PRODUCT_PACKAGES_DEBUG += bootctl
 
-DEVICE_FRAMEWORK_MANIFEST_FILE := device/qcom/msmnile/framework_manifest.xml
 
 #Healthd packages
 PRODUCT_PACKAGES += \
-    android.hardware.health@1.0-impl \
-    android.hardware.health@1.0-convert \
-    android.hardware.health@1.0-service \
     libhealthd.msm
 
-# Adding vendor manifest
 
-DEVICE_MANIFEST_FILE := device/qcom/msmnile_gvmq/manifest.xml
+
+DEVICE_MANIFEST_FILE := device/qcom/msmnile_au/manifest.xml
 DEVICE_MATRIX_FILE   := device/qcom/common/compatibility_matrix.xml
+DEVICE_FRAMEWORK_MANIFEST_FILE := device/qcom/msmnile_au/framework_manifest.xml
+DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := device/qcom/msmnile_au/vendor_framework_compatibility_matrix.xml
 
 
 #ANT+ stack
@@ -150,18 +162,11 @@ PRODUCT_PACKAGES += \
 
 # FBE support
 PRODUCT_COPY_FILES += \
-    device/qcom/msmnile/init.qti.qseecomd.sh:$(TARGET_COPY_OUT_VENDOR)/bin/init.qti.qseecomd.sh \
-    device/qcom/msmnile/init.qti.getbootdevice.sh:$(TARGET_COPY_OUT_VENDOR)/bin/init.qti.getbootdevice.sh
+    device/qcom/msmnile/init.qti.qseecomd.sh:$(TARGET_COPY_OUT_VENDOR)/bin/init.qti.qseecomd.sh
 
 # MSM IRQ Balancer configuration file
 PRODUCT_COPY_FILES += device/qcom/msmnile/msm_irqbalance.conf:$(TARGET_COPY_OUT_VENDOR)/etc/msm_irqbalance.conf
 
-# Camera configuration file. Shared by passthrough/binderized camera HAL
-#PRODUCT_PACKAGES += camera.device@3.2-impl
-#PRODUCT_PACKAGES += camera.device@1.0-impl
-#PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-impl
-# Enable binderized camera HAL
-#PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-service_64
 
 
 # Context hub HAL
@@ -177,21 +182,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     android.hardware.usb@1.0-service
 
-# Sensor conf files
-PRODUCT_COPY_FILES += \
-    device/qcom/msmnile/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf \
-    frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.accelerometer.xml \
-    frameworks/native/data/etc/android.hardware.sensor.compass.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.compass.xml \
-    frameworks/native/data/etc/android.hardware.sensor.gyroscope.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.gyroscope.xml \
-    frameworks/native/data/etc/android.hardware.sensor.light.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.light.xml \
-    frameworks/native/data/etc/android.hardware.sensor.proximity.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.proximity.xml \
-    frameworks/native/data/etc/android.hardware.sensor.barometer.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.barometer.xml \
-    frameworks/native/data/etc/android.hardware.sensor.stepcounter.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.stepcounter.xml \
-    frameworks/native/data/etc/android.hardware.sensor.stepdetector.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.stepdetector.xml \
-    frameworks/native/data/etc/android.hardware.sensor.ambient_temperature.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.ambient_temperature.xml \
-    frameworks/native/data/etc/android.hardware.sensor.relative_humidity.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.relative_humidity.xml \
-    frameworks/native/data/etc/android.hardware.sensor.hifi_sensors.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.hifi_sensors.xml
-
+PRODUCT_PACKAGES += \
+       openavb_harness \
+       gptp \
+       mrpd
 
 # Kernel modules install path
 KERNEL_MODULES_INSTALL := dlkm
@@ -210,12 +204,15 @@ PRODUCT_FULL_TREBLE_OVERRIDE := true
 PRODUCT_VENDOR_MOVE_ENABLED := true
 PRODUCT_COMPATIBLE_PROPERTY_OVERRIDE := true
 
+#Remove this condition once HW keymaster is enabled for LA GVM
+ifneq ($(ENABLE_HYP),true)
 KMGK_USE_QTI_SERVICE := true
+endif
 
 #Enable KEYMASTER 4.0
 ENABLE_KM_4_0 := true
 
-DEVICE_PACKAGE_OVERLAYS += device/qcom/msmnile/overlay
+DEVICE_PACKAGE_OVERLAYS += device/qcom/msmnile_au/overlay
 
 # Enable flag to support slow devices
 TARGET_PRESIL_SLOW_BOARD := true
@@ -229,9 +226,39 @@ ENABLE_VENDOR_RIL_SERVICE := true
 TARGET_WLAN_CHIP := qca6174 qca6390
 include device/qcom/wlan/msmnile_au/wlan.mk
 
+# CAN utils
+PRODUCT_PACKAGES += candump \
+                    cansend \
+                    bcmserver \
+                    can-calc-bit-timing \
+                    canbusload \
+                    canfdtest \
+                    cangen \
+                    cangw \
+                    canlogserver \
+                    canplayer \
+                    cansniffer \
+                    isotpdump \
+                    isotprecv \
+                    isotpsend \
+                    isotpserver \
+                    isotptun \
+                    log2asc \
+                    log2long \
+                    slcan_attach \
+                    slcand \
+                    slcanpty
+
 # Vehicle Networks
 PRODUCT_PACKAGES += canflasher \
                     mpc5746c_firmware_A.bin \
                     mpc5746c_firmware_B.bin \
                     vendor.qti.hardware.automotive.vehicle@1.0-service \
                     android.hardware.automotive.vehicle@2.0-manager-lib-shared
+#Thermal
+PRODUCT_PACKAGES += android.hardware.thermal@1.0-impl \
+                    android.hardware.thermal@1.0-service
+
+# Enable STA+SAP+P2P
+WIFI_HIDL_FEATURE_DUAL_INTERFACE := true
+QC_WIFI_HIDL_FEATURE_STA_SAP_P2P := true
