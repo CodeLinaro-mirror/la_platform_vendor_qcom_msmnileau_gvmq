@@ -99,6 +99,7 @@ BOARD_VENDOR_KERNEL_MODULES := \
     $(KERNEL_MODULES_OUT)/audio_native.ko \
     $(KERNEL_MODULES_OUT)/audio_machine_msmnile.ko \
     $(KERNEL_MODULES_OUT)/emac_dwc_eqos.ko \
+    $(KERNEL_MODULES_OUT)/hsi2s.ko \
     #$(KERNEL_MODULES_OUT)/rdbg.ko
 
 # install lkdtm only for userdebug and eng build variants
