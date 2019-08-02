@@ -307,6 +307,11 @@ service vendor.tlocd /vendor/bin/tloc_daemon
     user system
     group drmrpc gps net_raw
 
+#PTP virtual driver
+on property:sys.boot_completed=1
+    write /dev/kmsg "loading ptp virtual driver"
+    insmod /vendor/lib/modules/ptp_virtual.ko
+
 #service smcinvoked /system/bin/smcinvoked
 #    class main
 #    user system
