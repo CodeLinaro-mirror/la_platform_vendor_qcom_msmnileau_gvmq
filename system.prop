@@ -193,7 +193,3 @@ vendor.camera.aux.packagelist=org.codeaurora.snapcam
 #Display mirroring
 vendor.display.builtin_mirroring=true
 
-#Display hwcId allocation
-vendor.display.builtin_baseid_and_size=5,3
-vendor.display.pluggable_baseid_and_size=1,4
-vendor.display.virtual_baseid_and_size=8,1
