@@ -18,7 +18,6 @@ TARGET_DISABLE_PERF_OPTIMIATIONS := true
 BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := false
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := false
 TARGET_USES_AOSP_FOR_WLAN := true
-ENABLE_STRONGBOX_KM := false
 
 TARGET_DEFINES_DALVIK_HEAP := true
 $(call inherit-product, device/qcom/common/common64.mk)
@@ -208,14 +207,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_FULL_TREBLE_OVERRIDE := true
 PRODUCT_VENDOR_MOVE_ENABLED := true
 PRODUCT_COMPATIBLE_PROPERTY_OVERRIDE := true
-
-#Remove this condition once HW keymaster is enabled for LA GVM
-ifneq ($(ENABLE_HYP),true)
-KMGK_USE_QTI_SERVICE := true
-endif
-
-#Enable KEYMASTER 4.0
-ENABLE_KM_4_0 := false
 
 #Enable vndk-sp Libraries
 PRODUCT_PACKAGES += vndk_package
