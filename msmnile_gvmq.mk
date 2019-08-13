@@ -208,9 +208,9 @@ PRODUCT_VENDOR_MOVE_ENABLED := true
 PRODUCT_COMPATIBLE_PROPERTY_OVERRIDE := true
 
 #Remove this condition once HW keymaster is enabled for LA GVM
-ifneq ($(ENABLE_HYP),true)
+#ifneq ($(ENABLE_HYP),true)
 KMGK_USE_QTI_SERVICE := true
-endif
+#endif
 
 #Enable KEYMASTER 4.0
 ENABLE_KM_4_0 := true
