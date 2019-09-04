@@ -200,6 +200,17 @@ service vendor.thermal-engine /vendor/bin/thermal-engine
 #   user system
 #   group system
 
+service amfsservice /vendor/bin/amfsservice
+    class main
+    user system
+    group system
+
+service audiod /vendor/bin/audiod
+    class main
+    user system
+    group system wakelock
+    capabilities BLOCK_SUSPEND
+
 ## imsdatadaemon starts with root and UID will be downgraded to SYSTEM.
 service vendor.imsqmidaemon /vendor/bin/imsqmidaemon
     class main
