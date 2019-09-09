@@ -1,4 +1,4 @@
-# Copyright (c) 2013-2018, The Linux Foundation. All rights reserved.
+# Copyright (c) 2013-2019, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -31,6 +31,7 @@ on early-init
     exec u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules audio_wglink audio_q6_pdr audio_q6_notifier audio_apr audio_adsp_loader audio_q6 audio_native audio_usf audio_pinctrl_wcd audio_swr audio_platform audio_hdmi audio_wcd_spi audio_stub audio_wcd_core audio_wsa881x audio_wcd9360 audio_hdmi audio_machine_msmnile
     write /proc/sys/kernel/sched_boost 1
     symlink /data/tombstones /tombstones
+    write /sys/kernel/debug/bootkpi/kpi_values "M - INITRC Userspace Start"
 
 on init
     write /dev/stune/foreground/schedtune.sched_boost_no_override 1
@@ -53,8 +54,9 @@ on fs
 on post-fs
     # set RLIMIT_MEMLOCK to 64MB
     setrlimit 8 67108864 67108864
-    start vendor.qseecomd
-    exec - system system -- /vendor/bin/init.qti.qseecomd.sh
+
+#    start vendor.qseecomd
+#    exec - system system -- /vendor/bin/init.qti.qseecomd.sh
 #    write /dev/ipa 1
 #    start vendor.spdaemon
     start vendor.sec_nvm
@@ -68,6 +70,9 @@ on post-fs-data
     mkdir /data/vendor/hbtp 0750 system system
     mkdir /data/vendor/tloc 0700 system drmrpc
     mkdir /data/vendor/nnhal 0700 system system
+
+    #Create folder for ais_server
+    mkdir /dev/socket/camera 0770 system camera
 
 # For cpusets initialize for Silver Only first and then Silver + Gold
 # Silver Only configuration cannot work with 0-7
@@ -100,6 +105,20 @@ on boot
     chown cameraserver cameraserver /dev/cpuset/camera-daemon
     chown cameraserver cameraserver /dev/cpuset/camera-daemon/tasks
     chmod 0660 /dev/cpuset/camera-daemon/tasks
+on property:init.svc.zygote=running
+    write /sys/kernel/debug/bootkpi/kpi_values "M - USER Zygote Start"
+
+on property:init.svc.bootanim=running
+    write /sys/kernel/debug/bootkpi/kpi_values "K - USER Boot Animation Start"
+
+on property:init.svc.media=running
+    write /sys/kernel/debug/bootkpi/kpi_values "M - USER MediaServer Start"
+
+on property:sys.boot_completed=1
+    write /sys/kernel/debug/bootkpi/kpi_values "K - USER Android Boot Complete"
+
+on property:init.svc.surfaceflinger=running
+    write /sys/kernel/debug/bootkpi/kpi_values "M - USER SurfaceFlinger Start"
 
 #USB controller configuration
     setprop vendor.usb.rndis.func.name "gsi"
@@ -116,17 +135,17 @@ on property:vendor.usb.controller=*
     setprop sys.usb.controller ${vendor.usb.controller}
 
 #Load WLAN driver
-    start wlan_multiko
+#    start wlan_multiko
 
-on property:ro.vendor.wlan.chip=*
-    insmod /vendor/lib/modules/qca_cld3_${ro.vendor.wlan.chip}.ko
-    setprop wlan.driver.status "ok"
+#on property:ro.vendor.wlan.chip=*
+#    insmod /vendor/lib/modules/qca_cld3_${ro.vendor.wlan.chip}.ko
+#    setprop wlan.driver.status "ok"
 
-service wlan_multiko /vendor/bin/init.qcom.wlan.sh
-    user root
-    group root
-    disabled
-    oneshot
+#service wlan_multiko /vendor/bin/init.qcom.wlan.sh
+#    user root
+#    group root
+#    disabled
+#    oneshot
 
 #pd-mapper
 service vendor.pd_mapper /vendor/bin/pd-mapper
@@ -159,10 +178,10 @@ service vendor.pd_mapper /vendor/bin/pd-mapper
 #    setprop sys.usb.configfs 1
 
 
-service vendor.qseecomd /vendor/bin/qseecomd
-    class core
-    user root
-    group root
+#service vendor.qseecomd /vendor/bin/qseecomd
+#    class core
+#    user root
+#    group root
 
 #service vendor.spdaemon /vendor/bin/spdaemon
 #    class core
@@ -261,6 +280,17 @@ service vendor.ims_rtp_daemon /vendor/bin/ims_rtp_daemon
 on property:vendor.ims.DATA_DAEMON_STATUS=1
     restart vendor.ims_rtp_daemon
 
+#start AIS server as daemon
+#on property:sys.boot_completed=1
+#start vendor.ais_server
+
+#declaring AIS service to be started after boot complete
+#service vendor.ais_server /vendor/bin/ais_server
+#    class late_start
+#    user system
+#    group camera input graphics
+#    disabled
+
 service vendor.energy-awareness /vendor/bin/energy-awareness
     class main
     user system
@@ -281,3 +311,7 @@ service vendor.tlocd /vendor/bin/tloc_daemon
 #    class main
 #    user system
 #    group system
+
+#Start EMAC ethernet driver
+on boot
+    insmod /vendor/lib/modules/emac_dwc_eqos.ko
