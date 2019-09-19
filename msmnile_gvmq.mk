@@ -11,13 +11,13 @@ TARGET_NO_QTI_MPGEN := true
 TARGET_USES_QTIC := false
 TARGET_USES_QTIC_EXTENSION := false
 ENABLE_HYP := true
-BOARD_HAS_QCOM_WLAN := false
+BOARD_HAS_QCOM_WLAN := true
 TARGET_NO_QTI_WFD := true
 BOARD_HAVE_QCOM_FM := false
 TARGET_DISABLE_PERF_OPTIMIATIONS := true
 BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := false
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := false
-TARGET_USES_AOSP_FOR_WLAN = true
+TARGET_USES_AOSP_FOR_WLAN := true
 ENABLE_STRONGBOX_KM := false
 
 TARGET_DEFINES_DALVIK_HEAP := true
@@ -229,7 +229,7 @@ ENABLE_VENDOR_RIL_SERVICE := true
 #----------------------------------------------------------------------
 # Multiple chips
 TARGET_WLAN_CHIP := qca6174 qca6390
-#include device/qcom/wlan/msmnile_au/wlan.mk
+include device/qcom/wlan/msmnile_au/wlan.mk
 
 
 

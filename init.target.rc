@@ -135,17 +135,17 @@ on property:vendor.usb.controller=*
     setprop sys.usb.controller ${vendor.usb.controller}
 
 #Load WLAN driver
-#    start wlan_multiko
+    start wlan_multiko
 
-#on property:ro.vendor.wlan.chip=*
-#    insmod /vendor/lib/modules/qca_cld3_${ro.vendor.wlan.chip}.ko
-#    setprop wlan.driver.status "ok"
+on property:ro.vendor.wlan.chip=*
+    insmod /vendor/lib/modules/qca_cld3_${ro.vendor.wlan.chip}.ko
+    setprop wlan.driver.status "ok"
 
-#service wlan_multiko /vendor/bin/init.qcom.wlan.sh
-#    user root
-#    group root
-#    disabled
-#    oneshot
+service wlan_multiko /vendor/bin/init.qcom.wlan.sh
+    user root
+    group root
+    disabled
+    oneshot
 
 #pd-mapper
 service vendor.pd_mapper /vendor/bin/pd-mapper
