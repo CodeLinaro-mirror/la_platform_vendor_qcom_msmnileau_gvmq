@@ -23,4 +23,4 @@
 /dev/block/vdb /data ext4 rw wait
 /dev/block/vdd /mnt/vendor/persist ext4 rw defaults
 /dev/block/vde /firmware vfat ro,context=u:object_r:firmware_file:s0 defaults
-/dev/block/vdf /bt_firmware vfat ro,context=u:object_r:bt_firmware_file:s0 defaults
+/dev/block/vdf /vendor/bt_firmware vfat ro,context=u:object_r:bt_firmware_file:s0 defaults
