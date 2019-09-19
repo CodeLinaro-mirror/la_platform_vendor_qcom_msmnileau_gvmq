@@ -194,9 +194,9 @@ TARGET_ENABLE_MEDIADRM_64 := true
 #----------------------------------------------------------------------
 # wlan specific
 #----------------------------------------------------------------------
-#ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
-#include device/qcom/wlan/msmnile_au/BoardConfigWlan.mk
-#endif
+ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
+include device/qcom/wlan/msmnile_au/BoardConfigWlan.mk
+endif
 
 
 #Flag to enable System SDK Requirements.
