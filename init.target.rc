@@ -318,3 +318,11 @@ on property:sys.boot_completed=1
 #Start EMAC ethernet driver
 on boot
     insmod /vendor/lib/modules/emac_dwc_eqos.ko
+
+service carpowerd /vendor/bin/car_power_daemon
+    user root
+    group root system inet
+    disabled
+
+on property:sys.boot_completed=1
+    start carpowerd

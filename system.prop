@@ -194,3 +194,5 @@ vendor.camera.aux.packagelist=org.codeaurora.snapcam
 #Display mirroring
 vendor.display.builtin_mirroring=true
 
+#Enable lpm on P
+persist.car.lpm=true
