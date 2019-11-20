@@ -145,7 +145,9 @@ PRODUCT_PACKAGES_DEBUG += bootctl
 PRODUCT_PACKAGES += \
     libhealthd.msm
 
-
+# MTMD enablement
+PRODUCT_COPY_FILES += \
+    device/qcom/msmnile_gvmq/input-port-associations.xml:$(TARGET_COPY_OUT_VENDOR)/etc/input-port-associations.xml
 
 DEVICE_MANIFEST_FILE := device/qcom/msmnile_au/manifest.xml
 DEVICE_MATRIX_FILE   := device/qcom/common/compatibility_matrix.xml
