@@ -119,6 +119,7 @@ AUDIO_DLKM += audio_hdmi.ko
 AUDIO_DLKM += audio_stub.ko
 AUDIO_DLKM += audio_native.ko
 AUDIO_DLKM += audio_machine_msmnile.ko
+AUDIO_DLKM += v4l2loopback.ko
 PRODUCT_PACKAGES += $(AUDIO_DLKM)
 
 # HS-I2S DLKM
@@ -172,7 +173,23 @@ PRODUCT_PACKAGES += \
 # MSM IRQ Balancer configuration file
 PRODUCT_COPY_FILES += device/qcom/msmnile/msm_irqbalance.conf:$(TARGET_COPY_OUT_VENDOR)/etc/msm_irqbalance.conf
 
+# Camera configuration file. Shared by passthrough/binderized camera HAL
+PRODUCT_PACKAGES += camera.device@1.0-impl
+PRODUCT_PACKAGES += camera.device@3.2-impl
+PRODUCT_PACKAGES += camera.device@3.3-impl
+PRODUCT_PACKAGES += camera.device@3.4-impl
+PRODUCT_PACKAGES += camera.device@3.4-external-impl
+PRODUCT_PACKAGES += camera.device@3.5-impl
+PRODUCT_PACKAGES += camera.device@3.5-external-impl
+PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-external
+PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-legacy
+PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-impl
+# Enable binderized camera HAL
+PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-service
 
+USE_CAMERA_V4L2_AUTO_HAL := true
+PRODUCT_PROPERTY_OVERRIDES += ro.hardware.camera=v4l2
+PRODUCT_PACKAGES += camera.v4l2
 
 # Context hub HAL
 PRODUCT_PACKAGES += \
