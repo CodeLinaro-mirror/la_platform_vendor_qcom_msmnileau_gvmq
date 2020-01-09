@@ -123,6 +123,8 @@ PRODUCT_PACKAGES += $(AUDIO_DLKM)
 
 # HS-I2S DLKM
 PRODUCT_PACKAGES += hsi2s.ko
+# HS-I2S test app
+PRODUCT_PACKAGES += hsi2s_test
 
 PRODUCT_PACKAGES += fs_config_files
 
@@ -145,7 +147,9 @@ PRODUCT_PACKAGES_DEBUG += bootctl
 PRODUCT_PACKAGES += \
     libhealthd.msm
 
-
+# MTMD enablement
+PRODUCT_COPY_FILES += \
+    device/qcom/msmnile_gvmq/input-port-associations.xml:$(TARGET_COPY_OUT_VENDOR)/etc/input-port-associations.xml
 
 DEVICE_MANIFEST_FILE := device/qcom/msmnile_au/manifest.xml
 DEVICE_MATRIX_FILE   := device/qcom/common/compatibility_matrix.xml
@@ -212,7 +216,7 @@ PRODUCT_COMPATIBLE_PROPERTY_OVERRIDE := true
 #Enable vndk-sp Libraries
 PRODUCT_PACKAGES += vndk_package
 
-DEVICE_PACKAGE_OVERLAYS += device/qcom/msmnile_au/overlay
+DEVICE_PACKAGE_OVERLAYS += device/qcom/msmnile_gvmq/overlay
 
 # Enable flag to support slow devices
 TARGET_PRESIL_SLOW_BOARD := true
