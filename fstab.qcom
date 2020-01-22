@@ -20,7 +20,7 @@
 #/dev/block/bootdevice/by-name/misc                      /misc                  emmc    defaults                                             defaults
 #/devices/platform/soc/a600000.ssusb/a600000.dwc3/xhci-hcd.*.auto*    /storage/usbotg    vfat    nosuid,nodev    wait,voldmanaged=usbotg:auto
 /dev/block/vda / ext4 rw defaults
-/dev/block/vdb /data ext4 rw wait
+/dev/block/vdb /data ext4 rw wait,fileencryption=ice
 /dev/block/vdd /mnt/vendor/persist ext4 rw defaults
 /dev/block/vde /vendor/firmware_mnt vfat ro,context=u:object_r:firmware_file:s0 defaults
 /dev/block/vdf /vendor/bt_firmware vfat ro,context=u:object_r:bt_firmware_file:s0 defaults
