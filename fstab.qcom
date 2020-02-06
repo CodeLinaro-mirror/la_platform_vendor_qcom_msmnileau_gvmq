@@ -11,5 +11,5 @@
 /dev/block/vdd    /mnt/vendor/persist    ext4    rw                                                 defaults
 /dev/block/vde    /firmware              vfat    ro,context=u:object_r:firmware_file:s0             defaults
 /dev/block/vdf    /bt_firmware           vfat    ro,context=u:object_r:bt_firmware_file:s0          defaults
-/devices/platform/soc/8804000.sdhci/mmc_host*           /storage/sdcard1       vfat    nosuid,nodev                                         wait,voldmanaged=sdcard1:auto,encryptable=footer
-/devices/*/xhci-hcd.*.auto*    /storage/usbotg    vfat    nosuid,nodev    wait,voldmanaged=usbotg:auto,encryptable=userdata
+/devices/platform/soc/8804000.sdhci/mmc_host*           /storage/sdcard1       vfat    nosuid,nodev                                         wait,voldmanaged=sdcard1:auto
+/devices/*/xhci-hcd.*.auto*    /storage/usbotg    vfat    nosuid,nodev    wait,voldmanaged=usbotg:auto
