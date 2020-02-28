@@ -3,7 +3,7 @@ BOARD_AVB_ENABLE := true
 BOARD_USES_QCNE := false
 TARGET_BOARD_AUTO := true
 TARGET_USES_AOSP := true
-TARGET_USES_AOSP_FOR_AUDIO := true
+TARGET_USES_AOSP_FOR_AUDIO := false
 TARGET_USES_QCOM_BSP := false
 TARGET_NO_TELEPHONY := true
 TARGET_NO_QC_PARSER := true
@@ -19,6 +19,7 @@ BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := false
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := false
 TARGET_USES_AOSP_FOR_WLAN := true
 ENABLE_CAR_POWER_MANAGER := true
+TARGET_FWK_SUPPORTS_AV_VALUEADDS := true
 
 TARGET_DEFINES_DALVIK_HEAP := true
 $(call inherit-product, device/qcom/common/common64.mk)
@@ -151,9 +152,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     device/qcom/msmnile_gvmq/input-port-associations.xml:$(TARGET_COPY_OUT_VENDOR)/etc/input-port-associations.xml
 
-DEVICE_MANIFEST_FILE := device/qcom/msmnile_au/manifest.xml
+DEVICE_MANIFEST_FILE := device/qcom/msmnile_gvmq/manifest.xml
 DEVICE_MATRIX_FILE   := device/qcom/common/compatibility_matrix.xml
-DEVICE_FRAMEWORK_MANIFEST_FILE := device/qcom/msmnile_au/framework_manifest.xml
+DEVICE_FRAMEWORK_MANIFEST_FILE := device/qcom/msmnile_gvmq/framework_manifest.xml
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := vendor/qcom/opensource/core-utils/vendor_framework_compatibility_matrix.xml
 
 
@@ -227,7 +228,7 @@ ENABLE_VENDOR_RIL_SERVICE := true
 # wlan specific
 #----------------------------------------------------------------------
 # Multiple chips
-TARGET_WLAN_CHIP := qca6174 qca6390
+TARGET_WLAN_CHIP := qca6174 qca6390 qcn7605
 include device/qcom/wlan/msmnile_au/wlan.mk
 
 
