@@ -212,3 +212,6 @@ ro.boot.wificountrycode=us
 # However in Automotive SP, AVRCP(CT) is enabled in Car UI.
 # So the property should be set as false.
 persist.bluetooth.enablenewavrcp=false
+
+#property to enable SSR
+persist.vendor.ssr.restart_level=wlan
