@@ -197,3 +197,6 @@ vendor.display.builtin_mirroring=true
 
 #Enable lpm on P
 persist.car.lpm=true
+
+#property to enable SSR
+persist.vendor.ssr.restart_level=wlan
