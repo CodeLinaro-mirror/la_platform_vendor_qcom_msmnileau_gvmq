@@ -1,5 +1,5 @@
 # Enable AVB 2.0
-#BOARD_AVB_ENABLE := true
+BOARD_AVB_ENABLE := true
 TARGET_BOARD_AUTO := true
 TARGET_USES_AOSP := true
 TARGET_USES_AOSP_FOR_AUDIO := false
@@ -33,12 +33,11 @@ PRODUCT_BRAND := qti
 PRODUCT_MODEL := msmnile_gvmq for arm64
 
 #Initial bringup flags
-PRODUCT_SUPPORTS_VERITY := true
 
 #Default vendor image configuration
-#ifeq ($(ENABLE_VENDOR_IMAGE),)
-#ENABLE_VENDOR_IMAGE := false
-#endif
+ifeq ($(ENABLE_VENDOR_IMAGE),)
+ENABLE_VENDOR_IMAGE := false
+endif
 
 TARGET_KERNEL_VERSION := 4.14
 
@@ -229,12 +228,6 @@ PRODUCT_FULL_TREBLE_OVERRIDE := true
 PRODUCT_VENDOR_MOVE_ENABLED := true
 PRODUCT_COMPATIBLE_PROPERTY_OVERRIDE := true
 
-PRODUCT_SYSTEM_VERITY_PARTITION := /dev/block/vda
-ifeq ($(ENABLE_VENDOR_IMAGE), true)
-PRODUCT_VENDOR_VERITY_PARTITION := /dev/block/vdc
-endif
-
-PRODUCT_VENDOR_VERITY_PARTITION := /dev/block/vdc
 #Remove this condition once HW keymaster is enabled for LA GVM
 #ifneq ($(ENABLE_HYP),true)
 KMGK_USE_QTI_SERVICE := true
