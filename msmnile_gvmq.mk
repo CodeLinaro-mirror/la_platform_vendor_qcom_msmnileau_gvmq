@@ -193,11 +193,6 @@ PRODUCT_PROPERTY_OVERRIDES += ro.hardware.camera=v4l2
 PRODUCT_PACKAGES += camera.v4l2
 
 
-# Context hub HAL
-PRODUCT_PACKAGES += \
-    android.hardware.contexthub@1.0-impl.generic \
-    android.hardware.contexthub@1.0-service
-
 # MIDI feature
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.midi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.midi.xml
