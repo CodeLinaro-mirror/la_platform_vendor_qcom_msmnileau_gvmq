@@ -17,7 +17,7 @@ BOARD_HAVE_QCOM_FM := false
 TARGET_DISABLE_PERF_OPTIMIATIONS := true
 BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := false
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := false
-TARGET_USES_AOSP_FOR_WLAN := true
+TARGET_USES_AOSP_FOR_WLAN := false
 ENABLE_CAR_POWER_MANAGER := true
 TARGET_FWK_SUPPORTS_AV_VALUEADDS := true
 
@@ -89,18 +89,6 @@ endif
 # Ethernet configuration file
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.ethernet.xml:system/etc/permissions/android.hardware.ethernet.xml
-
-# Video codec configuration files
-ifeq ($(TARGET_ENABLE_QC_AV_ENHANCEMENTS), true)
-PRODUCT_COPY_FILES += device/qcom/msmnile/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_vendor.xml
-
-PRODUCT_COPY_FILES += device/qcom/msmnile/media_codecs.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs.xml
-PRODUCT_COPY_FILES += device/qcom/msmnile/media_codecs_vendor.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_vendor.xml
-
-PRODUCT_COPY_FILES += device/qcom/msmnile/media_codecs_vendor_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_vendor_audio.xml
-
-PRODUCT_COPY_FILES += device/qcom/msmnile/media_codecs_performance.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_performance.xml
-endif #TARGET_ENABLE_QC_AV_ENHANCEMENTS
 
 PRODUCT_COPY_FILES += hardware/qcom/media/conf_files/msmnile/system_properties.xml:$(TARGET_COPY_OUT_VENDOR)/etc/system_properties.xml
 
@@ -179,10 +167,6 @@ PRODUCT_COPY_FILES += device/qcom/msmnile/msm_irqbalance.conf:$(TARGET_COPY_OUT_
 
 
 
-# Context hub HAL
-PRODUCT_PACKAGES += \
-    android.hardware.contexthub@1.0-impl.generic \
-    android.hardware.contexthub@1.0-service
 
 # MIDI feature
 PRODUCT_COPY_FILES += \
