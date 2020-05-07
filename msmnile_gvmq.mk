@@ -17,6 +17,8 @@ BOARD_HAVE_QCOM_FM := false
 TARGET_DISABLE_PERF_OPTIMIATIONS := true
 BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := false
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := false
+TARGET_FWK_SUPPORTS_AV_VALUEADDS := false
+TARGET_FWK_SUPPORTS_FULL_VALUEADDS := false
 TARGET_USES_AOSP_FOR_WLAN := true
 ENABLE_CAR_POWER_MANAGER := true
 
@@ -66,8 +68,6 @@ PRODUCT_PACKAGES += libGLES_android
 PRODUCT_BOOT_JARS += tcmiface
 PRODUCT_BOOT_JARS += telephony-ext
 PRODUCT_PACKAGES += telephony-ext
-
-
 
 TARGET_DISABLE_DASH := true
 TARGET_DISABLE_QTI_VPP := false
@@ -147,7 +147,6 @@ DEVICE_MATRIX_FILE   := device/qcom/common/compatibility_matrix.xml
 DEVICE_FRAMEWORK_MANIFEST_FILE := device/qcom/msmnile_gvmq/framework_manifest.xml
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := vendor/qcom/opensource/core-utils/vendor_framework_compatibility_matrix.xml
 
-
 #ANT+ stack
 PRODUCT_PACKAGES += \
     AntHalService \
@@ -161,11 +160,8 @@ PRODUCT_PACKAGES += \
     android.hardware.configstore@1.2-service \
     android.hardware.broadcastradio@1.0-impl
 
-
 # MSM IRQ Balancer configuration file
 PRODUCT_COPY_FILES += device/qcom/msmnile/msm_irqbalance.conf:$(TARGET_COPY_OUT_VENDOR)/etc/msm_irqbalance.conf
-
-
 
 # Context hub HAL
 PRODUCT_PACKAGES += \
@@ -206,9 +202,11 @@ ENABLE_VENDOR_RIL_SERVICE := true
 #----------------------------------------------------------------------
 # wlan specific
 #----------------------------------------------------------------------
+ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
 # Multiple chips
-#TARGET_WLAN_CHIP := qca6174 qca6390
-#include device/qcom/wlan/msmnile_au/wlan.mk
+TARGET_WLAN_CHIP := qca6174 qca6390 qcn7605
+include device/qcom/wlan/msmnile_au/wlan.mk
+endif
 
 # Vehicle Networks
 PRODUCT_PACKAGES += canflasher \
@@ -216,12 +214,12 @@ PRODUCT_PACKAGES += canflasher \
                     mpc5746c_firmware_B.bin \
                     vendor.qti.hardware.automotive.vehicle@1.0-service \
                     android.hardware.automotive.vehicle@2.0-manager-lib-shared
+
 #Thermal
 PRODUCT_PACKAGES += android.hardware.thermal@1.0-impl \
                     android.hardware.thermal@1.0-service
 
 TARGET_MOUNT_POINTS_SYMLINKS := false
-
 
 ifneq ($(ENABLE_HYP),true)
 #Enable QTI KEYMASTER and GATEKEEPER HIDLs
@@ -236,8 +234,6 @@ PRODUCT_PACKAGES += camera.device@3.2-impl
 PRODUCT_PACKAGES += camera.device@1.0-impl
 PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-impl
 PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-service
-
-
 
 # enable audio hidl hal 5.0
 PRODUCT_PACKAGES += \
