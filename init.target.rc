@@ -341,3 +341,7 @@ service carpowerd /vendor/bin/car_power_daemon
 
 on property:sys.boot_completed=1
     start carpowerd
+
+#enable silent logging
+on property:sys.boot_completed=1
+    write /proc/sys/kernel/printk 0
