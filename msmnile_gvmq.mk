@@ -148,14 +148,6 @@ DEVICE_MATRIX_FILE   := device/qcom/common/compatibility_matrix.xml
 DEVICE_FRAMEWORK_MANIFEST_FILE := device/qcom/msmnile_gvmq/framework_manifest.xml
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := vendor/qcom/opensource/core-utils/vendor_framework_compatibility_matrix.xml
 
-#ANT+ stack
-PRODUCT_PACKAGES += \
-    AntHalService \
-    libantradio \
-    antradio_app \
-    libvolumelistener
-
-# Display/Graphics
 PRODUCT_PACKAGES += \
     android.hardware.configstore@1.2 \
     android.hardware.configstore@1.2-service \
@@ -163,7 +155,6 @@ PRODUCT_PACKAGES += \
 
 # MSM IRQ Balancer configuration file
 PRODUCT_COPY_FILES += device/qcom/msmnile/msm_irqbalance.conf:$(TARGET_COPY_OUT_VENDOR)/etc/msm_irqbalance.conf
-
 
 # MIDI feature
 PRODUCT_COPY_FILES += \
@@ -218,14 +209,6 @@ PRODUCT_PACKAGES += android.hardware.thermal@1.0-impl \
 
 TARGET_MOUNT_POINTS_SYMLINKS := false
 
-ifneq ($(ENABLE_HYP),true)
-#Enable QTI KEYMASTER and GATEKEEPER HIDLs
-KMGK_USE_QTI_SERVICE := true
-endif
-
-#Enable KEYMASTER 4.0
-ENABLE_KM_4_0 := true
-
 # Camera configuration file. Shared by passthrough/binderized camera HAL
 PRODUCT_PACKAGES += camera.device@3.2-impl
 PRODUCT_PACKAGES += camera.device@1.0-impl
@@ -240,11 +223,6 @@ PRODUCT_PACKAGES += \
     android.hardware.audio@5.0-impl \
     android.hardware.audio.effect@5.0 \
     android.hardware.audio.effect@5.0-impl
-
-PRODUCT_PACKAGES += \
-    android.hardware.keymaster@4.0 \
-    android.hardware.keymaster@4.0-service \
-    android.hardware.gatekeeper@1.0 \
 
 #Boot control HAL test app
 PRODUCT_PACKAGES_DEBUG += bootctl
