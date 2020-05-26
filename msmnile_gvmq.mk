@@ -148,9 +148,9 @@ DEVICE_MATRIX_FILE   := device/qcom/common/compatibility_matrix.xml
 DEVICE_FRAMEWORK_MANIFEST_FILE := device/qcom/msmnile_gvmq/framework_manifest.xml
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := vendor/qcom/opensource/core-utils/vendor_framework_compatibility_matrix.xml
 
+# Display/Graphics
 PRODUCT_PACKAGES += \
-    android.hardware.configstore@1.2 \
-    android.hardware.configstore@1.2-service \
+    android.hardware.configstore@1.1-service \
     android.hardware.broadcastradio@1.0-impl
 
 # MSM IRQ Balancer configuration file
