@@ -106,6 +106,11 @@ PRODUCT_PACKAGES += android.hardware.media.omx@1.0-impl
 # Audio configuration file
 -include $(TOPDIR)hardware/qcom/audio/configs/msmnile_au/msmnile_au.mk
 
+#Disable sound_trigger hal
+BOARD_SUPPORTS_SOUND_TRIGGER := false
+SOUND_TRIGGER_COPY_CMD := hardware/qcom/audio/configs/msmnile_au/sound_trigger_mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/sound_trigger_mixer_paths.xml
+PRODUCT_COPY_FILES := $(filter-out $(SOUND_TRIGGER_COPY_CMD),$(PRODUCT_COPY_FILES))
+
 # Display configuration file
 PRODUCT_COPY_FILES += \
     $(TOPDIR)hardware/qcom/display/config/qdcm_calib_data_default.xml:$(TARGET_COPY_OUT_VENDOR)/etc/qdcm_calib_data_ext_video_mode_dsi_bridge.xml
