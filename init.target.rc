@@ -74,6 +74,8 @@ on post-fs-data
     #Create folder for ais_server and mm-qcamera-daemon
     mkdir /data/vendor/camera 0770 system camera
     start ais_v4l2_proxy
+
+on wait_for_audio
     wait_for_prop vendor.audio_ko_done 1
 
 # For cpusets initialize for Silver Only first and then Silver + Gold
