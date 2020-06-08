@@ -3,7 +3,6 @@
 # Product-specific compile-time definitions.
 #
 
-# TODO(b/124534788): Temporarily allow eng and debug LOCAL_MODULE_TAGS
 TARGET_BOARD_PLATFORM := msmnile
 TARGET_SEPOLICY_DIR := gen3_gvmq
 TARGET_BOOTLOADER_BOARD_NAME := msmnile
@@ -80,10 +79,11 @@ BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3221225472
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 10737418240
 BOARD_PERSISTIMAGE_PARTITION_SIZE := 33554432
 BOARD_METADATAIMAGE_PARTITION_SIZE := 16777216
-BOARD_PREBUILT_DTBOIMAGE := out/target/product/msmnile/prebuilt_dtbo.img
+BOARD_PREBUILT_DTBOIMAGE := out/target/product/msmnile_gvmq/prebuilt_dtbo.img
 BOARD_DTBOIMG_PARTITION_SIZE := 0x0800000
 BOARD_PERSISTIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_FLASH_BLOCK_SIZE := 131072 # (BOARD_KERNEL_PAGESIZE * 64)
+
 #----------------------------------------------------------------------
 # Compile Linux Kernel
 #----------------------------------------------------------------------
@@ -183,7 +183,6 @@ ADD_RADIO_FILES := true
 #Generate DTBO image
 BOARD_KERNEL_SEPARATED_DTBO := true
 
-
 #Enable INTERACTION_BOOST
 TARGET_USES_INTERACTION_BOOST := true
 
@@ -197,10 +196,9 @@ ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
 include device/qcom/wlan/msmnile_au/BoardConfigWlan.mk
 endif
 
-
 #Flag to enable System SDK Requirements.
 #All vendor APK will be compiled against system_current API set.
-BOARD_SYSTEMSDK_VERSIONS:=28
+BOARD_SYSTEMSDK_VERSIONS:=29
 
 #Enable VNDK Compliance
 BOARD_VNDK_VERSION:=current
