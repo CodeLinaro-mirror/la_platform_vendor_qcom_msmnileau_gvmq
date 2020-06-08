@@ -196,9 +196,11 @@ TARGET_WLAN_CHIP := qca6174 qca6390 qcn7605
 include device/qcom/wlan/msmnile_au/wlan.mk
 endif
 
+#TODO: this is added to avoid Watchdog during boot up. correct version to be updated
 #Thermal
 PRODUCT_PACKAGES += android.hardware.thermal@1.0-impl \
-                    android.hardware.thermal@1.0-service
+                    android.hardware.thermal@1.0-service \
+                    android.hardware.thermal@2.0-service.mock
 
 TARGET_MOUNT_POINTS_SYMLINKS := false
 
