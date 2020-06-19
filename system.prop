@@ -56,6 +56,9 @@ persist.vendor.data.mode=concurrent
 #system props for time-services
 persist.timed.enable=true
 
+#system props for vulkan
+persist.graphics.vulkan.disable=true
+
 #
 # system prop for opengles version
 #
