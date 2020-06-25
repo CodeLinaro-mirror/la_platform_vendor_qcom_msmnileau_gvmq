@@ -74,13 +74,16 @@ TARGET_RECOVERY_FSTAB := device/qcom/msmnile_gvmq/fstab.qcom
 ENABLE_VENDOR_IMAGE := true
 ifeq ($(ENABLE_VENDOR_IMAGE), true)
 BOARD_VENDORIMAGE_PARTITION_SIZE := 1073741824
+BOARD_VENDORIMAGE_PARTITION_NAME := la_vendor
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 TARGET_COPY_OUT_VENDOR := vendor
 BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
 endif
 TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_BOOTIMAGE_PARTITION_SIZE := 0x06000000
+BOARD_BOOTIMAGE_PARTITION_NAME := la_boot
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3221225472
+BOARD_SYSTEMIMAGE_PARTITION_NAME:= la_system
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 10737418240
 BOARD_PERSISTIMAGE_PARTITION_SIZE := 33554432
 BOARD_METADATAIMAGE_PARTITION_SIZE := 16777216
@@ -110,7 +113,8 @@ BOARD_VENDOR_KERNEL_MODULES := \
     $(KERNEL_MODULES_OUT)/audio_stub.ko \
     $(KERNEL_MODULES_OUT)/audio_native.ko \
     $(KERNEL_MODULES_OUT)/audio_machine_msmnile.ko \
-    $(KERNEL_MODULES_OUT)/hsi2s.ko
+    $(KERNEL_MODULES_OUT)/hsi2s.ko \
+    $(KERNEL_MODULES_OUT)/v4l2loopback.ko
     #$(KERNEL_MODULES_OUT)/wil6210.ko \
     #$(KERNEL_MODULES_OUT)/msm_11ad_proxy.ko \
     #$(KERNEL_MODULES_OUT)/emac_dwc_eqos.ko
@@ -126,7 +130,7 @@ BOARD_VENDOR_KERNEL_MODULES += $(shell ls $(KERNEL_MODULES_OUT)/*.ko)
 TARGET_USES_ION := true
 TARGET_USES_NEW_ION_API :=true
 TARGET_USES_QCOM_BSP := false
-BOARD_KERNEL_CMDLINE := console=ttyMSM0,115200n8 earlycon=msm_geni_serial,0xa90000 androidboot.hardware=qcom androidboot.console=ttyMSM0 androidboot.memcg=1 lpm_levels.sleep_disabled=1 video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237 service_locator.enable=1 swiotlb=2048 firmware_class.path=/vendor/firmware_mnt/image loop.max_part=7 androidboot.usbcontroller=a600000.dwc3 androidboot.recover_usb=1 androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE := console=ttyAMA0 earlycon=pl011,0x1c090000 debug user_debug=31 loglevel=9 print-fatal-signals=1 no_console_suspend androidboot.console=ttyAMA0 androidboot.hardware=qcom androidboot.selinux=enforcing androidboot.memcg=1 root=/dev/vda init=/init swiotlb=2048 gvmip=192.168.1.3 androidboot.usbcontroller=a600000.dwc3 androidboot.recover_usb=1
 
 BOARD_EGL_CFG := device/qcom/$(TARGET_BOARD_PLATFORM)/egl.cfg
 
