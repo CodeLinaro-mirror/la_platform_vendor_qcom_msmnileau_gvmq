@@ -130,7 +130,7 @@ BOARD_VENDOR_KERNEL_MODULES += $(shell ls $(KERNEL_MODULES_OUT)/*.ko)
 TARGET_USES_ION := true
 TARGET_USES_NEW_ION_API :=true
 TARGET_USES_QCOM_BSP := false
-BOARD_KERNEL_CMDLINE := console=ttyAMA0 earlycon=pl011,0x1c090000 debug user_debug=31 loglevel=9 print-fatal-signals=1 no_console_suspend androidboot.console=ttyAMA0 androidboot.hardware=qcom androidboot.selinux=enforcing androidboot.memcg=1 root=/dev/vda init=/init swiotlb=2048 gvmip=192.168.1.3 androidboot.usbcontroller=a600000.dwc3 androidboot.recover_usb=1
+BOARD_KERNEL_CMDLINE := console=ttyAMA0 earlycon=pl011,0x1c090000 debug user_debug=31 loglevel=9 print-fatal-signals=1 androidboot.console=ttyAMA0 androidboot.hardware=qcom androidboot.selinux=enforcing androidboot.memcg=1 init=/init swiotlb=2048 androidboot.usbcontroller=a600000.dwc3 androidboot.recover_usb=1
 
 BOARD_EGL_CFG := device/qcom/$(TARGET_BOARD_PLATFORM)/egl.cfg
 
