@@ -211,7 +211,7 @@ BOARD_VNDK_VERSION:=current
 -include vendor/qcom/defs/board-defs/vendor/*.mk
 #################################################################################
 
-include device/qcom/sepolicy/SEPolicy.mk
+include device/qcom/sepolicy_vndr/SEPolicy.mk
 
 BUILD_BROKEN_NINJA_USES_ENV_VARS := SDCLANG_AE_CONFIG SDCLANG_CONFIG SDCLANG_SA_ENABLED SDCLANG_CONFIG_AOSP
 BUILD_BROKEN_NINJA_USES_ENV_VARS += TEMPORARY_DISABLE_PATH_RESTRICTIONS
