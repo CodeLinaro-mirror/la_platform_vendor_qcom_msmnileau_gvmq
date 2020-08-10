@@ -91,7 +91,7 @@ ifeq ($(KERNEL_DEFCONFIG),)
     ifeq ($(TARGET_BUILD_VARIANT),user)
         KERNEL_DEFCONFIG := qti-quin-gvm-perf_defconfig
     else
-        KERNEL_DEFCONFIG := quinvm-qgki-debug_defconfig
+        KERNEL_DEFCONFIG := gen3auto-qgki-debug_defconfig
     endif
 endif
 
