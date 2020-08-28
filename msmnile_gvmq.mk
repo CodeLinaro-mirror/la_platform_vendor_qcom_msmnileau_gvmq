@@ -41,6 +41,24 @@ PRODUCT_DEVICE := msmnile_gvmq
 PRODUCT_BRAND := qti
 PRODUCT_MODEL := msmnile_gvmq for arm64
 
+
+# Sensor conf files
+PRODUCT_COPY_FILES += \
+    device/qcom/msmnile_gvmq/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf \
+    frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.accelerometer.xml \
+    frameworks/native/data/etc/android.hardware.sensor.compass.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.compass.xml \
+    frameworks/native/data/etc/android.hardware.sensor.gyroscope.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.gyroscope.xml \
+    frameworks/native/data/etc/android.hardware.sensor.light.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.light.xml \
+    frameworks/native/data/etc/android.hardware.sensor.proximity.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.proximity.xml \
+    frameworks/native/data/etc/android.hardware.sensor.barometer.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.barometer.xml \
+    frameworks/native/data/etc/android.hardware.sensor.stepcounter.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.stepcounter.xml \
+    frameworks/native/data/etc/android.hardware.sensor.stepdetector.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.stepdetector.xml \
+    frameworks/native/data/etc/android.hardware.sensor.ambient_temperature.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.ambient_temperature.xml \
+    frameworks/native/data/etc/android.hardware.sensor.relative_humidity.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.relative_humidity.xml \
+    frameworks/native/data/etc/android.hardware.sensor.hifi_sensors.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.hifi_sensors.xml
+
+
+
 #Initial bringup flags
 
 #Default vendor image configuration
@@ -193,12 +211,6 @@ TARGET_WLAN_CHIP := qca6174 qca6390 qcn7605
 include device/qcom/wlan/msmnile_au/wlan.mk
 endif
 
-#TODO: this is added to avoid Watchdog during boot up. correct version to be updated
-#Thermal
-PRODUCT_PACKAGES += android.hardware.thermal@1.0-impl \
-                    android.hardware.thermal@1.0-service \
-                    android.hardware.thermal@2.0-service.mock
-
 TARGET_MOUNT_POINTS_SYMLINKS := false
 
 # Camera configuration file. Shared by passthrough/binderized camera HAL
@@ -226,6 +238,11 @@ PRODUCT_PACKAGES += android.hardware.automotive.evs@1.0-service \
     android.automotive.evs.manager@1.0 \
     android.hardware.automotive.audiocontrol@1.0-service \
 
+PRODUCT_PACKAGES += android.hardware.health@2.1-service \
+                    android.hardware.health@2.1-impl \
+                    android.hardware.health@2.1-impl.recovery \
+                    android.hardware.light@2.0-impl \
+                    android.hardware.light@2.0-service
 #add vndservicemanager
 PRODUCT_PACKAGES += vndservicemanager
 
