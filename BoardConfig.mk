@@ -196,7 +196,7 @@ endif
 
 #Flag to enable System SDK Requirements.
 #All vendor APK will be compiled against system_current API set.
-BOARD_SYSTEMSDK_VERSIONS:=29
+BOARD_SYSTEMSDK_VERSIONS:=30
 
 #Enable VNDK Compliance
 BOARD_VNDK_VERSION:=current
@@ -219,4 +219,3 @@ BUILD_BROKEN_USES_BUILD_HOST_EXECUTABLE := true
 BUILD_BROKEN_USES_BUILD_COPY_HEADERS := true
 BUILD_BROKEN_USES_BUILD_HOST_STATIC_LIBRARY := true
 
-TARGET_USES_NON_LEGACY_POWERHAL := false

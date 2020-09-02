@@ -56,6 +56,8 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.sensor.hifi_sensors.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.hifi_sensors.xml
 
 
+SHIPPING_API_LEVEL := 30
+PRODUCT_SHIPPING_API_LEVEL := 30
 
 #Initial bringup flags
 
