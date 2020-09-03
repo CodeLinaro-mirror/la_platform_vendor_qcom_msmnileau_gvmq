@@ -86,6 +86,7 @@ persist.vendor.service.bdroid.sibs=false
 #system prop for Hardware type Automotive
 ro.hardware.type=automotive
 
+ro.hardware.sensors=msmnile.asm_auto
 #
 #snapdragon value add features
 #
