@@ -81,7 +81,7 @@ on post-fs-data
 
     #Create folder for mm-qcamera-daemon
     mkdir /data/vendor/camera 0770 camera camera
-    #start ais_v4l2_proxy
+    start ais_v4l2_proxy
 
 # For cpusets initialize for Silver Only first and then Silver + Gold
 # Silver Only configuration cannot work with 0-7
