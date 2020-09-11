@@ -82,10 +82,12 @@ ro.bluetooth.wipower=false
 persist.vendor.service.bt.a2dp.sink=true
 persist.vendor.btstack.enable.splita2dp=false
 persist.vendor.service.bdroid.sibs=false
+persist.bt.clock_boottime_alarm=false
 
 #system prop for Hardware type Automotive
 ro.hardware.type=automotive
 
+ro.hardware.sensors=msmnile.asm_auto
 #
 #snapdragon value add features
 #
