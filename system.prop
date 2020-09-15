@@ -198,6 +198,9 @@ vendor.display.builtin_baseid_and_size=5,3
 vendor.display.pluggable_baseid_and_size=1,4
 vendor.display.virtual_baseid_and_size=8,1
 
+#Disable virtual display
+vendor.display.disable_virtual_display=1
+
 # Enable CPMS for LPM
 persist.vendor.car.lpm=true
 
