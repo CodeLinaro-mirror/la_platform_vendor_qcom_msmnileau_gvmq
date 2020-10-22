@@ -239,6 +239,8 @@ PRODUCT_PACKAGES += android.hardware.automotive.evs@1.0-service \
 PRODUCT_PACKAGES += android.hardware.health@2.1-service \
                     android.hardware.health@2.1-impl \
                     android.hardware.health@2.1-impl.recovery \
+                    android.hardware.dumpstate@1.1-service.example \
+                    android.hardware.thermal@2.0-service.mock \
 #add vndservicemanager
 PRODUCT_PACKAGES += vndservicemanager
 
