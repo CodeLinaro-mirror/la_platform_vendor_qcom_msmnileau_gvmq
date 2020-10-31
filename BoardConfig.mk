@@ -31,6 +31,8 @@ TARGET_USES_IOPHAL := true
 
 BUILD_BROKEN_DUP_RULES := true
 
+BOARD_INCLUDE_DTB_IN_BOOTIMG := true
+
 -include $(QCPATH)/common/msmnile_gvmq/BoardConfigVendor.mk
 
 # Some framework code requires this to enable BT
@@ -41,7 +43,7 @@ BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/qcom/common/automotive
 USE_OPENGL_RENDERER := true
 BOARD_USE_LEGACY_UI := true
 # Set Header version for bootimage
-BOARD_BOOTIMG_HEADER_VERSION := 3
+BOARD_BOOTIMG_HEADER_VERSION := 2
 BOARD_MKBOOTIMG_ARGS := --header_version $(BOARD_BOOTIMG_HEADER_VERSION)
 
 # Defines for enabling A/B builds
@@ -74,7 +76,7 @@ TARGET_COPY_OUT_VENDOR := vendor
 BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
 endif
 TARGET_USERIMAGES_USE_EXT4 := true
-BOARD_BOOTIMAGE_PARTITION_SIZE := 0x06000000
+BOARD_BOOTIMAGE_PARTITION_SIZE := 0x04000000
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3221225472
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 10737418240
 BOARD_PERSISTIMAGE_PARTITION_SIZE := 33554432
@@ -89,9 +91,9 @@ BOARD_FLASH_BLOCK_SIZE := 131072 # (BOARD_KERNEL_PAGESIZE * 64)
 #----------------------------------------------------------------------
 ifeq ($(KERNEL_DEFCONFIG),)
     ifeq ($(TARGET_BUILD_VARIANT),user)
-        KERNEL_DEFCONFIG := qti-quin-gvm-perf_defconfig
+        KERNEL_DEFCONFIG := quinvm-qgki_defconfig
     else
-        KERNEL_DEFCONFIG := gen3auto-qgki-debug_defconfig
+        KERNEL_DEFCONFIG := quinvm-qgki-debug_defconfig
     endif
 endif
 
@@ -106,7 +108,8 @@ BOARD_VENDOR_KERNEL_MODULES += $(shell ls $(KERNEL_MODULES_OUT)/*.ko)
 TARGET_USES_ION := true
 TARGET_USES_NEW_ION_API :=true
 TARGET_USES_QCOM_BSP := false
-BOARD_KERNEL_CMDLINE := console=ttyAMA0 earlycon=pl011,0x1c090000 debug user_debug=31 loglevel=9 print-fatal-signals=1 no_console_suspend androidboot.console=ttyAMA0 androidboot.hardware=qcom androidboot.selinux=enforcing androidboot.memcg=1 root=/dev/vda init=/init swiotlb=2048 gvmip=192.168.1.3 androidboot.usbcontroller=a600000.dwc3 androidboot.recover_usb=1
+
+BOARD_KERNEL_CMDLINE := console=ttyAMA0 earlycon=pl011,0x1c090000 debug user_debug=31 loglevel=9 print-fatal-signals=1 androidboot.console=ttyAMA0 androidboot.hardware=qcom androidboot.selinux=permissive androidboot.memcg=1 init=/init swiotlb=2048 androidboot.usbcontroller=a600000.dwc3 androidboot.recover_usb=1 androidboot.serialno=1234567
 
 BOARD_EGL_CFG := device/qcom/$(TARGET_BOARD_PLATFORM)/egl.cfg
 
