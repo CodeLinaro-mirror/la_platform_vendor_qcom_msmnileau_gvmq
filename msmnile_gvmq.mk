@@ -56,6 +56,8 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.sensor.hifi_sensors.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.hifi_sensors.xml
 
 
+SHIPPING_API_LEVEL := 30
+PRODUCT_SHIPPING_API_LEVEL := 30
 
 #Initial bringup flags
 
@@ -167,7 +169,6 @@ DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := vendor/qcom/opensource/core-utils/
 
 # Display/Graphics
 PRODUCT_PACKAGES += \
-    android.hardware.configstore@1.1-service \
     android.hardware.broadcastradio@1.0-impl
 
 # MSM IRQ Balancer configuration file
@@ -239,6 +240,8 @@ PRODUCT_PACKAGES += android.hardware.automotive.evs@1.0-service \
 PRODUCT_PACKAGES += android.hardware.health@2.1-service \
                     android.hardware.health@2.1-impl \
                     android.hardware.health@2.1-impl.recovery \
+                    android.hardware.dumpstate@1.1-service.example \
+                    android.hardware.thermal@2.0-service.mock \
 #add vndservicemanager
 PRODUCT_PACKAGES += vndservicemanager
 
