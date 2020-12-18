@@ -83,6 +83,9 @@ BOARD_FRP_PARTITION_NAME := frp
 #Android EGL implementation
 PRODUCT_PACKAGES += libGLES_android
 
+# diag-router
+TARGET_HAS_DIAG_ROUTER := true
+
 -include $(QCPATH)/common/config/qtic-config.mk
 
 PRODUCT_BOOT_JARS += tcmiface
