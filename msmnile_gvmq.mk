@@ -56,6 +56,8 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.sensor.hifi_sensors.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.hifi_sensors.xml
 
 
+SHIPPING_API_LEVEL := 31
+PRODUCT_SHIPPING_API_LEVEL := 31
 
 #Initial bringup flags
 
@@ -158,7 +160,8 @@ PRODUCT_PACKAGES += \
 
 # MTMD enablement
 PRODUCT_COPY_FILES += \
-    device/qcom/msmnile_gvmq/input-port-associations.xml:$(TARGET_COPY_OUT_VENDOR)/etc/input-port-associations.xml
+    device/qcom/msmnile_gvmq/input-port-associations.xml:$(TARGET_COPY_OUT_VENDOR)/etc/input-port-associations.xml \
+    device/qcom/msmnile_gvmq/display_settings.xml:$(TARGET_COPY_OUT_VENDOR)/etc/display_settings.xml
 
 DEVICE_MANIFEST_FILE := device/qcom/msmnile_gvmq/manifest.xml
 DEVICE_MATRIX_FILE   := device/qcom/common/compatibility_matrix.xml
@@ -167,7 +170,6 @@ DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := vendor/qcom/opensource/core-utils/
 
 # Display/Graphics
 PRODUCT_PACKAGES += \
-    android.hardware.configstore@1.1-service \
     android.hardware.broadcastradio@1.0-impl
 
 # MSM IRQ Balancer configuration file
@@ -239,6 +241,8 @@ PRODUCT_PACKAGES += android.hardware.automotive.evs@1.0-service \
 PRODUCT_PACKAGES += android.hardware.health@2.1-service \
                     android.hardware.health@2.1-impl \
                     android.hardware.health@2.1-impl.recovery \
+                    android.hardware.dumpstate@1.1-service.example \
+                    android.hardware.thermal@2.0-service.mock \
 #add vndservicemanager
 PRODUCT_PACKAGES += vndservicemanager
 
