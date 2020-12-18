@@ -30,7 +30,7 @@ PRODUCT_PROPERTY_OVERRIDES  += \
    dalvik.vm.heapminfree=512k \
    dalvik.vm.heapmaxfree=8m \
    vendor.gatekeeper.disable_spu = true \
-   persist.vendor.usb.config=adb
+   persist.vendor.usb.config=diag,adb
 
 $(call inherit-product, packages/services/Car/car_product/build/car.mk)
 
@@ -82,6 +82,9 @@ BOARD_FRP_PARTITION_NAME := frp
 
 #Android EGL implementation
 PRODUCT_PACKAGES += libGLES_android
+
+# diag-router
+TARGET_HAS_DIAG_ROUTER := true
 
 -include $(QCPATH)/common/config/qtic-config.mk
 
