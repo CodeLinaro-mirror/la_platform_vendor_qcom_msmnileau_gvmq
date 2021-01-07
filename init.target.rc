@@ -43,6 +43,14 @@ on init
     write /dev/stune/top-app/schedtune.colocate 1
     write /sys/module/qpnp_rtc/parameters/poweron_alarm 1
 
+on init && property:vendor.gdb.dump=true
+    setrlimit 4 -1 -1
+
+on property:vendor.gdb.dump=true
+    mkdir data/core
+    chmod 0777 data/core
+    write /proc/sys/kernel/core_pattern "/data/core/core.%e.%p.%h.%t"
+
 on fs
     mount_all /vendor/etc/fstab.qcom
     chown root system /mnt/vendor/persist
