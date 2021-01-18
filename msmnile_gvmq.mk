@@ -172,7 +172,6 @@ DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := vendor/qcom/opensource/core-utils/
 
 # Display/Graphics
 PRODUCT_PACKAGES += \
-    android.hardware.configstore@1.1-service \
     android.hardware.broadcastradio@1.0-impl
 
 # MSM IRQ Balancer configuration file
