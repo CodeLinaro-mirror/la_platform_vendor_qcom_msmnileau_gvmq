@@ -210,6 +210,11 @@ service vendor.tlocd /vendor/bin/tloc_daemon
     user system
     group drmrpc gps net_raw
 
+service vendor.vethconfig /vendor/bin/init.veth_ipa_config.sh
+    class late_start
+    user root
+    group root system
+
 #Start EMAC ethernet driver
 on boot
     insmod /vendor/lib/modules/emac_dwc_eqos.ko
