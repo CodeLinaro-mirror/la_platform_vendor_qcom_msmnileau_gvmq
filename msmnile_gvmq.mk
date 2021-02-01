@@ -30,7 +30,7 @@ PRODUCT_PROPERTY_OVERRIDES  += \
    dalvik.vm.heapminfree=512k \
    dalvik.vm.heapmaxfree=8m \
    vendor.gatekeeper.disable_spu = true \
-   persist.vendor.usb.config=adb
+   persist.vendor.usb.config=diag,adb
 
 $(call inherit-product, packages/services/Car/car_product/build/car.mk)
 
