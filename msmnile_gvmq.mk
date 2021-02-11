@@ -292,6 +292,6 @@ PRODUCT_PACKAGES += canflasher \
 PRODUCT_PACKAGES += android.hardware.thermal@1.0-impl \
                     android.hardware.thermal@1.0-service
 
-# Enable STA+SAP+P2P
+# Enable STA+SAP+SAP+P2P
 WIFI_HIDL_FEATURE_DUAL_INTERFACE := true
-QC_WIFI_HIDL_FEATURE_STA_SAP_P2P := true
+QC_WIFI_HIDL_FEATURE_STA_DUAL_SAP_P2P := true

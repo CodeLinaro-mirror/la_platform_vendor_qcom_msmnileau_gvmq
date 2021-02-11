@@ -205,3 +205,6 @@ persist.car.lpm=true
 
 #property to enable SSR
 persist.vendor.ssr.restart_level=wlan
+
+#default wifi country code
+ro.boot.wificountrycode=us
