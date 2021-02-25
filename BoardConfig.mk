@@ -91,9 +91,9 @@ BOARD_FLASH_BLOCK_SIZE := 131072 # (BOARD_KERNEL_PAGESIZE * 64)
 #----------------------------------------------------------------------
 ifeq ($(KERNEL_DEFCONFIG),)
     ifeq ($(TARGET_BUILD_VARIANT),user)
-        KERNEL_DEFCONFIG := quinvm-qgki_defconfig
+        KERNEL_DEFCONFIG := autogvm-qgki_defconfig
     else
-        KERNEL_DEFCONFIG := quinvm-qgki-debug_defconfig
+        KERNEL_DEFCONFIG := autogvm-qgki-debug_defconfig
     endif
 endif
 
