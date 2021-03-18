@@ -33,6 +33,7 @@ PRODUCT_PROPERTY_OVERRIDES  += \
    persist.vendor.usb.config=diag,adb
 
 $(call inherit-product, packages/services/Car/car_product/build/car.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
 PRODUCT_NAME := msmnile_gvmq
 PRODUCT_DEVICE := msmnile_gvmq
