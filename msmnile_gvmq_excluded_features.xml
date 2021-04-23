@@ -19,4 +19,10 @@
 <permissions>
     <!-- This should be used to exclude this feature from msmnile_gvmq targets.-->
     <unavailable-feature name="android.software.ipsec_tunnels" />
+     <!-- No support of telephony -->
+    <unavailable-feature name="android.hardware.telephony" />
+    <unavailable-feature name="android.hardware.telephony.cdma" />
+    <unavailable-feature name="android.hardware.telephony.gsm" />
+    <unavailable-feature name="android.hardware.telephony.ims" />
+
 </permissions>
