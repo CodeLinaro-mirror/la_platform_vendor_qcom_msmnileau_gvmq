@@ -32,6 +32,10 @@ PRODUCT_PROPERTY_OVERRIDES  += \
    vendor.gatekeeper.disable_spu = true \
    persist.vendor.usb.config=diag,adb
 
+# privapp-permissions whitelisting (To Fix CTS :privappPermissionsMustBeEnforced)
+PRODUCT_PROPERTY_OVERRIDES += ro.control_privapp_permissions=enforce
+
+
 $(call inherit-product, packages/services/Car/car_product/build/car.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
