@@ -1,3 +1,4 @@
+ALLOW_MISSING_DEPENDENCIES := true
 # Enable AVB 2.0
 BOARD_AVB_ENABLE := true
 BOARD_USES_QCNE := false
