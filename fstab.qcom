@@ -11,7 +11,7 @@
 # Need to have this entry in here even though the mount point itself is no longer needed.
 # The update_engine code looks for this entry in order to determine the boot device address
 # and fails if it does not find it.
-/devices/platform/soc/a600000.ssusb/a600000.dwc3/xhci-hcd.*.auto*    /storage/usbotg    vfat    nosuid,nodev    wait,voldmanaged=usbotg:auto
+/devices/platform/soc/*/xhci-hcd.*.auto*    /storage/usbotg    vfat    nosuid,nodev    wait,voldmanaged=usbotg:auto
 /dev/block/system / ext4 ro defaults,avb
 /dev/block/userdata /data ext4 rw,noatime,nosuid,nodev wait,check,quota,reservedsize=128M
 /dev/block/persist /mnt/vendor/persist ext4 rw defaults
