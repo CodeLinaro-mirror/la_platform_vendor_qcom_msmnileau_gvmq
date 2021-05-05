@@ -79,6 +79,8 @@ PRODUCT_DEVICE := msmnile_gvmq
 PRODUCT_BRAND := qti
 PRODUCT_MODEL := msmnile_gvmq for arm64
 
+PRODUCT_PROPERTY_OVERRIDES += \
+   ro.incremental.enable=yes
 
 # Sensor conf files
 PRODUCT_COPY_FILES += \
