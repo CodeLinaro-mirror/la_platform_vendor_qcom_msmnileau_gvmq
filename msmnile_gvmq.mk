@@ -1,3 +1,4 @@
+ALLOW_MISSING_DEPENDENCIES := true
 # Enable AVB 2.0
 BOARD_AVB_ENABLE := true
 BOARD_USES_QCNE := false
@@ -19,6 +20,10 @@ TARGET_FWK_SUPPORTS_FULL_VALUEADDS := false
 TARGET_USES_AOSP_FOR_WLAN := true
 ENABLE_CAR_POWER_MANAGER := true
 VPP_TARGET_USES_SERVICE := NO
+
+# Mismatch in the uses-library tags between build system and the manifest leads
+# to soong APK manifest_check tool errors. Enable the flag to fix this.
+RELAX_USES_LIBRARY_CHECK := true
 
 TARGET_DEFINES_DALVIK_HEAP := true
 $(call inherit-product, device/qcom/common/common64.mk)
