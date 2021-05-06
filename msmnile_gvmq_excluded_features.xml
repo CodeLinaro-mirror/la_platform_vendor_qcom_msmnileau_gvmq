@@ -25,4 +25,7 @@
     <unavailable-feature name="android.hardware.telephony.gsm" />
     <unavailable-feature name="android.hardware.telephony.ims" />
 
+   <!-- No portrait support-->
+    <unavailable-feature name="android.hardware.screen.portrait" />
+
 </permissions>
