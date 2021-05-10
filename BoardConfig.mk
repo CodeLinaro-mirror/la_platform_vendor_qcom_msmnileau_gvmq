@@ -91,15 +91,15 @@ BOARD_FLASH_BLOCK_SIZE := 131072 # (BOARD_KERNEL_PAGESIZE * 64)
 #----------------------------------------------------------------------
 ifeq ($(KERNEL_DEFCONFIG),)
     ifeq ($(TARGET_BUILD_VARIANT),user)
-        KERNEL_DEFCONFIG := quinvm-qgki_defconfig
+        KERNEL_DEFCONFIG := autogvm-qgki_defconfig
     else
-        KERNEL_DEFCONFIG := quinvm-qgki-debug_defconfig
+        KERNEL_DEFCONFIG := autogvm-qgki-debug_defconfig
     endif
 endif
 
 # install lkdtm only for userdebug and eng build variants
 ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
-    ifeq (,$(findstring perf_defconfig, $(KERNEL_DEFCONFIG)))
+    ifeq (,$(findstring qgki_defconfig, $(KERNEL_DEFCONFIG)))
         BOARD_VENDOR_KERNEL_MODULES += $(KERNEL_MODULES_OUT)/lkdtm.ko
     endif
 endif
@@ -109,7 +109,7 @@ TARGET_USES_ION := true
 TARGET_USES_NEW_ION_API :=true
 TARGET_USES_QCOM_BSP := false
 
-BOARD_KERNEL_CMDLINE := console=ttyAMA0 earlycon=pl011,0x1c090000 debug user_debug=31 loglevel=9 print-fatal-signals=1 androidboot.console=ttyAMA0 androidboot.hardware=qcom androidboot.selinux=enforcing androidboot.memcg=1 init=/init swiotlb=2048 androidboot.usbcontroller=a600000.dwc3 androidboot.recover_usb=1
+BOARD_KERNEL_CMDLINE := console=ttyAMA0 earlycon=pl011,0x1c090000 debug user_debug=31 loglevel=9 print-fatal-signals=1 androidboot.console=ttyAMA0 androidboot.hardware=qcom androidboot.selinux=enforcing androidboot.memcg=1 init=/init swiotlb=2048 androidboot.usbcontroller=a600000.dwc3 androidboot.recover_usb=1 firmware_class.path=/vendor/firmware_mnt/image pcie_ports=compat
 
 BOARD_EGL_CFG := device/qcom/$(TARGET_BOARD_PLATFORM)/egl.cfg
 
@@ -130,6 +130,11 @@ ifeq ($(KERNEL_UNCOMPRESSED_DEFCONFIG),)
 else
 	TARGET_USES_UNCOMPRESSED_KERNEL := true
 endif
+
+KERN_PATH := kernel/msm-5.4/
+$(shell rm $(KERN_PATH)gen_headers_arm64.bp $(KERN_PATH)gen_headers_arm.bp)
+$(shell ln $(KERN_PATH)gen_headers_arm64_auto.bp $(KERN_PATH)gen_headers_arm64.bp)
+$(shell ln $(KERN_PATH)gen_headers_arm_auto.bp $(KERN_PATH)gen_headers_arm.bp)
 
 MAX_EGL_CACHE_KEY_SIZE := 12*1024
 MAX_EGL_CACHE_SIZE := 2048*1024
