@@ -15,6 +15,6 @@
 /dev/block/system / ext4 ro defaults,avb
 /dev/block/userdata /data ext4 rw,inlinecrypt wait,fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized+wrappedkey_v0,quota,reservedsize=128M
 /dev/block/persist /mnt/vendor/persist ext4 rw defaults
-/dev/block/modem /vendor/firmware_mnt vfat ro,context=u:object_r:firmware_file:s0 defaults
-/dev/block/bluetooth /vendor/bt_firmware vfat ro,context=u:object_r:bt_firmware_file:s0 defaults
+/dev/block/modem /vendor/firmware_mnt vfat ro,shortname=lower,uid=0,gid=1000,dmask=227,fmask=337,context=u:object_r:firmware_file:s0 defaults
+/dev/block/bluetooth /vendor/bt_firmware vfat ro,shortname=lower,uid=0,gid=1000,dmask=227,fmask=337,context=u:object_r:bt_firmware_file:s0 defaults
 /dev/block/misc /misc emmc defaults defaults
