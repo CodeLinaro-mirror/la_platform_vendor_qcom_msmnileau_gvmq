@@ -39,4 +39,7 @@
     <unavailable-feature name="android.hardware.sensor.stepcounter" />
     <unavailable-feature name="android.hardware.sensor.stepdetector" />
 
+   <!-- No portrait support-->
+    <unavailable-feature name="android.hardware.screen.portrait" />
+
 </permissions>
