@@ -79,6 +79,13 @@ PRODUCT_MODEL := msmnile_gvmq for arm64
 PRODUCT_PROPERTY_OVERRIDES += \
    ro.incremental.enable=yes
 
+# beluga settings
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.vendor.beluga.p=0x3 \
+    ro.vendor.beluga.c=0x4800 \
+    ro.vendor.beluga.s=0x900 \
+    ro.vendor.beluga.t=0x240
+
 # Sensor conf files
 PRODUCT_COPY_FILES += \
     device/qcom/msmnile_gvmq/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf \
