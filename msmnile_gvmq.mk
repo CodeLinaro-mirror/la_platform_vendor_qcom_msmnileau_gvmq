@@ -240,9 +240,7 @@ PRODUCT_PACKAGES_DEBUG += bootctl
 PRODUCT_PACKAGES += \
    update_engine_sideload
 
-PRODUCT_PACKAGES += android.hardware.automotive.evs@1.0-service \
-    android.automotive.evs.manager@1.0 \
-    android.hardware.automotive.audiocontrol@1.0-service \
+PRODUCT_PACKAGES += android.hardware.automotive.audiocontrol@1.0-service \
 
 PRODUCT_PACKAGES += android.hardware.health@2.1-service \
                     android.hardware.health@2.1-impl \
