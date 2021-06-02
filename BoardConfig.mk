@@ -84,8 +84,8 @@ endif
 ### Dynamic partition Handling
 
 # Defines for enabling A/B builds
+ AB_OTA_UPDATER := true
 ifeq ($(ENABLE_AB), true)
-  AB_OTA_UPDATER := true
 # Full A/B partition update set
 # AB_OTA_PARTITIONS := xbl rpm tz hyp pmic modem abl boot keymaster cmnlib cmnlib64 system bluetooth
 
@@ -94,7 +94,7 @@ ifeq ($(ENABLE_AB), true)
 # in the full set mentioned above as part of your make commandline
   AB_OTA_PARTITIONS ?= boot system system_ext vendor
 else
-  AB_OTA_UPDATER := false
+  AB_OTA_PARTITIONS ?= boot system
   ifeq ($(BOARD_AVB_ENABLE), true)
     BOARD_AVB_RECOVERY_KEY_PATH := external/avb/test/data/testkey_rsa4096.pem
     BOARD_AVB_RECOVERY_ALGORITHM := SHA256_RSA4096
