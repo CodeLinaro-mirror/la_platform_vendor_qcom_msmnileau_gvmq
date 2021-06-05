@@ -68,8 +68,6 @@ PRODUCT_PROPERTY_OVERRIDES  += \
    persist.vendor.usb.config=adb
 endif
 
-# privapp-permissions whitelisting (To Fix CTS :privappPermissionsMustBeEnforced)
-PRODUCT_PROPERTY_OVERRIDES += ro.control_privapp_permissions=enforce
 
 
 $(call inherit-product, packages/services/Car/car_product/build/car.mk)
