@@ -124,8 +124,11 @@ TARGET_HAS_DIAG_ROUTER := true
 -include $(QCPATH)/common/config/qtic-config.mk
 
 PRODUCT_BOOT_JARS += tcmiface
-PRODUCT_BOOT_JARS += telephony-ext
-PRODUCT_PACKAGES += telephony-ext
+
+ifneq ($(TARGET_NO_TELEPHONY), true)
+ PRODUCT_BOOT_JARS += telephony-ext
+ PRODUCT_PACKAGES += telephony-ext
+endif
 
 TARGET_DISABLE_DASH := true
 TARGET_DISABLE_QTI_VPP := false
