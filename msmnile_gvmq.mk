@@ -30,11 +30,6 @@ ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
   # Enable System_ext
   PRODUCT_BUILD_SYSTEM_EXT_IMAGE := true
   PRODUCT_PACKAGES += fastbootd
-  BOARD_AVB_VBMETA_SYSTEM := system
-  BOARD_AVB_VBMETA_SYSTEM_KEY_PATH := external/avb/test/data/testkey_rsa2048.pem
-  BOARD_AVB_VBMETA_SYSTEM_ALGORITHM := SHA256_RSA2048
-  BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
-  BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX_LOCATION := 2
 
   PRODUCT_BUILD_SYSTEM_OTHER_IMAGE := false
   PRODUCT_BUILD_PRODUCT_IMAGE := false
@@ -45,8 +40,10 @@ ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
 
   ifeq ($(ENABLE_AB), true)
     PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_RAMDISK)/fstab.qcom
+    PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_RECOVERY)/root/first_stage_ramdisk/fstab.qcom
   else
     PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_RAMDISK)/fstab.qcom
+    PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_RECOVERY)/root/first_stage_ramdisk/fstab.qcom
   endif
 endif #BOARD_DYNAMIC_PARTITION_ENABLE
 TARGET_DEFINES_DALVIK_HEAP := true
