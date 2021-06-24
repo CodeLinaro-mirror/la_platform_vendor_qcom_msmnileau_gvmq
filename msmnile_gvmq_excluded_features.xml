@@ -41,5 +41,10 @@
 
    <!-- No portrait support-->
     <unavailable-feature name="android.hardware.screen.portrait" />
+   <!--No picture in Picture support-->
+   <unavailable-feature name="android.software.picture_in_picture" />
+   <!-- No android hardware camera support-->
+   <unavailable-feature name="android.hardware.camera.flash" />
+   <unavailable-feature name="android.hardware.camera.front" />
 
 </permissions>
