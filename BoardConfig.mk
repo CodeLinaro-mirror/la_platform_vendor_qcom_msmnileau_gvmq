@@ -238,7 +238,7 @@ endif
 
 #Flag to enable System SDK Requirements.
 #All vendor APK will be compiled against system_current API set.
-BOARD_SYSTEMSDK_VERSIONS:=S
+BOARD_SYSTEMSDK_VERSIONS:=31
 
 #Enable VNDK Compliance
 BOARD_VNDK_VERSION:=current
