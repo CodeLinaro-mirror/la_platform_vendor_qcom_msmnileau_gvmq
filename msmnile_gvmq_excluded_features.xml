@@ -18,8 +18,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <permissions>
-    <!-- This should be used to exclude this feature from msmnile_gvmq targets.-->
-    <unavailable-feature name="android.software.ipsec_tunnels" />
+    <!--Disable sensors features which are not supported -->
+    <unavailable-feature name="android.hardware.camera.capability.manual_sensor" />
     <unavailable-feature name="android.hardware.sensor.accelerometer" />
     <unavailable-feature name="android.hardware.sensor.compass" />
     <unavailable-feature name="android.hardware.sensor.light" />
