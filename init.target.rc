@@ -50,14 +50,11 @@ on property:vendor.gdb.dump=true
    write /proc/sys/kernel/core_pattern "/data/core/core.%e.%p.%h.%t"
 
 on fs
-    mount_all /vendor/etc/fstab.qcom --early
+    mount_all /vendor/etc/fstab.qcom
     chown root system /mnt/vendor/persist
     chmod 0771 /mnt/vendor/persist
     restorecon_recursive /mnt/vendor/persist
     mkdir /mnt/vendor/persist/data 0700 system system
-
-on late-fs
-    mount_all /vendor/etc/fstab.qcom --late
 
 on post-fs
     # set RLIMIT_MEMLOCK to 64MB
