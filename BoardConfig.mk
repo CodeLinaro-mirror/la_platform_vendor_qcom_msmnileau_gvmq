@@ -139,9 +139,12 @@ ifeq ($(KERNEL_DEFCONFIG),)
 endif
 
 # install lkdtm only for userdebug and eng build variants
-ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
-    ifeq (,$(findstring qgki_defconfig, $(KERNEL_DEFCONFIG)))
-        BOARD_VENDOR_KERNEL_MODULES += $(KERNEL_MODULES_OUT)/lkdtm.ko
+KERNEL_DEBUGFS_DEFCONFIG := $(shell grep "CONFIG_DEBUG_FS=y" $(KERN_CONF_PATH)$(KERN_CONF_FILE))
+ifneq ($(KERNEL_DEBUGFS_DEFCONFIG),)
+    ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
+        ifeq (,$(findstring qgki_defconfig, $(KERNEL_DEFCONFIG)))
+             BOARD_VENDOR_KERNEL_MODULES += $(KERNEL_MODULES_OUT)/lkdtm.ko
+        endif
     endif
 endif
 
