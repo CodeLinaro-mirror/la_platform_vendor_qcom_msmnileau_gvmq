@@ -112,11 +112,8 @@ on boot
 on property:init.svc.zygote=running
     write /sys/kernel/boot_kpi/kpi_values "M - USER Zygote Start"
 
-on property:init.svc.bootanim=running
+on property:service.bootanim.exit=0
     write /sys/kernel/boot_kpi/kpi_values "K - USER Boot Animation Start"
-
-on property:init.svc.media=running
-    write /sys/kernel/boot_kpi/kpi_values "M - USER MediaServer Start"
 
 on property:sys.boot_completed=1
     write /sys/kernel/boot_kpi/kpi_values "K - USER Android Boot Complete"
