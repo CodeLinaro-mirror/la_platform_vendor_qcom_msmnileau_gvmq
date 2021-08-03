@@ -25,6 +25,36 @@ VPP_TARGET_USES_SERVICE := NO
 # to soong APK manifest_check tool errors. Enable the flag to fix this.
 RELAX_USES_LIBRARY_CHECK := true
 
+# Dynamic-partition enabled by default
+BOARD_DYNAMIC_PARTITION_ENABLE := true
+ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
+  ENABLE_AB = true
+  PRODUCT_USE_DYNAMIC_PARTITIONS := true
+  BOARD_BUILD_SUPER_IMAGE_BY_DEFAULT := true
+  PRODUCT_BUILD_SUPER_PARTITION := true
+  PRODUCT_BUILD_RAMDISK_IMAGE := true
+  # Enable System_ext
+  PRODUCT_BUILD_SYSTEM_EXT_IMAGE := true
+  PRODUCT_PACKAGES += fastbootd
+  BOARD_AVB_VBMETA_SYSTEM := system
+  BOARD_AVB_VBMETA_SYSTEM_KEY_PATH := external/avb/test/data/testkey_rsa2048.pem
+  BOARD_AVB_VBMETA_SYSTEM_ALGORITHM := SHA256_RSA2048
+  BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
+  BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX_LOCATION := 2
+
+  PRODUCT_BUILD_SYSTEM_OTHER_IMAGE := false
+  PRODUCT_BUILD_PRODUCT_IMAGE := false
+  PRODUCT_BUILD_PRODUCT_SERVICES_IMAGE := false
+  PRODUCT_BUILD_CACHE_IMAGE := false
+  PRODUCT_BUILD_RAMDISK_IMAGE := true
+  PRODUCT_BUILD_USERDATA_IMAGE := true
+
+  ifeq ($(ENABLE_AB), true)
+    PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_RAMDISK)/fstab.qcom
+  else
+    PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_RAMDISK)/fstab.qcom
+  endif
+endif #BOARD_DYNAMIC_PARTITION_ENABLE
 TARGET_DEFINES_DALVIK_HEAP := true
 $(call inherit-product, device/qcom/common/common64.mk)
 #Inherit all except heap growth limit from phone-xhdpi-2048-dalvik-heap.mk
@@ -94,8 +124,11 @@ TARGET_HAS_DIAG_ROUTER := true
 -include $(QCPATH)/common/config/qtic-config.mk
 
 PRODUCT_BOOT_JARS += tcmiface
-PRODUCT_BOOT_JARS += telephony-ext
-PRODUCT_PACKAGES += telephony-ext
+
+ifneq ($(TARGET_NO_TELEPHONY), true)
+ PRODUCT_BOOT_JARS += telephony-ext
+ PRODUCT_PACKAGES += telephony-ext
+endif
 
 TARGET_DISABLE_DASH := true
 TARGET_DISABLE_QTI_VPP := false
@@ -156,8 +189,15 @@ PRODUCT_PACKAGES += update_engine \
     update_engine_client \
     update_verifier \
     bootctrl.msmnile \
-    android.hardware.boot@1.0-impl \
-    android.hardware.boot@1.0-service
+    android.hardware.boot@1.1-service \
+    android.hardware.boot@1.1-impl-qti \
+    android.hardware.boot@1.1-impl-qti.recovery \
+    update_engine_sideload
+
+PRODUCT_PACKAGES += fstab.postinstall \
+                    cppreopts.sh \
+                    preloads_copy.sh \
+                    cppreopts.rc
 
 PRODUCT_HOST_PACKAGES += \
 	brillo_update_payload
