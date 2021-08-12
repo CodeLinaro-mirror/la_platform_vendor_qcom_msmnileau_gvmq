@@ -3,11 +3,7 @@
 # Product-specific compile-time definitions.
 #
 
-TARGET_BOARD_PLATFORM := msmnile
 TARGET_SEPOLICY_DIR := gen3_gvmq
-TARGET_BOOTLOADER_BOARD_NAME := msmnile
-TARGET_BOARD_TYPE := auto
-TARGET_BOARD_SUFFIX := _gvmq
 
 TARGET_ARCH := arm64
 TARGET_ARCH_VARIANT := armv8-a
