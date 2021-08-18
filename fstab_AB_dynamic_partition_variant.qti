@@ -37,7 +37,7 @@ system                                                 /system                 e
 system_ext                                             /system_ext             ext4    ro,barrier=1,discard                                 wait,logical,first_stage_mount,slotselect,avb
 vendor                                                 /vendor                 ext4    ro,barrier=1,discard                                 wait,logical,first_stage_mount,slotselect,avb
 /dev/block/metadata                                    /metadata               ext4    noatime,nosuid,nodev,discard                         wait,formattable
-/dev/block/userdata                                    /data                   ext4    rw,inlinecrypt,noatime,nosuid,nodev                  wait,fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized+wrappedkey_v0,check,quota,reservedsize=128M
+/dev/block/userdata                                    /data                   ext4    rw,noatime,nosuid,nodev                              wait,check,quota,reservedsize=128M
 /devices/platform/soc/8804000.sdhci/mmc_host*          /storage/sdcard1        vfat    nosuid,nodev                                         wait,voldmanaged=sdcard1:auto,encryptable=footer
 /devices/platform/soc/1da4000.ufshc_card/host*         /storage/sdcard1        vfat    nosuid,nodev                                         wait,voldmanaged=sdcard1:auto,encryptable=footer
 /dev/block/modem                                       /vendor/firmware_mnt    vfat    ro,shortname=lower,uid=0,gid=1000,dmask=227,fmask=337,context=u:object_r:firmware_file:s0               defaults,slotselect
