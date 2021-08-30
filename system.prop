@@ -19,7 +19,6 @@ DEVICE_PROVISIONED=1
 ro.telephony.default_network=22,22
 ro.radio.noril=true
 
-dalvik.vm.heapsize=36m
 dev.pm.dyn_samplingrate=1
 
 qcom.hw.aac.encoder=true
