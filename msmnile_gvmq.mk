@@ -24,13 +24,6 @@ VPP_TARGET_USES_SERVICE := NO
 BOARD_DYNAMIC_PARTITION_ENABLE := true
 ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
   ENABLE_AB = true
-  # Enable virtual-ab by default
-  ifeq ($(ENABLE_AB), true)
-    ENABLE_VIRTUAL_AB ?= true
-  endif
-  ifeq ($(ENABLE_VIRTUAL_AB), true)
-    $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
-  endif
   PRODUCT_USE_DYNAMIC_PARTITIONS := true
   BOARD_BUILD_SUPER_IMAGE_BY_DEFAULT := true
   PRODUCT_BUILD_SUPER_PARTITION := true
