@@ -46,5 +46,5 @@ vendor                                                 /vendor                 e
 # Need to have this entry in here even though the mount point itself is no longer needed.
 # The update_engine code looks for this entry in order to determine the boot device address
 # and fails if it does not find it.
-/dev/block/misc                                        /misc                   emmc    defaults                                             defaults
+/dev/block/by-name/misc                                        /misc                   emmc    defaults                                             defaults
 /devices/*/xhci-hcd.*.auto*                            /storage/usbotg         vfat    nosuid,nodev                                         wait,voldmanaged=usbotg:auto

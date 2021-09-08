@@ -209,3 +209,6 @@ ro.boot.wificountrycode=us
 # However in Automotive SP, AVRCP(CT) is enabled in Car UI.
 # So the property should be set as false.
 persist.bluetooth.enablenewavrcp=false
+
+# bootctrl property
+ro.vendor.bootctrl.enable=true
