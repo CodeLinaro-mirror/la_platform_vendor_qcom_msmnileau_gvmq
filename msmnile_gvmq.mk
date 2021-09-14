@@ -225,6 +225,10 @@ PRODUCT_PACKAGES += fstab.postinstall \
                     preloads_copy.sh \
                     cppreopts.rc
 
+# bootctrl property
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.vendor.bootctrl.enable=true
+
 PRODUCT_HOST_PACKAGES += \
 	brillo_update_payload
 
