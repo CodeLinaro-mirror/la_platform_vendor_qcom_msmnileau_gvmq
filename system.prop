@@ -210,5 +210,3 @@ ro.boot.wificountrycode=us
 # So the property should be set as false.
 persist.bluetooth.enablenewavrcp=false
 
-# bootctrl property
-ro.vendor.bootctrl.enable=true
