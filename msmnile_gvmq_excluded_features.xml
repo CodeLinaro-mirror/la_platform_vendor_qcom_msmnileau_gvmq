@@ -23,7 +23,6 @@
     <unavailable-feature name="android.hardware.telephony.gsm" />
     <unavailable-feature name="android.hardware.telephony.ims" />
     <!--Disable sensors features which are not supported -->
-    <unavailable-feature name="android.hardware.camera.capability.manual_sensor" />
     <unavailable-feature name="android.hardware.sensor.accelerometer" />
     <unavailable-feature name="android.hardware.camera.capability.manual_sensor" />
     <unavailable-feature name="android.hardware.sensor.ambient_temperature" />
@@ -36,6 +35,13 @@
     <unavailable-feature name="android.hardware.sensor.relative_humidity" />
     <unavailable-feature name="android.hardware.sensor.stepcounter" />
     <unavailable-feature name="android.hardware.sensor.stepdetector" />
+    <unavailable-feature name="android.hardware.camera" />
+    <unavailable-feature name="android.hardware.camera.autofocus" />
+    <unavailable-feature name="android.hardware.camera.any" />
+    <unavailable-feature name="android.hardware.camera.level.full" />
+    <unavailable-feature name="android.hardware.camera.capability.manual_post_processing" />
+    <unavailable-feature name="android.hardware.camera.capability.raw" />
+    <unavailable-feature name="android.hardware.camera.external" />
 
    <!-- No portrait support-->
     <unavailable-feature name="android.hardware.screen.portrait" />
