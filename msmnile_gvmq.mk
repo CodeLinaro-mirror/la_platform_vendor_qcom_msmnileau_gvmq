@@ -19,6 +19,7 @@ TARGET_USES_GAS := true
 TARGET_USES_AOSP_FOR_WLAN := false
 ENABLE_CAR_POWER_MANAGER := true
 VPP_TARGET_USES_SERVICE := NO
+TARGET_HAS_DIAG_ROUTER := true
 
 # Dynamic-partition enabled by default
 BOARD_DYNAMIC_PARTITION_ENABLE := true
@@ -129,8 +130,10 @@ BOARD_FRP_PARTITION_NAME := frp
 #Android EGL implementation
 PRODUCT_PACKAGES += libGLES_android
 
-# diag-router
-TARGET_HAS_DIAG_ROUTER := true
+# diag-router no there for router
+ifeq ($(strip $(TARGET_BUILD_VARIANT)),user)
+    TARGET_HAS_DIAG_ROUTER := false
+endif
 
 -include $(QCPATH)/common/config/qtic-config.mk
 
