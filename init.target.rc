@@ -86,16 +86,6 @@ on boot
     chown system system /sys/kernel/hbtp/display_pwr
     start rmt_storage
     start rfs_access
-    write /dev/cpuset/top-app/cpus 0-3
-    write /dev/cpuset/foreground/cpus 0-3
-    write /dev/cpuset/foreground/boost/cpus 0-3
-    write /dev/cpuset/background/cpus 0-3
-    write /dev/cpuset/system-background/cpus 0-3
-    write /dev/cpuset/top-app/cpus 0-7
-    write /dev/cpuset/foreground/cpus 0-7
-    write /dev/cpuset/foreground/boost/cpus 0-7
-    write /dev/cpuset/background/cpus 0-7
-    write /dev/cpuset/system-background/cpus 0-7
 
     # Create netmgr recovery folder
     mkdir /data/vendor/netmgr/recovery 0700 radio radio
@@ -192,9 +182,6 @@ service vendor.mdm_launcher /vendor/bin/sh /vendor/bin/init.mdm.sh
     class main
     oneshot
 
-on property:vendor.ims.QMI_DAEMON_STATUS=1
-    start vendor.imsdatadaemon
-
 on property:vold.decrypt=trigger_restart_framework
     start cnss_diag
 
@@ -203,9 +190,6 @@ service cnss_diag /system/vendor/bin/cnss_diag -q -f -t HELIUM
     user system
     group system wifi inet sdcard_rw media_rw diag
     oneshot
-
-on property:vendor.ims.DATA_DAEMON_STATUS=1
-    restart vendor.ims_rtp_daemon
 
 service vendor.energy-awareness /vendor/bin/energy-awareness
     class main
