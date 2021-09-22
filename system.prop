@@ -221,3 +221,6 @@ ro.boot.wificountrycode=us
 # So the property should be set as false.
 persist.bluetooth.enablenewavrcp=false
 
+#property for wifi predefined SAP iface names
+ro.vendor.wifi.sap.interface=swlan0
+ro.vendor.wifi.sap.concurrent.iface=swlan1
