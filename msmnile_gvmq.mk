@@ -193,6 +193,9 @@ AUDIO_DLKM += audio_native.ko
 AUDIO_DLKM += audio_machine_msmnile.ko
 PRODUCT_PACKAGES += $(AUDIO_DLKM)
 
+#add libnbaio for avenhancement
+PRODUCT_PACKAGES += libnbaio
+
 PCIE_DLKM := pci_msm_drv
 PRODUCT_PACKAGES += $(PCIE_DLKM)
 
