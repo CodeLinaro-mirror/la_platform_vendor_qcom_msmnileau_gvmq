@@ -310,6 +310,30 @@ PRODUCT_PACKAGES += android.hardware.health@2.1-service \
 #add vndservicemanager
 PRODUCT_PACKAGES += vndservicemanager
 
+# Enabling cameraserver
+PRODUCT_PACKAGES += cameraserver
+PRODUCT_PACKAGES += android.hardware.camera.common@1.0
+PRODUCT_PACKAGES += android.hardware.camera.device@1.0-impl
+PRODUCT_PACKAGES += android.hardware.camera.device@3.2-impl
+PRODUCT_PACKAGES += android.hardware.camera.device@3.3-impl
+PRODUCT_PACKAGES += android.hardware.camera.device@3.4-impl
+PRODUCT_PACKAGES += android.hardware.camera.device@3.4-external-impl
+PRODUCT_PACKAGES += android.hardware.camera.device@3.5-impl
+PRODUCT_PACKAGES += android.hardware.camera.device@3.5-external-impl
+PRODUCT_PACKAGES += android.hardware.camera.metadata@3.2
+PRODUCT_PACKAGES += android.hardware.camera.metadata@3.3
+PRODUCT_PACKAGES += android.hardware.camera.metadata@3.4
+PRODUCT_PACKAGES += android.hardware.camera.metadata@3.5
+PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-external
+PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-legacy
+PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-impl
+# Enable binderized camera HAL
+# Camera configuration file. Shared by passthrough/binderized camera HAL
+PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-service
+PRODUCT_PROPERTY_OVERRIDES += ro.hardware.camera=v4l2
+PRODUCT_PACKAGES += camera.v4l2
+
+
 ###################################################################################
 # This is the End of target.mk file.
 # Now, Pickup other split product.mk files:
