@@ -178,6 +178,9 @@ AUDIO_DLKM += audio_native.ko
 AUDIO_DLKM += audio_machine_msmnile.ko
 PRODUCT_PACKAGES += $(AUDIO_DLKM)
 
+#add libnbaio for avenhancement
+PRODUCT_PACKAGES += libnbaio
+
 # HS-I2S DLKM
 PRODUCT_PACKAGES += hsi2s.ko
 # HS-I2S test app
