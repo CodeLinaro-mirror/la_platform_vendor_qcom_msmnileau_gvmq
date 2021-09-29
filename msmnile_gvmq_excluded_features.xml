@@ -36,4 +36,16 @@ limitations under the License.
     <unavailable-feature name="android.hardware.wifi.aware" />
     <unavailable-feature name="android.hardware.wifi.passpoint" />
     <unavailable-feature name="android.hardware.wifi.rtt" />
+    <unavailable-feature name="android.hardware.sensor.ambient_temperature" />
+    <unavailable-feature name="android.hardware.sensor.barometer" />
+    <unavailable-feature name="android.hardware.sensor.gyroscope" />
+    <unavailable-feature name="android.hardware.sensor.hifi_sensors" />
+    <unavailable-feature name="android.hardware.sensor.relative_humidity" />
+    <unavailable-feature name="android.hardware.sensor.stepcounter" />
+    <unavailable-feature name="android.hardware.sensor.stepdetector" />
+      <!-- No portrait support-->
+    <unavailable-feature name="android.hardware.screen.portrait" />
+      <!--No picture in Picture support-->
+    <unavailable-feature name="android.software.picture_in_picture" />
 </permissions>
+
