@@ -71,11 +71,23 @@ endif
 $(call inherit-product, packages/services/Car/car_product/build/car.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
+PRODUCT_LOCALES := \
+   en_US
+
 PRODUCT_NAME := msmnile_gvmq
 PRODUCT_DEVICE := msmnile_gvmq
 PRODUCT_BRAND := qti
 PRODUCT_MODEL := msmnile_gvmq for arm64
 
+PRODUCT_PROPERTY_OVERRIDES += \
+   ro.incremental.enable=yes
+
+# beluga settings
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.vendor.beluga.p=0x3 \
+    ro.vendor.beluga.c=0x4800 \
+    ro.vendor.beluga.s=0x900 \
+    ro.vendor.beluga.t=0x240
 
 # Sensor conf files
 PRODUCT_COPY_FILES += \
@@ -180,6 +192,9 @@ AUDIO_DLKM += audio_native.ko
 AUDIO_DLKM += audio_machine_msmnile.ko
 PRODUCT_PACKAGES += $(AUDIO_DLKM)
 
+#add libnbaio for avenhancement
+PRODUCT_PACKAGES += libnbaio
+
 # HS-I2S DLKM
 PRODUCT_PACKAGES += hsi2s.ko
 # HS-I2S test app
@@ -271,8 +286,6 @@ TARGET_MOUNT_POINTS_SYMLINKS := false
 # Camera configuration file. Shared by passthrough/binderized camera HAL
 PRODUCT_PACKAGES += camera.device@3.2-impl
 PRODUCT_PACKAGES += camera.device@1.0-impl
-PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-impl
-PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-service
 
 # enable audio hidl hal 5.0
 PRODUCT_PACKAGES += \
