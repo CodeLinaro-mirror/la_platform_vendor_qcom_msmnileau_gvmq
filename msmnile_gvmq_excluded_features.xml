@@ -33,7 +33,6 @@ limitations under the License.
     <unavailable-feature name="android.hardware.telephony.gsm" />
     <unavailable-feature name="android.hardware.telephony.ims" />
     <unavailable-feature name="android.hardware.camera.flash" />
-    <unavailable-feature name="android.hardware.camera.front" />
     <unavailable-feature name="android.hardware.wifi.aware" />
     <unavailable-feature name="android.hardware.wifi.passpoint" />
     <unavailable-feature name="android.hardware.wifi.rtt" />

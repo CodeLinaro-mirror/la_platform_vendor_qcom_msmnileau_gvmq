@@ -129,6 +129,13 @@ on property:vendor.usb.controller=*
 #Load WLAN driver
     start wlan_multiko
 
+#Peripheral manager
+service vendor.per_mgr /vendor/bin/pm-service
+    class core
+    user system
+    group system
+    ioprio rt 4
+
 on property:ro.vendor.wlan.chip=*
     insmod /vendor/lib/modules/qca_cld3_${ro.vendor.wlan.chip}.ko
     setprop wlan.driver.status "ok"
