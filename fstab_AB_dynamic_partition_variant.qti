@@ -38,8 +38,10 @@ system_ext                                             /system_ext             e
 vendor                                                 /vendor                 ext4    ro,barrier=1,discard                                 wait,logical,first_stage_mount,slotselect,avb
 /dev/block/metadata                                    /metadata               ext4    noatime,nosuid,nodev,discard                         wait,formattable,first_stage_mount,check
 /dev/block/userdata                                    /data                   ext4    rw,noatime,nosuid,nodev                              wait,check,quota,reservedsize=128M
-/devices/platform/soc/8804000.sdhci/mmc_host*          /storage/sdcard1        vfat    nosuid,nodev                                         wait,voldmanaged=sdcard1:auto,encryptable=footer
-/devices/platform/soc/1da4000.ufshc_card/host*         /storage/sdcard1        vfat    nosuid,nodev                                         wait,voldmanaged=sdcard1:auto,encryptable=footer
+/devices/platform/soc/8804000.sdhci/mmc_host*          /storage/sdcard1        vfat    nosuid,nodev                                         wait,voldmanaged=sdcard1:auto
+
+/devices/platform/soc/1da4000.ufshc_card/host*         /storage/sdcard1        vfat    nosuid,nodev                                         wait,voldmanaged=sdcard1:auto
+
 /dev/block/modem                                       /vendor/firmware_mnt    vfat    ro,shortname=lower,uid=0,gid=1000,dmask=227,fmask=337,context=u:object_r:firmware_file:s0               defaults,slotselect
 /dev/block/persist                                     /mnt/vendor/persist     ext4    rw defaults
 /dev/block/bluetooth                                   /vendor/bt_firmware     vfat    ro,shortname=lower,uid=0,gid=1000,dmask=227,fmask=337,context=u:object_r:bt_firmware_file:s0            defaults,slotselect
