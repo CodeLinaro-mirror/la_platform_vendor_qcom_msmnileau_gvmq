@@ -9,7 +9,6 @@ BOARD_AVB_ENABLE := true
 BOARD_USES_QCNE := false
 TARGET_BOARD_AUTO := true
 TARGET_USES_AOSP := true
-TARGET_USES_AOSP_FOR_AUDIO := true
 TARGET_USES_QCOM_BSP := false
 TARGET_NO_TELEPHONY := true
 TARGET_USES_QTIC := false
@@ -34,6 +33,13 @@ RELAX_USES_LIBRARY_CHECK := true
 BOARD_DYNAMIC_PARTITION_ENABLE := false
 ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
   ENABLE_AB = true
+  # Enable virtual-ab by default
+  ifeq ($(ENABLE_AB), true)
+    ENABLE_VIRTUAL_AB ?= false
+  endif
+  ifeq ($(ENABLE_VIRTUAL_AB), true)
+    $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
+  endif
   PRODUCT_USE_DYNAMIC_PARTITIONS := true
   BOARD_BUILD_SUPER_IMAGE_BY_DEFAULT := true
   PRODUCT_BUILD_SUPER_PARTITION := true
@@ -41,11 +47,6 @@ ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
   # Enable System_ext
   PRODUCT_BUILD_SYSTEM_EXT_IMAGE := true
   PRODUCT_PACKAGES += fastbootd
-  BOARD_AVB_VBMETA_SYSTEM := system
-  BOARD_AVB_VBMETA_SYSTEM_KEY_PATH := external/avb/test/data/testkey_rsa2048.pem
-  BOARD_AVB_VBMETA_SYSTEM_ALGORITHM := SHA256_RSA2048
-  BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
-  BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX_LOCATION := 2
 
   PRODUCT_BUILD_SYSTEM_OTHER_IMAGE := false
   PRODUCT_BUILD_PRODUCT_IMAGE := false
@@ -56,8 +57,10 @@ ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
 
   ifeq ($(ENABLE_AB), true)
     PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_RAMDISK)/fstab.qcom
+    PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_RECOVERY)/root/first_stage_ramdisk/fstab.qcom
   else
     PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_RAMDISK)/fstab.qcom
+    PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_RECOVERY)/root/first_stage_ramdisk/fstab.qcom
   endif
 endif #BOARD_DYNAMIC_PARTITION_ENABLE
 TARGET_DEFINES_DALVIK_HEAP := true
@@ -166,9 +169,6 @@ endif #TARGET_ENABLE_QC_AV_ENHANCEMENTS
 
 PRODUCT_PACKAGES += android.hardware.media.omx@1.0-impl
 
-# Audio configuration file
--include $(TOPDIR)vendor/qcom/opensource/audio-hal/primary-hal/configs/msmnile_au/msmnile_au.mk
-
 #Audio DLKM
 AUDIO_DLKM := audio_apr.ko
 AUDIO_DLKM += audio_snd_event.ko
@@ -194,10 +194,15 @@ PRODUCT_PACKAGES += update_engine \
     update_engine_client \
     update_verifier \
     bootctrl.msmnile \
-    android.hardware.boot@1.1-service \
-    android.hardware.boot@1.1-impl-qti \
-    android.hardware.boot@1.1-impl-qti.recovery \
+    android.hardware.boot@1.2-service \
+    android.hardware.boot@1.2-impl-qti \
+    android.hardware.boot@1.2-impl-qti.recovery \
     update_engine_sideload
+
+
+# bootctrl property
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.vendor.bootctrl.enable=true
 
 PRODUCT_PACKAGES += fstab.postinstall \
                     cppreopts.sh \
