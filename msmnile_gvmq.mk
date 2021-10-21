@@ -9,7 +9,6 @@ BOARD_AVB_ENABLE := true
 BOARD_USES_QCNE := false
 TARGET_BOARD_AUTO := true
 TARGET_USES_AOSP := true
-TARGET_USES_AOSP_FOR_AUDIO := true
 TARGET_USES_QCOM_BSP := false
 TARGET_NO_TELEPHONY := true
 TARGET_USES_QTIC := false
@@ -36,7 +35,7 @@ ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
   ENABLE_AB = true
   # Enable virtual-ab by default
   ifeq ($(ENABLE_AB), true)
-    ENABLE_VIRTUAL_AB ?= true
+    ENABLE_VIRTUAL_AB ?= false
   endif
   ifeq ($(ENABLE_VIRTUAL_AB), true)
     $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
@@ -170,9 +169,6 @@ endif #TARGET_ENABLE_QC_AV_ENHANCEMENTS
 
 PRODUCT_PACKAGES += android.hardware.media.omx@1.0-impl
 
-# Audio configuration file
--include $(TOPDIR)vendor/qcom/opensource/audio-hal/primary-hal/configs/msmnile_au/msmnile_au.mk
-
 #Audio DLKM
 AUDIO_DLKM := audio_apr.ko
 AUDIO_DLKM += audio_snd_event.ko
@@ -198,10 +194,15 @@ PRODUCT_PACKAGES += update_engine \
     update_engine_client \
     update_verifier \
     bootctrl.msmnile \
-    android.hardware.boot@1.1-service \
-    android.hardware.boot@1.1-impl-qti \
-    android.hardware.boot@1.1-impl-qti.recovery \
+    android.hardware.boot@1.2-service \
+    android.hardware.boot@1.2-impl-qti \
+    android.hardware.boot@1.2-impl-qti.recovery \
     update_engine_sideload
+
+
+# bootctrl property
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.vendor.bootctrl.enable=true
 
 PRODUCT_PACKAGES += fstab.postinstall \
                     cppreopts.sh \
