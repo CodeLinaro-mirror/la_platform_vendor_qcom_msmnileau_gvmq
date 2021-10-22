@@ -33,6 +33,7 @@ on early-init
     write /proc/sys/kernel/sched_boost 1
     symlink /data/tombstones /tombstones
     write /sys/kernel/boot_kpi/kpi_values "M - INITRC Userspace Start"
+    mount_all /vendor/etc/fstab.qcom --early
 
 on init
     mkdir /mnt/vendor/dvr_ctl 0755 system system
@@ -50,7 +51,6 @@ on property:vendor.gdb.dump=true
    write /proc/sys/kernel/core_pattern "/data/core/core.%e.%p.%h.%t"
 
 on fs
-    mount_all /vendor/etc/fstab.qcom --early
     chown root system /mnt/vendor/persist
     chmod 0771 /mnt/vendor/persist
     restorecon_recursive /mnt/vendor/persist
