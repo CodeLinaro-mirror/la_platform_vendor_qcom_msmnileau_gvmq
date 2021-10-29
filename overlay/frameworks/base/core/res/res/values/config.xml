@@ -43,49 +43,4 @@
    <!-- Boolean indicating whether single radio chain scan results are to be used for network selection -->
    <bool translatable="false" name="config_wifi_framework_use_single_radio_chain_scan_results_network_selection">true</bool>
    <bool name="config_enableKeyguardService">false</bool>
-
-   <!-- Regex of Ethernet ifaces -->
-   <string translatable="false" name="config_ethernet_iface_regex">VETH0_\\d\\d|VETH0_\\d|eth\\d</string>
-
-   <!-- Configuration of Ethernet interfaces in the following format:
-         <interface name|mac address>;[Network Capabilities];[IP config];[Override Transport]
-         Where
-               [Network Capabilities] Optional. A comma seprated list of network capabilities.
-                   Values must be from NetworkCapabilities#NET_CAPABILITIES_* constants.
-               [IP config] Optional. If empty or not specified - DHCP will be used, otherwise
-                   use the following format to specify static IP configuration:
-                       ip=<ip-address/mask> gateway=<ip-address> dns=<comma-sep-ip-addresses>
-                       domains=<comma-sep-domains>
-               [Override Transport] Optional. An override network transport type to allow
-                    the propagation of an interface type on the other end of a local Ethernet
-                    interface. Value must be from NetworkCapabilities#TRANSPORT_* constants. If
-                    left out, this will default to TRANSPORT_ETHERNET.
-   -->
-   <string-array translatable="false" name="config_ethernet_interfaces">
-      <item>eth0;12,13,14,15,28;ip=192.168.1.3/24 gateway=192.168.1.10 dns=4.4.4.4,8.8.8.8</item>
-      <item>VETH0_44;12,13,14,15,28;ip=192.168.5.3/24 gateway=192.168.5.10 dns=4.4.4.4,8.8.8.8</item>
-      <item>VETH0_45;0,13,14,15,28;ip=192.168.2.3/24 gateway=192.168.2.10 dns=4.4.4.4,8.8.8.8</item>
-      <item>VETH0_46;1,13,14,15,28;ip=192.168.3.3/24 gateway=192.168.3.10 dns=4.4.4.4,8.8.8.8</item>
-      <item>VETH0_43;2,13,14,15,28;ip=192.168.4.3/24 gateway=192.168.4.10 dns=4.4.4.4,8.8.8.8;0</item>
-   </string-array>
-
-    <!-- When true, the tethering upstream network follows the current default
-         Internet network (except when the current default network is mobile,
-         in which case a DUN network will be used if required).
-
-         When true, overrides the config_tether_upstream_types setting above.
-    -->
-    <bool translatable="false" name="config_tether_upstream_automatic">false</bool>
-
-    <!-- Array of ConnectivityManager.TYPE_xxxx values allowable for tethering -->
-    <!-- Common options are [1, 4] for TYPE_WIFI and TYPE_MOBILE_DUN or
-    <!== [0,1,5,7] for TYPE_MOBILE, TYPE_WIFI, TYPE_MOBILE_HIPRI and TYPE_BLUETOOTH -->
-    <integer-array translatable="false" name="config_tether_upstream_types">
-        <item>4</item>
-        <item>9</item>
-        <item>0</item>
-        <item>1</item>
-        <item>5</item>
-        <item>7</item>
-    </integer-array>
 </resources>
