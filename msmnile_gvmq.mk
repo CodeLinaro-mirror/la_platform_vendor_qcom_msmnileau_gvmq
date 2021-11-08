@@ -73,7 +73,14 @@ PRODUCT_PROPERTY_OVERRIDES  += \
    dalvik.vm.heapminfree=512k \
    dalvik.vm.heapmaxfree=8m \
    vendor.gatekeeper.disable_spu = true \
+
+ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
+PRODUCT_PROPERTY_OVERRIDES  += \
+   persist.vendor.usb.config=diag,adb
+else
+PRODUCT_PROPERTY_OVERRIDES  += \
    persist.vendor.usb.config=adb
+endif
 
 $(call inherit-product, packages/services/Car/car_product/build/car.mk)
 
@@ -127,7 +134,9 @@ BOARD_FRP_PARTITION_NAME := frp
 PRODUCT_PACKAGES += libGLES_android
 
 # diag-router
-TARGET_HAS_DIAG_ROUTER := true
+ifeq ($(strip $(TARGET_BUILD_VARIANT)),user)
+    TARGET_HAS_DIAG_ROUTER := false
+endif
 
 -include $(QCPATH)/common/config/qtic-config.mk
 
@@ -181,6 +190,12 @@ AUDIO_DLKM += audio_stub.ko
 AUDIO_DLKM += audio_native.ko
 AUDIO_DLKM += audio_machine_msmnile.ko
 PRODUCT_PACKAGES += $(AUDIO_DLKM)
+
+PCIE_DLKM := pci_msm_drv
+PRODUCT_PACKAGES += $(PCIE_DLKM)
+
+CNSS_DLKM := cnss2
+PRODUCT_PACKAGES += $(CNSS_DLKM)
 
 # HS-I2S DLKM
 PRODUCT_PACKAGES += hsi2s.ko
@@ -295,9 +310,7 @@ PRODUCT_PACKAGES_DEBUG += bootctl
 PRODUCT_PACKAGES += \
    update_engine_sideload
 
-PRODUCT_PACKAGES += android.hardware.automotive.evs@1.0-service \
-    android.automotive.evs.manager@1.0 \
-    android.hardware.automotive.audiocontrol@1.0-service \
+PRODUCT_PACKAGES += android.hardware.automotive.audiocontrol@1.0-service
 
 PRODUCT_PACKAGES += android.hardware.health@2.1-service \
                     android.hardware.health@2.1-impl \
