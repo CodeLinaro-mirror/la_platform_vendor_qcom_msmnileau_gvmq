@@ -78,7 +78,6 @@ endif
 
 AB_OTA_UPDATER := true
 # Defines for enabling A/B builds
- AB_OTA_UPDATER := true
 ifeq ($(ENABLE_AB), true)
 # Full A/B partition update set
 # AB_OTA_PARTITIONS := xbl rpm tz hyp pmic modem abl boot keymaster cmnlib cmnlib64 system bluetooth
