@@ -193,6 +193,9 @@ AUDIO_DLKM += audio_native.ko
 AUDIO_DLKM += audio_machine_msmnile.ko
 PRODUCT_PACKAGES += $(AUDIO_DLKM)
 
+#add libnbaio for avenhancement
+PRODUCT_PACKAGES += libnbaio
+
 PCIE_DLKM := pci_msm_drv
 PRODUCT_PACKAGES += $(PCIE_DLKM)
 
@@ -285,7 +288,7 @@ ENABLE_VENDOR_RIL_SERVICE := true
 #----------------------------------------------------------------------
 ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
 # Multiple chips
-TARGET_WLAN_CHIP := qca6174 qca6390 qcn7605
+TARGET_WLAN_CHIP := qca6390
 include device/qcom/wlan/msmnile_au/wlan.mk
 endif
 
