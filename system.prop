@@ -90,6 +90,10 @@ persist.bt.clock_boottime_alarm=false
 ro.hardware.type=automotive
 
 ro.hardware.sensors=msmnile.asm_auto
+
+#system prop for sensordata
+ro.gas.sharesensordata.enabled=1
+
 #
 #snapdragon value add features
 #
