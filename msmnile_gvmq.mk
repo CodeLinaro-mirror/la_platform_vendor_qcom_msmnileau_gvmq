@@ -9,7 +9,6 @@ BOARD_AVB_ENABLE := true
 BOARD_USES_QCNE := false
 TARGET_BOARD_AUTO := true
 TARGET_USES_AOSP := true
-TARGET_USES_AOSP_FOR_AUDIO := true
 TARGET_USES_QCOM_BSP := false
 TARGET_NO_TELEPHONY := true
 TARGET_USES_QTIC := false
@@ -74,7 +73,14 @@ PRODUCT_PROPERTY_OVERRIDES  += \
    dalvik.vm.heapminfree=512k \
    dalvik.vm.heapmaxfree=8m \
    vendor.gatekeeper.disable_spu = true \
+
+ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
+PRODUCT_PROPERTY_OVERRIDES  += \
+   persist.vendor.usb.config=diag,adb
+else
+PRODUCT_PROPERTY_OVERRIDES  += \
    persist.vendor.usb.config=adb
+endif
 
 $(call inherit-product, packages/services/Car/car_product/build/car.mk)
 
@@ -128,7 +134,9 @@ BOARD_FRP_PARTITION_NAME := frp
 PRODUCT_PACKAGES += libGLES_android
 
 # diag-router
-TARGET_HAS_DIAG_ROUTER := true
+ifeq ($(strip $(TARGET_BUILD_VARIANT)),user)
+    TARGET_HAS_DIAG_ROUTER := false
+endif
 
 -include $(QCPATH)/common/config/qtic-config.mk
 
@@ -170,9 +178,6 @@ endif #TARGET_ENABLE_QC_AV_ENHANCEMENTS
 
 PRODUCT_PACKAGES += android.hardware.media.omx@1.0-impl
 
-# Audio configuration file
--include $(TOPDIR)vendor/qcom/opensource/audio-hal/primary-hal/configs/msmnile_au/msmnile_au.mk
-
 #Audio DLKM
 AUDIO_DLKM := audio_apr.ko
 AUDIO_DLKM += audio_snd_event.ko
@@ -185,6 +190,12 @@ AUDIO_DLKM += audio_stub.ko
 AUDIO_DLKM += audio_native.ko
 AUDIO_DLKM += audio_machine_msmnile.ko
 PRODUCT_PACKAGES += $(AUDIO_DLKM)
+
+PCIE_DLKM := pci_msm_drv
+PRODUCT_PACKAGES += $(PCIE_DLKM)
+
+CNSS_DLKM := cnss2
+PRODUCT_PACKAGES += $(CNSS_DLKM)
 
 # HS-I2S DLKM
 PRODUCT_PACKAGES += hsi2s.ko
@@ -202,6 +213,11 @@ PRODUCT_PACKAGES += update_engine \
     android.hardware.boot@1.2-impl-qti \
     android.hardware.boot@1.2-impl-qti.recovery \
     update_engine_sideload
+
+
+# bootctrl property
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.vendor.bootctrl.enable=true
 
 PRODUCT_PACKAGES += fstab.postinstall \
                     cppreopts.sh \
@@ -294,9 +310,7 @@ PRODUCT_PACKAGES_DEBUG += bootctl
 PRODUCT_PACKAGES += \
    update_engine_sideload
 
-PRODUCT_PACKAGES += android.hardware.automotive.evs@1.0-service \
-    android.automotive.evs.manager@1.0 \
-    android.hardware.automotive.audiocontrol@1.0-service \
+PRODUCT_PACKAGES += android.hardware.automotive.audiocontrol@1.0-service
 
 PRODUCT_PACKAGES += android.hardware.health@2.1-service \
                     android.hardware.health@2.1-impl \
