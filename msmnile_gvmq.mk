@@ -138,6 +138,9 @@ ifeq ($(strip $(TARGET_BUILD_VARIANT)),user)
     TARGET_HAS_DIAG_ROUTER := false
 endif
 
+# Memtrack HAL deprecated. Replaced with AIDL for target-level 6.
+ENABLE_MEMTRACK_AIDL_HAL := true
+
 -include $(QCPATH)/common/config/qtic-config.mk
 
 PRODUCT_BOOT_JARS += tcmiface
@@ -309,8 +312,6 @@ PRODUCT_PACKAGES_DEBUG += bootctl
 
 PRODUCT_PACKAGES += \
    update_engine_sideload
-
-PRODUCT_PACKAGES += android.hardware.automotive.audiocontrol@1.0-service
 
 PRODUCT_PACKAGES += android.hardware.health@2.1-service \
                     android.hardware.health@2.1-impl \
