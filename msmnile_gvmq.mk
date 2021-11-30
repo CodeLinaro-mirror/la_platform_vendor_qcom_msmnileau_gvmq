@@ -136,6 +136,8 @@ PRODUCT_PACKAGES += libGLES_android
 # diag-router
 ifeq ($(strip $(TARGET_BUILD_VARIANT)),user)
     TARGET_HAS_DIAG_ROUTER := false
+else
+    TARGET_HAS_DIAG_ROUTER := true
 endif
 
 # Memtrack HAL deprecated. Replaced with AIDL for target-level 6.
