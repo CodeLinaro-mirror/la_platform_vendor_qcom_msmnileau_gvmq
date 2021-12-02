@@ -50,5 +50,5 @@
    <!-- No android hardware camera support-->
    <unavailable-feature name="android.hardware.camera.flash" />
    <unavailable-feature name="android.hardware.camera.front" />
-
+   <unavailable-feature name="android.software.backup" />
 </permissions>

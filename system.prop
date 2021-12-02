@@ -220,3 +220,7 @@ persist.bluetooth.enablenewavrcp=false
 
 #property to enable SSR
 persist.vendor.ssr.restart_level=wlan
+
+#property for wifi predefined SAP iface names
+ro.vendor.wifi.sap.interface=swlan0
+ro.vendor.wifi.sap.concurrent.iface=swlan1
