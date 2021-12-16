@@ -168,6 +168,9 @@ ro.vendor.qti.sys.fw.bg_apps_limit=60
 #Enable ZRAM
 ro.vendor.qti.config.zram=true
 
+#Setting low ram to false
+ro.config.low_ram=false
+
 #IOP properties
 vendor.iop.enable_uxe=1
 vendor.perf.iop_v3.enable=true
