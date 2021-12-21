@@ -80,6 +80,8 @@ on post-fs-data
 # For cpusets initialize for Silver Only first and then Silver + Gold
 # Silver Only configuration cannot work with 0-7
 on boot
+    chown system system /sys/devices/platform/soc/a600000.ssusb/mode
+    chown system system /sys/devices/platform/soc/a800000.ssusb/mode
     chown system system /sys/kernel/hbtp/display_pwr
     start rmt_storage
     start rfs_access
@@ -219,8 +221,8 @@ on boot
     insmod /vendor/lib/modules/emac_dwc_eqos.ko
 
 service carpowerd /vendor/bin/car_power_daemon
-    user root
-    group root system inet
+    user system
+    group system inet
     disabled
 
 on property:sys.boot_completed=1
