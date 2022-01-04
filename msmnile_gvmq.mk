@@ -340,6 +340,14 @@ PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 #add vndservicemanager
 PRODUCT_PACKAGES += vndservicemanager
 
+#add neuralnetworks
+PRODUCT_PACKAGES += android.hardware.neuralnetworks@1.0.vendor \
+                    android.hardware.neuralnetworks@1.1.vendor \
+                    android.hardware.neuralnetworks@1.2.vendor \
+                    android.hardware.neuralnetworks@1.3.vendor
+
+
+
 ###################################################################################
 # This is the End of target.mk file.
 # Now, Pickup other split product.mk files:
