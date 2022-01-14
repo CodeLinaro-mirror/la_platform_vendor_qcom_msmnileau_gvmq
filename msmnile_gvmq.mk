@@ -26,8 +26,7 @@ TARGET_NO_QTI_WFD := true
 BOARD_HAVE_QCOM_FM := false
 BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := false
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := false
-TARGET_FWK_SUPPORTS_AV_VALUEADDS := false
-TARGET_FWK_SUPPORTS_FULL_VALUEADDS := false
+TARGET_FWK_SUPPORTS_AV_VALUEADDS := true
 TARGET_USES_AOSP_FOR_WLAN := true
 ENABLE_CAR_POWER_MANAGER := true
 VPP_TARGET_USES_SERVICE := NO
@@ -343,6 +342,8 @@ PRODUCT_PACKAGES += android.hardware.neuralnetworks@1.0.vendor \
 
 PRODUCT_ENFORCE_RRO_TARGETS := framework-res
 
+#add libnbaio for avenhancement
+PRODUCT_PACKAGES += libnbaio
 
 ###################################################################################
 # This is the End of target.mk file.
