@@ -54,4 +54,11 @@
     <unavailable-feature name="android.hardware.telephony" />
     <unavailable-feature name="android.hardware.telephony.cdma" />
     <unavailable-feature name="android.hardware.telephony.gsm" />
+    <!-- No portrait support-->
+    <unavailable-feature name="android.hardware.screen.portrait" />
+    <!--No picture in Picture support-->
+    <unavailable-feature name="android.software.picture_in_picture" />
+    <!-- No backup feature -->
+    <unavailable-feature name="android.software.backup" />
+
 </permissions>
