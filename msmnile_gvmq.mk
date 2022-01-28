@@ -88,6 +88,8 @@ PRODUCT_PROPERTY_OVERRIDES  += \
    persist.vendor.usb.config=adb
 endif
 
+PRODUCT_PROPERTY_OVERRIDES += ro.control_privapp_permissions=enforce
+
 $(call inherit-product, packages/services/Car/car_product/build/car.mk)
 
 PRODUCT_NAME := msmnile_gvmq
