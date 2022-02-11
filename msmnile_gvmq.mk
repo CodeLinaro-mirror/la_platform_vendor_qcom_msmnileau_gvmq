@@ -341,6 +341,7 @@ PRODUCT_PACKAGES += android.hardware.neuralnetworks@1.0.vendor \
                     android.hardware.neuralnetworks@1.2.vendor \
                     android.hardware.neuralnetworks@1.3.vendor
 
+PRODUCT_ENFORCE_RRO_TARGETS := framework-res
 
 
 ###################################################################################
