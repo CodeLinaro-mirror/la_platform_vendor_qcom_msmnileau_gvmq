@@ -220,11 +220,6 @@ PRODUCT_PACKAGES += update_engine \
     android.hardware.boot@1.1-impl-qti.recovery \
     update_engine_sideload
 
-PRODUCT_PACKAGES += fstab.postinstall \
-                    cppreopts.sh \
-                    preloads_copy.sh \
-                    cppreopts.rc
-
 # bootctrl property
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.vendor.bootctrl.enable=true
