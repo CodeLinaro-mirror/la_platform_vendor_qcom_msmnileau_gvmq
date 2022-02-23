@@ -193,6 +193,12 @@ AUDIO_DLKM += audio_native.ko
 AUDIO_DLKM += audio_machine_msmnile.ko
 PRODUCT_PACKAGES += $(AUDIO_DLKM)
 
+PCIE_DLKM := pci_msm_drv
+PRODUCT_PACKAGES += $(PCIE_DLKM)
+
+CNSS_DLKM := cnss2
+PRODUCT_PACKAGES += $(CNSS_DLKM)
+
 #add libnbaio for avenhancement
 PRODUCT_PACKAGES += libnbaio
 
@@ -337,6 +343,9 @@ PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-impl
 PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-service
 PRODUCT_PROPERTY_OVERRIDES += ro.hardware.camera=v4l2
 PRODUCT_PACKAGES += camera.v4l2
+
+PRODUCT_PACKAGES += qcar-gsi.avbpubkey
+
 # privapp-permissions whitelisting (To Fix CTS :privappPermissionsMustBeEnforced)
 PRODUCT_PROPERTY_OVERRIDES += ro.control_privapp_permissions=enforce
 
