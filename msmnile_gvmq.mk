@@ -140,6 +140,7 @@ ifeq ($(strip $(TARGET_BUILD_VARIANT)),user)
     TARGET_HAS_DIAG_ROUTER := false
 endif
 
+TARGET_NOT_SUPPORT_VULKAN := true
 
 -include $(QCPATH)/common/config/qtic-config.mk
 
@@ -353,8 +354,6 @@ PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 
 # privapp-permissions whitelisting (To Fix CTS :privappPermissionsMustBeEnforced)
 PRODUCT_PROPERTY_OVERRIDES += ro.control_privapp_permissions=enforce
-
-
 ###################################################################################
 # This is the End of target.mk file.
 # Now, Pickup other split product.mk files:
