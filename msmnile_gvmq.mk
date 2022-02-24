@@ -135,6 +135,7 @@ PRODUCT_PACKAGES += libGLES_android
 
 # diag-router
 TARGET_HAS_DIAG_ROUTER := true
+TARGET_NOT_SUPPORT_VULKAN := true
 
 -include $(QCPATH)/common/config/qtic-config.mk
 
