@@ -88,6 +88,4 @@
         <item>5</item>
         <item>7</item>
     </integer-array>
-   <!-- No gsm voice call support -->
-   <bool translatable="false"  name="config_voice_capable">false</bool>
 </resources>
