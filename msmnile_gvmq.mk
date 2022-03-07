@@ -2,6 +2,12 @@ TARGET_BOARD_PLATFORM := msmnile
 TARGET_BOOTLOADER_BOARD_NAME := msmnile
 TARGET_BOARD_TYPE := auto
 TARGET_BOARD_SUFFIX := _gvmq
+PRODUCT_MANUFACTURER := Qualcomm
+PRODUCT_DEVICE := msmnile_gvmq
+
+PRODUCT_VENDOR_PROPERTIES += \
+    ro.soc.manufacturer=$(PRODUCT_MANUFACTURER) \
+    ro.soc.model=$(PRODUCT_DEVICE)
 
 ALLOW_MISSING_DEPENDENCIES := true
 # Enable AVB 2.0
@@ -35,7 +41,7 @@ ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
   ENABLE_AB = true
   # Enable virtual-ab by default
   ifeq ($(ENABLE_AB), true)
-    ENABLE_VIRTUAL_AB ?= false
+    ENABLE_VIRTUAL_AB ?= true
   endif
   ifeq ($(ENABLE_VIRTUAL_AB), true)
     $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
@@ -73,7 +79,14 @@ PRODUCT_PROPERTY_OVERRIDES  += \
    dalvik.vm.heapminfree=512k \
    dalvik.vm.heapmaxfree=8m \
    vendor.gatekeeper.disable_spu = true \
+
+ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
+PRODUCT_PROPERTY_OVERRIDES  += \
+   persist.vendor.usb.config=diag,adb
+else
+PRODUCT_PROPERTY_OVERRIDES  += \
    persist.vendor.usb.config=adb
+endif
 
 $(call inherit-product, packages/services/Car/car_product/build/car.mk)
 
@@ -127,7 +140,14 @@ BOARD_FRP_PARTITION_NAME := frp
 PRODUCT_PACKAGES += libGLES_android
 
 # diag-router
-TARGET_HAS_DIAG_ROUTER := true
+ifeq ($(strip $(TARGET_BUILD_VARIANT)),user)
+    TARGET_HAS_DIAG_ROUTER := false
+else
+    TARGET_HAS_DIAG_ROUTER := true
+endif
+
+# Memtrack HAL deprecated. Replaced with AIDL for target-level 6.
+ENABLE_MEMTRACK_AIDL_HAL := true
 
 -include $(QCPATH)/common/config/qtic-config.mk
 
@@ -181,6 +201,12 @@ AUDIO_DLKM += audio_stub.ko
 AUDIO_DLKM += audio_native.ko
 AUDIO_DLKM += audio_machine_msmnile.ko
 PRODUCT_PACKAGES += $(AUDIO_DLKM)
+
+PCIE_DLKM := pci_msm_drv
+PRODUCT_PACKAGES += $(PCIE_DLKM)
+
+CNSS_DLKM := cnss2
+PRODUCT_PACKAGES += $(CNSS_DLKM)
 
 # HS-I2S DLKM
 PRODUCT_PACKAGES += hsi2s.ko
@@ -240,6 +266,11 @@ PRODUCT_COPY_FILES += device/qcom/msmnile/msm_irqbalance.conf:$(TARGET_COPY_OUT_
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.midi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.midi.xml
 
+#Copy unsupported features list
+PRODUCT_COPY_FILES += \
+    device/qcom/msmnile_gvmq/msmnile_gvmq_excluded_features.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/msmnile_gvmq_excluded_features.xml
+
+
 # Kernel modules install path
 KERNEL_MODULES_INSTALL := dlkm
 KERNEL_MODULES_OUT := out/target/product/msmnile_gvmq/$(KERNEL_MODULES_INSTALL)/lib/modules
@@ -295,10 +326,6 @@ PRODUCT_PACKAGES_DEBUG += bootctl
 PRODUCT_PACKAGES += \
    update_engine_sideload
 
-PRODUCT_PACKAGES += android.hardware.automotive.evs@1.0-service \
-    android.automotive.evs.manager@1.0 \
-    android.hardware.automotive.audiocontrol@1.0-service \
-
 PRODUCT_PACKAGES += android.hardware.health@2.1-service \
                     android.hardware.health@2.1-impl \
                     android.hardware.health@2.1-impl.recovery \
@@ -306,6 +333,7 @@ PRODUCT_PACKAGES += android.hardware.health@2.1-service \
                     android.hardware.thermal@2.0-service.mock \
 
 PRODUCT_PACKAGES += android.hardware.gnss@2.0-service
+PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 
 #add vndservicemanager
 PRODUCT_PACKAGES += vndservicemanager
