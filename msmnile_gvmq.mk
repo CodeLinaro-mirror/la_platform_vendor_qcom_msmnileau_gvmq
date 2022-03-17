@@ -2,7 +2,7 @@ TARGET_BOARD_PLATFORM := msmnile
 TARGET_BOOTLOADER_BOARD_NAME := msmnile
 TARGET_BOARD_TYPE := auto
 TARGET_BOARD_SUFFIX := _gvmq
-PRODUCT_MANUFACTURER := Qualcomm
+PRODUCT_MANUFACTURER := qti
 PRODUCT_DEVICE := msmnile_gvmq
 
 PRODUCT_VENDOR_PROPERTIES += \
@@ -87,6 +87,8 @@ else
 PRODUCT_PROPERTY_OVERRIDES  += \
    persist.vendor.usb.config=adb
 endif
+
+PRODUCT_PROPERTY_OVERRIDES += ro.control_privapp_permissions=enforce
 
 $(call inherit-product, packages/services/Car/car_product/build/car.mk)
 
@@ -225,15 +227,9 @@ PRODUCT_PACKAGES += update_engine \
     android.hardware.boot@1.2-impl-qti.recovery \
     update_engine_sideload
 
-
 # bootctrl property
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.vendor.bootctrl.enable=true
-
-PRODUCT_PACKAGES += fstab.postinstall \
-                    cppreopts.sh \
-                    preloads_copy.sh \
-                    cppreopts.rc
 
 PRODUCT_HOST_PACKAGES += \
 	brillo_update_payload
@@ -337,6 +333,14 @@ PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 
 #add vndservicemanager
 PRODUCT_PACKAGES += vndservicemanager
+
+#add neuralnetworks
+PRODUCT_PACKAGES += android.hardware.neuralnetworks@1.0.vendor \
+                    android.hardware.neuralnetworks@1.1.vendor \
+                    android.hardware.neuralnetworks@1.2.vendor \
+                    android.hardware.neuralnetworks@1.3.vendor
+
+
 
 ###################################################################################
 # This is the End of target.mk file.
