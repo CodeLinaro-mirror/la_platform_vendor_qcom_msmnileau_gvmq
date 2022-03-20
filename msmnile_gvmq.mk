@@ -36,7 +36,7 @@ VPP_TARGET_USES_SERVICE := NO
 RELAX_USES_LIBRARY_CHECK := true
 
 # Dynamic-partition enabled by default
-BOARD_DYNAMIC_PARTITION_ENABLE := false
+BOARD_DYNAMIC_PARTITION_ENABLE := true
 ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
   ENABLE_AB = true
   # Enable virtual-ab by default
