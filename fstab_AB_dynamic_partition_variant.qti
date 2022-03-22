@@ -36,7 +36,7 @@
 system                                                 /system                 ext4    ro,barrier=1,discard                                 wait,logical,first_stage_mount,slotselect,avb,avb_keys=/avb/qcar-gsi.avbpubkey
 system_ext                                             /system_ext             ext4    ro,barrier=1,discard                                 wait,logical,first_stage_mount,slotselect,avb
 vendor                                                 /vendor                 ext4    ro,barrier=1,discard                                 wait,logical,first_stage_mount,slotselect,avb
-/dev/block/metadata                                    /metadata               ext4    noatime,nosuid,nodev,discard                         wait,formattable,first_stage_mount,check
+/dev/block/by-name/metadata                            /metadata               ext4    noatime,nosuid,nodev,discard                         wait,formattable,first_stage_mount,check
 /dev/block/userdata                                    /data                   ext4    rw,noatime,nosuid,nodev                              wait,check,quota,reservedsize=128M
 /devices/platform/soc/8804000.sdhci/mmc_host*          /storage/sdcard1        vfat    nosuid,nodev                                         wait,voldmanaged=sdcard1:auto
 
@@ -48,5 +48,5 @@ vendor                                                 /vendor                 e
 # Need to have this entry in here even though the mount point itself is no longer needed.
 # The update_engine code looks for this entry in order to determine the boot device address
 # and fails if it does not find it.
-/dev/block/misc                                        /misc                   emmc    defaults                                             defaults
+/dev/block/by-name/misc                                /misc                   emmc    defaults                                             defaults
 /devices/*/xhci-hcd.*.auto*                            /storage/usbotg         vfat    nosuid,nodev                                         wait,voldmanaged=usbotg:auto

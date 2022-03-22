@@ -18,9 +18,11 @@ TARGET_FWK_SUPPORTS_AV_VALUEADDS := true
 TARGET_USES_AOSP_FOR_WLAN := false
 ENABLE_CAR_POWER_MANAGER := true
 VPP_TARGET_USES_SERVICE := NO
+TARGET_HAS_DIAG_ROUTER := true
+
 
 # Dynamic-partition enabled by default
-BOARD_DYNAMIC_PARTITION_ENABLE := false
+BOARD_DYNAMIC_PARTITION_ENABLE := true
 ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
   ENABLE_AB = true
   PRODUCT_USE_DYNAMIC_PARTITIONS := true
@@ -135,6 +137,13 @@ PRODUCT_PACKAGES += libGLES_android
 
 # diag-router
 TARGET_HAS_DIAG_ROUTER := true
+TARGET_NOT_SUPPORT_VULKAN := true
+
+# diag-router no there for user
+ifeq ($(strip $(TARGET_BUILD_VARIANT)),user)
+    TARGET_HAS_DIAG_ROUTER := false
+endif
+
 
 -include $(QCPATH)/common/config/qtic-config.mk
 
