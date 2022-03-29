@@ -82,6 +82,7 @@ on post-fs-data
 on boot
     chown system system /sys/devices/platform/soc/a600000.ssusb/mode
     chown system system /sys/devices/platform/soc/a800000.ssusb/mode
+    chown system system /sys/devices/platform/soc/a400000.ssusb/mode
     chown system system /sys/kernel/hbtp/display_pwr
     start rmt_storage
     start rfs_access
