@@ -3,6 +3,9 @@
 # Product-specific compile-time definitions.
 #
 
+#Generate DTBO image
+BOARD_KERNEL_SEPARATED_DTBO := true
+
 TARGET_SEPOLICY_DIR := gen3_gvmq
 
 TARGET_ARCH := arm64
@@ -38,9 +41,20 @@ BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/qcom/common/automotive
 
 USE_OPENGL_RENDERER := true
 BOARD_USE_LEGACY_UI := true
+
 # Set Header version for bootimage
-BOARD_BOOTIMG_HEADER_VERSION := 2
-BOARD_MKBOOTIMG_ARGS := --header_version $(BOARD_BOOTIMG_HEADER_VERSION)
+#Disable appended dtb
+TARGET_KERNEL_APPEND_DTB := false
+
+# Enable dtb in  boot image and boot image header version 3 support.
+BOARD_BOOT_HEADER_VERSION := 3
+
+BOARD_MKBOOTIMG_ARGS := --header_version $(BOARD_BOOT_HEADER_VERSION)
+
+ifeq ($(ENABLE_AB), true)
+BOARD_USES_RECOVERY_AS_BOOT := true
+TARGET_NO_RECOVERY := true
+endif
 
 ### Dynamic partition Handling
 ifneq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
@@ -70,6 +84,12 @@ else
   BOARD_EXT4_SHARE_DUP_BLOCKS := true
   BOARD_USES_METADATA_PARTITION := true
 endif
+
+#Enable DTBO for recovery image
+ifeq ($(BOARD_KERNEL_SEPARATED_DTBO), true)
+  BOARD_INCLUDE_RECOVERY_DTBO := true
+endif
+
 ### Dynamic partition Handling
 
 AB_OTA_UPDATER := true
@@ -100,7 +120,11 @@ ifneq ($(AB_OTA_UPDATER),true)
     TARGET_RECOVERY_UPDATER_LIBS += librecovery_updater_msm
 endif
 
+ifneq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
 TARGET_RECOVERY_FSTAB := device/qcom/msmnile_gvmq/fstab.qcom
+ else
+   TARGET_RECOVERY_FSTAB := device/qcom/msmnile_gvmq/fstab.qcom
+ endif
 
 #Enable split vendor image
 ENABLE_VENDOR_IMAGE := true
@@ -111,6 +135,7 @@ BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
 endif
 TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_BOOTIMAGE_PARTITION_SIZE := 0x04000000
+BOARD_VENDOR_BOOTIMAGE_PARTITION_SIZE := 0x04000000
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 10737418240
 BOARD_PERSISTIMAGE_PARTITION_SIZE := 33554432
 BOARD_METADATAIMAGE_PARTITION_SIZE := 16777216
@@ -136,6 +161,8 @@ ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
         BOARD_VENDOR_KERNEL_MODULES += $(KERNEL_MODULES_OUT)/lkdtm.ko
     endif
 endif
+
+BOARD_DO_NOT_STRIP_VENDOR_MODULES := true
 
 BOARD_VENDOR_KERNEL_MODULES += $(shell ls $(KERNEL_MODULES_OUT)/*.ko)
 TARGET_USES_ION := true
@@ -178,7 +205,7 @@ TARGET_NO_RPC := true
 TARGET_PLATFORM_DEVICE_BASE := /devices/soc.0/
 TARGET_INIT_VENDOR_LIB := libinit_msm
 
-TARGET_KERNEL_APPEND_DTB := false
+
 TARGET_COMPILE_WITH_MSM_KERNEL := true
 
 #Enable PD locater/notifier
@@ -208,9 +235,6 @@ USE_SENSOR_MULTI_HAL := false
 USE_SENSOR_HAL_VER := 1.0
 #Add non-hlos files to ota packages
 ADD_RADIO_FILES := true
-
-#Generate DTBO image
-BOARD_KERNEL_SEPARATED_DTBO := true
 
 #Enable INTERACTION_BOOST
 TARGET_USES_INTERACTION_BOOST := true
