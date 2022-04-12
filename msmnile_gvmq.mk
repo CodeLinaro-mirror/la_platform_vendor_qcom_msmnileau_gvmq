@@ -2,6 +2,12 @@ TARGET_BOARD_PLATFORM := msmnile
 TARGET_BOOTLOADER_BOARD_NAME := msmnile
 TARGET_BOARD_TYPE := auto
 TARGET_BOARD_SUFFIX := _gvmq
+PRODUCT_MANUFACTURER := qti
+PRODUCT_DEVICE := msmnile_gvmq
+
+PRODUCT_VENDOR_PROPERTIES += \
+    ro.soc.manufacturer=$(PRODUCT_MANUFACTURER) \
+    ro.soc.model=$(PRODUCT_DEVICE)
 
 ALLOW_MISSING_DEPENDENCIES := true
 # Enable AVB 2.0
@@ -35,7 +41,7 @@ ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
   ENABLE_AB = true
   # Enable virtual-ab by default
   ifeq ($(ENABLE_AB), true)
-    ENABLE_VIRTUAL_AB ?= false
+    ENABLE_VIRTUAL_AB ?= true
   endif
   ifeq ($(ENABLE_VIRTUAL_AB), true)
     $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
@@ -81,6 +87,8 @@ else
 PRODUCT_PROPERTY_OVERRIDES  += \
    persist.vendor.usb.config=adb
 endif
+
+PRODUCT_PROPERTY_OVERRIDES += ro.control_privapp_permissions=enforce
 
 $(call inherit-product, packages/services/Car/car_product/build/car.mk)
 
@@ -136,7 +144,12 @@ PRODUCT_PACKAGES += libGLES_android
 # diag-router
 ifeq ($(strip $(TARGET_BUILD_VARIANT)),user)
     TARGET_HAS_DIAG_ROUTER := false
+else
+    TARGET_HAS_DIAG_ROUTER := true
 endif
+
+# Memtrack HAL deprecated. Replaced with AIDL for target-level 6.
+ENABLE_MEMTRACK_AIDL_HAL := true
 
 -include $(QCPATH)/common/config/qtic-config.mk
 
@@ -214,15 +227,9 @@ PRODUCT_PACKAGES += update_engine \
     android.hardware.boot@1.2-impl-qti.recovery \
     update_engine_sideload
 
-
 # bootctrl property
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.vendor.bootctrl.enable=true
-
-PRODUCT_PACKAGES += fstab.postinstall \
-                    cppreopts.sh \
-                    preloads_copy.sh \
-                    cppreopts.rc
 
 PRODUCT_HOST_PACKAGES += \
 	brillo_update_payload
@@ -255,6 +262,11 @@ PRODUCT_COPY_FILES += device/qcom/msmnile/msm_irqbalance.conf:$(TARGET_COPY_OUT_
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.midi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.midi.xml
 
+#Copy unsupported features list
+PRODUCT_COPY_FILES += \
+    device/qcom/msmnile_gvmq/msmnile_gvmq_excluded_features.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/msmnile_gvmq_excluded_features.xml
+
+
 # Kernel modules install path
 KERNEL_MODULES_INSTALL := dlkm
 KERNEL_MODULES_OUT := out/target/product/msmnile_gvmq/$(KERNEL_MODULES_INSTALL)/lib/modules
@@ -283,7 +295,7 @@ ENABLE_VENDOR_RIL_SERVICE := true
 #----------------------------------------------------------------------
 ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
 # Multiple chips
-TARGET_WLAN_CHIP := qca6174 qca6390 qcn7605
+TARGET_WLAN_CHIP := qca6174 qca6390 qcn7605 qca6490
 include device/qcom/wlan/msmnile_au/wlan.mk
 endif
 
@@ -310,8 +322,6 @@ PRODUCT_PACKAGES_DEBUG += bootctl
 PRODUCT_PACKAGES += \
    update_engine_sideload
 
-PRODUCT_PACKAGES += android.hardware.automotive.audiocontrol@1.0-service
-
 PRODUCT_PACKAGES += android.hardware.health@2.1-service \
                     android.hardware.health@2.1-impl \
                     android.hardware.health@2.1-impl.recovery \
@@ -319,9 +329,18 @@ PRODUCT_PACKAGES += android.hardware.health@2.1-service \
                     android.hardware.thermal@2.0-service.mock \
 
 PRODUCT_PACKAGES += android.hardware.gnss@2.0-service
+PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 
 #add vndservicemanager
 PRODUCT_PACKAGES += vndservicemanager
+
+#add neuralnetworks
+PRODUCT_PACKAGES += android.hardware.neuralnetworks@1.0.vendor \
+                    android.hardware.neuralnetworks@1.1.vendor \
+                    android.hardware.neuralnetworks@1.2.vendor \
+                    android.hardware.neuralnetworks@1.3.vendor
+
+
 
 ###################################################################################
 # This is the End of target.mk file.
