@@ -43,9 +43,17 @@ ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
   ifeq ($(ENABLE_AB), true)
     PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_RAMDISK)/fstab.qcom
     PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_RECOVERY)/root/first_stage_ramdisk/fstab.qcom
+    PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.ufs.qti:$(TARGET_COPY_OUT_RAMDISK)/fstab.ufs.qcom
+    PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.ufs.qti:$(TARGET_COPY_OUT_RECOVERY)/root/first_stage_ramdisk/fstab.ufs.qcom
+    PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.emmc.qti:$(TARGET_COPY_OUT_RAMDISK)/fstab.emmc.qcom
+    PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.emmc.qti:$(TARGET_COPY_OUT_RECOVERY)/root/first_stage_ramdisk/fstab.emmc.qcom
   else
     PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_RAMDISK)/fstab.qcom
     PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_RECOVERY)/root/first_stage_ramdisk/fstab.qcom
+    PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.ufs.qti:$(TARGET_COPY_OUT_RAMDISK)/fstab.ufs.qcom
+    PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.ufs.qti:$(TARGET_COPY_OUT_RECOVERY)/root/first_stage_ramdisk/fstab.ufs.qcom
+    PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.emmc.qti:$(TARGET_COPY_OUT_RAMDISK)/fstab.emmc.qcom
+    PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.emmc.qti:$(TARGET_COPY_OUT_RECOVERY)/root/first_stage_ramdisk/fstab.emmc.qcom
   endif
 else
   #System as root is false and recovery as boot is true
@@ -329,7 +337,8 @@ PRODUCT_PACKAGES += android.hardware.health@2.1-service \
                     android.hardware.health@2.1-impl.recovery \
 #add vndservicemanager
 PRODUCT_PACKAGES += vndservicemanager
-
+PRODUCT_PACKAGES += fstab.ufs.qti
+PRODUCT_PACKAGES += fstab.emmc.qti
 # Enabling cameraserver
 PRODUCT_PACKAGES += cameraserver
 PRODUCT_PACKAGES += android.hardware.camera.common@1.0
