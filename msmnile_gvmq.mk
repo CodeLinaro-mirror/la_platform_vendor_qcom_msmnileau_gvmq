@@ -60,6 +60,7 @@ TARGET_USES_RRO := true
 
 #Enable Userspace Restart
 $(call inherit-product, $(SRC_TARGET_DIR)/product/userspace_reboot.mk)
+TARGET_SUPPORT_DUAL_WLAN := true
 
 
 # Dynamic-partition enabled by default
