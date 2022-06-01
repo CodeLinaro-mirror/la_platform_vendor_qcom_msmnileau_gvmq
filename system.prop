@@ -94,6 +94,9 @@ ro.hardware.sensors=msmnile.asm_auto
 #
 ro.qc.sdk.audio.ssr=false
 
+#for resolving skip-preconditions flag usage issue
+ro.build.representative.fingerprint=0
+
 ##fluencetype can be "fluence" or "fluencepro" or "none"
 ro.qc.sdk.audio.fluencetype=none
 persist.audio.fluence.voicecall=true
@@ -195,6 +198,9 @@ vendor.display.builtin_mirroring=true
 vendor.display.builtin_baseid_and_size=5,3
 vendor.display.pluggable_baseid_and_size=1,4
 vendor.display.virtual_baseid_and_size=8,1
+
+#Disable boot animation
+debug.sf.nobootanimation=1
 
 # Enable CPMS for LPM
 persist.vendor.car.lpm=true
