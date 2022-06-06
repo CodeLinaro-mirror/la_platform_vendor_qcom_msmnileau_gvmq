@@ -152,6 +152,8 @@ ifeq ($(strip $(TARGET_BUILD_VARIANT)),user)
     TARGET_HAS_DIAG_ROUTER := false
 endif
 
+# eap-qti-apps
+TARGET_HAS_EAP_QTI_APPS := true
 
 -include $(QCPATH)/common/config/qtic-config.mk
 
