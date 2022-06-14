@@ -316,6 +316,7 @@ PRODUCT_PACKAGES += android.hardware.health@2.1-service \
 #add vndservicemanager
 PRODUCT_PACKAGES += vndservicemanager
 
+PRODUCT_ENFORCE_RRO_TARGETS := framework-res
 PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 
 # privapp-permissions whitelisting (To Fix CTS :privappPermissionsMustBeEnforced)
