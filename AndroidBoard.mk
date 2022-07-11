@@ -39,7 +39,7 @@ TARGET_KERNEL_MAKE_ENV += HOSTCFLAGS="-I$$(pwd)/kernel/msm-4.14/include/uapi -I/
 TARGET_KERNEL_MAKE_ENV += HOSTLDFLAGS="-L/usr/lib -L/usr/lib/x86_64-linux-gnu -fuse-ld=lld"
 
 #include $(TARGET_KERNEL_SOURCE)/AndroidKernel.mk
-include device/qcom/kernelscripts/kernel_definitions.mk
+#include device/qcom/kernelscripts/kernel_definitions.mk
 $(TARGET_PREBUILT_KERNEL): $(DTC) $(UFDT_APPLY_OVERLAY)
 
 $(INSTALLED_KERNEL_TARGET): $(TARGET_PREBUILT_KERNEL) | $(ACP)
