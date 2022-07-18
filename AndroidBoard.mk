@@ -94,7 +94,7 @@ endif ##BOARD_DYNAMIC_PARTITION_ENABLE
 
 ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
   include $(CLEAR_VARS)
-  LOCAL_MODULE       := fstab.gen4.qti
+  LOCAL_MODULE       := fstab.gen4.qcom
   LOCAL_MODULE_TAGS  := optional
   LOCAL_MODULE_CLASS := ETC
   ifeq ($(ENABLE_AB), true)
@@ -106,7 +106,7 @@ ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
   include $(BUILD_PREBUILT)
 else
   include $(CLEAR_VARS)
-  LOCAL_MODULE       := fstab.gen4.qti
+  LOCAL_MODULE       := fstab.gen4.qcom
   LOCAL_MODULE_CLASS := ETC
   LOCAL_SRC_FILES    := $(LOCAL_MODULE)
   LOCAL_MODULE_PATH  := $(TARGET_OUT_VENDOR_ETC)

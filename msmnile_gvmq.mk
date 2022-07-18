@@ -327,7 +327,7 @@ PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 
 #add vndservicemanager
 PRODUCT_PACKAGES += vndservicemanager
-PRODUCT_PACKAGES += fstab.gen4.qti
+PRODUCT_PACKAGES += fstab.gen4.qcom
 
 #add neuralnetworks
 PRODUCT_PACKAGES += android.hardware.neuralnetworks@1.0.vendor \
