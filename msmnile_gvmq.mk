@@ -210,9 +210,6 @@ AUDIO_DLKM += audio_native.ko
 AUDIO_DLKM += audio_machine_msmnile.ko
 PRODUCT_PACKAGES += $(AUDIO_DLKM)
 
-PCIE_DLKM := pci_msm_drv
-PRODUCT_PACKAGES += $(PCIE_DLKM)
-
 CNSS_DLKM := cnss2
 PRODUCT_PACKAGES += $(CNSS_DLKM)
 
@@ -307,6 +304,8 @@ ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
 # Multiple chips
 TARGET_WLAN_CHIP := qca6174 qca6390 qcn7605
 include device/qcom/wlan/msmnile_au/wlan.mk
+WLAN_CFG_OVERRIDE_qca6390 += CONFIG_VCPU_TIMESTOLEN=y
+WLAN_CFG_OVERRIDE_qca6174 += CONFIG_VCPU_TIMESTOLEN=y
 endif
 
 TARGET_MOUNT_POINTS_SYMLINKS := false
