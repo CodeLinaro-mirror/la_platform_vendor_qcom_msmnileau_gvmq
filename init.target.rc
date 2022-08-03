@@ -28,11 +28,20 @@
 #
 
 on early-init
-    exec_background u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules snd_event_dlkm wglink_dlkm q6_pdr_dlkm q6_notifier_dlkm apr_dlkm adsp_loader_dlkm q6_dlkm native_dlkm usf_dlkm pinctrl_wcd_dlkm swr_dlkm platform_dlkm wcd_spi_dlkm stub_dlkm wcd_core_dlkm wsa881x_dlkm wcd9360_dlkm hdmi_dlkm machine_dlkm pci-msm-drv
     chown system system /sys/kernel/boot_kpi/kpi_values
     write /proc/sys/kernel/sched_boost 1
     symlink /data/tombstones /tombstones
     write /sys/kernel/boot_kpi/kpi_values "M - INITRC Userspace Start"
+
+# Elite
+on early-init && property:ro.boot.audio=""
+    exec_background u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules snd_event_dlkm wglink_dlkm q6_pdr_dlkm q6_notifier_dlkm apr_dlkm adsp_loader_dlkm q6_dlkm native_dlkm usf_dlkm pinctrl_wcd_dlkm swr_dlkm platform_dlkm wcd_spi_dlkm stub_dlkm wcd_core_dlkm wsa881x_dlkm wcd9360_dlkm hdmi_dlkm machine_dlkm
+
+# AudioReach
+on early-init && property:ro.boot.audio=audioreach
+    exec_background u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules stub_dlkm spf_machine_dlkm
+    setprop ro.hardware.audio.primary "msmnile.ar"
+    setprop ro.hardware.sound_trigger.primary "msmnile.ar"
 
 on init
     mkdir /mnt/vendor/dvr_ctl 0755 system system
@@ -57,14 +66,14 @@ on property:vendor.gdb.dump=true
     write /proc/sys/kernel/core_pattern "/data/core/core.%e.%p.%h.%t"
 
 on fs
-    mount_all /vendor/etc/fstab.qcom --early
+    mount_all --early
     chown root system /mnt/vendor/persist
     chmod 0771 /mnt/vendor/persist
     restorecon_recursive /mnt/vendor/persist
     mkdir /mnt/vendor/persist/data 0700 system system
 
 on late-fs
-    mount_all /vendor/etc/fstab.qcom --late
+    mount_all --late
 
 on post-fs
     # set RLIMIT_MEMLOCK to 64MB
@@ -87,6 +96,9 @@ on post-fs-data
 # For cpusets initialize for Silver Only first and then Silver + Gold
 # Silver Only configuration cannot work with 0-7
 on boot
+    chown system system /sys/devices/platform/soc/a600000.ssusb/mode
+    chown system system /sys/devices/platform/soc/a800000.ssusb/mode
+    chown system system /sys/devices/platform/soc/a400000.ssusb/mode
     chown system system /sys/kernel/hbtp/display_pwr
     start rmt_storage
     start rfs_access
@@ -112,9 +124,6 @@ on property:init.svc.zygote=running
 on property:service.bootanim.exit=0
     write /sys/kernel/boot_kpi/kpi_values "K - USER Boot Animation Start"
 
-on property:init.svc.media=running
-    write /sys/kernel/boot_kpi/kpi_values "M - USER MediaServer Start"
-
 on property:sys.boot_completed=1
     write /sys/kernel/boot_kpi/kpi_values "K - USER Android Boot Complete"
 
@@ -128,14 +137,11 @@ on property:init.svc.surfaceflinger=running
     setprop vendor.usb.dpl.inst.name "dpl"
     setprop vendor.usb.qdss.inst.name "qdss"
     setprop vendor.usb.controller a600000.dwc3
-    setprop sys.usb.configfs 1
 
 on boot && property:persist.vendor.usb.controller.default=*
     setprop vendor.usb.controller ${persist.vendor.usb.controller.default}
 
 on property:vendor.usb.controller=*
-    setprop sys.usb.controller ${vendor.usb.controller}
-
 #Load WLAN driver
     exec u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules cnss2
     start wlan_multiko
@@ -225,8 +231,8 @@ on boot
     insmod /vendor/lib/modules/emac_dwc_eqos.ko
 
 service carpowerd /vendor/bin/car_power_daemon
-    user root
-    group root system inet
+    user system
+    group system inet
     disabled
 
 on property:sys.boot_completed=1
