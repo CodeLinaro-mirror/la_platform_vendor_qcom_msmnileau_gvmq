@@ -69,7 +69,5 @@
     <!-- No Sensor support -->
     <unavailable-feature name="android.hardware.sensor.compass" />
     <unavailable-feature name="android.hardware.sensor.accelerometer" />
-    <!-- No Location Provider -->
-    <unavailable-feature name="android.hardware.location.network" />
 
 </permissions>
