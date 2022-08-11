@@ -60,10 +60,6 @@
     <unavailable-feature name="android.software.picture_in_picture" />
     <!-- No backup feature -->
     <unavailable-feature name="android.software.backup" />
-    <!-- No camera and flashlight support -->
-    <unavailable-feature name="android.hardware.camera" />
-    <unavailable-feature name="android.hardware.camera.front" />
-    <unavailable-feature name="android.hardware.camera.flash" />
     <!-- No Managed Users -->
     <unavailable-feature name="android.software.managed_users" />
     <!-- No Sensor support -->
