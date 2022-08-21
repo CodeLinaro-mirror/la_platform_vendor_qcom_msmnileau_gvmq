@@ -64,5 +64,12 @@
     <unavailable-feature name="android.hardware.camera" />
     <unavailable-feature name="android.hardware.camera.front" />
     <unavailable-feature name="android.hardware.camera.flash" />
+    <!-- No Managed Users -->
+    <unavailable-feature name="android.software.managed_users" />
+    <!-- No Sensor support -->
+    <unavailable-feature name="android.hardware.sensor.compass" />
+    <unavailable-feature name="android.hardware.sensor.accelerometer" />
+    <!-- No Location Provider -->
+    <unavailable-feature name="android.hardware.location.network" />
 
 </permissions>
