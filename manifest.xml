@@ -86,6 +86,36 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <instance>default</instance>
         </interface>
     </hal>
+
+    <hal format="hidl" optional="false">
+        <name>android.hardware.graphics.allocator</name>
+        <!-- New, non-Go devices should use 4.0, tested in vts_treble_vintf_vendor_test -->
+        <transport>hwbinder</transport>
+        <version>4.0</version>
+        <interface>
+        <name>IAllocator</name>
+        <instance>default</instance>
+        </interface>
+    </hal>
+    <hal format="hidl" optional="false">
+        <name>android.hardware.graphics.mapper</name>
+        <transport>hwbinder</transport>
+        <version>4.0</version>
+        <interface>
+        <name>IMapper</name>
+        <instance>default</instance>
+        </interface>
+    </hal>
+    <hal format="hidl" optional="false">
+        <name>android.hardware.graphics.composer</name>
+        <transport>hwbinder</transport>
+        <version>2.1</version>
+        <interface>
+        <name>IComposer</name>
+        <instance>default</instance>
+        </interface>
+    </hal>
+
     <!-- graphics renderscript-->
     <hal format="hidl">
         <name>android.hardware.renderscript</name>
@@ -129,15 +159,6 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         </interface>
     </hal>
     <!-- keymaster -->
-    <hal format="hidl">
-       <name>android.hardware.keymaster</name>
-       <transport>hwbinder</transport>
-       <version>4.0</version>
-       <interface>
-           <name>IKeymasterDevice</name>
-           <instance>default</instance>
-       </interface>
-    </hal>
     <!-- gatekeeper -->
     <hal format="hidl">
        <name>android.hardware.gatekeeper</name>
@@ -320,15 +341,6 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <version>1.0</version>
         <interface>
             <name>ICapabilityConfigStore</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
-    <hal format="hidl">
-        <name>android.hardware.automotive.vehicle</name>
-        <transport>hwbinder</transport>
-        <version>2.0</version>
-        <interface>
-            <name>IVehicle</name>
             <instance>default</instance>
         </interface>
     </hal>
