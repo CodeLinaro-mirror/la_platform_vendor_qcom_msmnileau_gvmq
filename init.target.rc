@@ -36,6 +36,7 @@ on early-init
 # Elite
 on early-init && property:ro.boot.audio=""
     exec_background u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules snd_event_dlkm wglink_dlkm q6_pdr_dlkm q6_notifier_dlkm apr_dlkm adsp_loader_dlkm q6_dlkm native_dlkm usf_dlkm pinctrl_wcd_dlkm swr_dlkm platform_dlkm wcd_spi_dlkm stub_dlkm wcd_core_dlkm wsa881x_dlkm wcd9360_dlkm hdmi_dlkm machine_dlkm
+    setprop vendor.audio.card.def "/vendor/etc/card-defs-dummy.xml"
 
 # AudioReach
 on early-init && property:ro.boot.audio=audioreach
@@ -66,14 +67,14 @@ on property:vendor.gdb.dump=true
     write /proc/sys/kernel/core_pattern "/data/core/core.%e.%p.%h.%t"
 
 on fs
-    mount_all /vendor/etc/fstab.qcom --early
+    mount_all --early
     chown root system /mnt/vendor/persist
     chmod 0771 /mnt/vendor/persist
     restorecon_recursive /mnt/vendor/persist
     mkdir /mnt/vendor/persist/data 0700 system system
 
 on late-fs
-    mount_all /vendor/etc/fstab.qcom --late
+    mount_all --late
 
 on post-fs
     # set RLIMIT_MEMLOCK to 64MB

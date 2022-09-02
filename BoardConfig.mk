@@ -171,6 +171,10 @@ TARGET_USES_QCOM_BSP := false
 
 BOARD_KERNEL_CMDLINE := console=hvc0,115200 debug user_debug=31 loglevel=9 print-fatal-signals=1 androidboot.console=ttyAMA0 androidboot.hardware=qcom androidboot.selinux=enforcing androidboot.memcg=1 init=/init swiotlb=4096 androidboot.usbcontroller=a600000.dwc3 androidboot.recover_usb=1 kpti=0 pcie_ports=compat firmware_class.path=/vendor/firmware_mnt/image loop.max_part=7 androidboot.dtbo_idx=1
 
+ifneq ($(TARGET_BUILD_VARIANT),user)
+      BOARD_KERNEL_CMDLINE += slub_debug=FZPU
+endif
+
 BOARD_EGL_CFG := device/qcom/$(TARGET_BOARD_PLATFORM)/egl.cfg
 
 BOARD_KERNEL_BASE        := 0x00000000

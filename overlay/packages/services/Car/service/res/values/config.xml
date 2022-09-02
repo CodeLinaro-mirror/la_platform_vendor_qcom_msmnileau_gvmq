@@ -38,4 +38,6 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
    <string-array translatable="false" name="config_occupant_display_mapping">
       <item>displayPort=129,displayType=MAIN,occupantZoneId=0</item>
    </string-array>
+   <!-- A name of a camera device that provides the rearview through EVS service -->
+   <string name="config_evsRearviewCameraId" translatable="false">0</string>
 </resources>
