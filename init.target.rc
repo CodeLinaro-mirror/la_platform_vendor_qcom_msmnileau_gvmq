@@ -226,3 +226,9 @@ service carpowerd /vendor/bin/car_power_daemon
 
 on property:sys.boot_completed=1
     start carpowerd
+
+service vendor.modem-monitor /vendor/bin/modem-monitor
+    user root
+    group root system
+    disabled
+
