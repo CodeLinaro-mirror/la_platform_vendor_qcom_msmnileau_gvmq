@@ -66,14 +66,14 @@ on property:vendor.gdb.dump=true
     write /proc/sys/kernel/core_pattern "/data/core/core.%e.%p.%h.%t"
 
 on fs
-    mount_all /vendor/etc/fstab.qcom --early
+    mount_all --early
     chown root system /mnt/vendor/persist
     chmod 0771 /mnt/vendor/persist
     restorecon_recursive /mnt/vendor/persist
     mkdir /mnt/vendor/persist/data 0700 system system
 
 on late-fs
-    mount_all /vendor/etc/fstab.qcom --late
+    mount_all --late
 
 on post-fs
     # set RLIMIT_MEMLOCK to 64MB
@@ -123,9 +123,6 @@ on property:init.svc.zygote=running
 
 on property:service.bootanim.exit=0
     write /sys/kernel/boot_kpi/kpi_values "K - USER Boot Animation Start"
-
-on property:init.svc.media=running
-    write /sys/kernel/boot_kpi/kpi_values "M - USER MediaServer Start"
 
 on property:sys.boot_completed=1
     write /sys/kernel/boot_kpi/kpi_values "K - USER Android Boot Complete"

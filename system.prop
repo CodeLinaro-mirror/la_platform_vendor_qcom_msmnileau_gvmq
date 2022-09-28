@@ -41,7 +41,7 @@ media.aac_51_output_enabled=true
 mm.enable.smoothstreaming=true
 #13631487 is decimal sum of supported codecs in AAL
 #codecs:(PARSER_)AAC AC3 AMR_NB AMR_WB ASF AVI DTS FLV 3GP 3G2 MKV MP2PS MP2TS MP3 OGG QCP WAV FLAC AIFF APE DSD MOV XVID
-vendor.mm.enable.qcom_parser=63963135
+vendor.mm.enable.qcom_parser=63897599
 persist.mm.enable.prefetch=true
 
 #
@@ -89,6 +89,10 @@ persist.bt.clock_boottime_alarm=false
 ro.hardware.type=automotive
 
 ro.hardware.sensors=msmnile.asm_auto
+
+#system prop for sensordata
+ro.gas.sharesensordata.enabled=1
+
 #
 #snapdragon value add features
 #
@@ -115,7 +119,7 @@ persist.data.df.iwlan_mux=9
 persist.data.df.dev_name=rmnet_usb0
 
 #property to enable user to access Google WFD settings
-persist.debug.wfd.enable=1
+persist.debug.wfd.enable=0
 ##property to choose between virtual/external wfd display
 persist.sys.wfd.virtual=0
 
@@ -217,3 +221,6 @@ ro.boot.wificountrycode=us
 # So the property should be set as false.
 persist.bluetooth.enablenewavrcp=false
 
+#property for wifi predefined SAP iface names
+ro.vendor.wifi.sap.interface=swlan0
+ro.vendor.wifi.sap.concurrent.iface=swlan1
