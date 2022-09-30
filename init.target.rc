@@ -235,5 +235,10 @@ service carpowerd /vendor/bin/car_power_daemon
     group system inet
     disabled
 
+#Install Bluetooth power driver for the 2nd Bluetooth chip
+on property:ro.vehicle.dual_bt=true
+    insmod /vendor/lib/modules/btpower_new.ko
+    chmod 0666 /sys/class/rfkill/rfkill1/state
+
 on property:sys.boot_completed=1
     start carpowerd
