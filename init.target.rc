@@ -150,12 +150,6 @@ service wlan_multiko /vendor/bin/init.qcom.wlan.sh
     disabled
     oneshot
 
-#pd-mapper
-service vendor.pd_mapper /vendor/bin/pd-mapper
-    class core
-    user system
-    group system
-
 service vendor.sec_nvm /vendor/bin/sec_nvm
     class core
     user system
