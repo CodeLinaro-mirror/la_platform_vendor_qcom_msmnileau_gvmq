@@ -19,7 +19,7 @@ TARGET_USES_AOSP_FOR_WLAN := false
 ENABLE_CAR_POWER_MANAGER := true
 VPP_TARGET_USES_SERVICE := NO
 TARGET_HAS_DIAG_ROUTER := true
-
+TARGET_NOT_SUPPORT_VULKAN := true
 
 # Dynamic-partition enabled by default
 BOARD_DYNAMIC_PARTITION_ENABLE := false
@@ -140,7 +140,6 @@ ifeq ($(strip $(TARGET_BUILD_VARIANT)),user)
     TARGET_HAS_DIAG_ROUTER := false
 endif
 
-TARGET_NOT_SUPPORT_VULKAN := true
 
 -include $(QCPATH)/common/config/qtic-config.mk
 
@@ -296,6 +295,8 @@ ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
 # Multiple chips
 TARGET_WLAN_CHIP := qca6174 qca6390 qcn7605
 include device/qcom/wlan/msmnile_au/wlan.mk
+WLAN_CFG_OVERRIDE_qca6390 += CONFIG_VCPU_TIMESTOLEN=y
+WLAN_CFG_OVERRIDE_qca6174 += CONFIG_VCPU_TIMESTOLEN=y
 endif
 
 TARGET_MOUNT_POINTS_SYMLINKS := false
@@ -350,6 +351,7 @@ PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-service
 PRODUCT_PROPERTY_OVERRIDES += ro.hardware.camera=v4l2
 PRODUCT_PACKAGES += camera.v4l2
 
+PRODUCT_ENFORCE_RRO_TARGETS := framework-res
 PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 
 # privapp-permissions whitelisting (To Fix CTS :privappPermissionsMustBeEnforced)
