@@ -108,8 +108,8 @@ PRODUCT_MODEL := msmnile_gvmq for arm64
 PRODUCT_COPY_FILES += \
     device/qcom/msmnile_gvmq/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf
 
-SHIPPING_API_LEVEL := 31
-PRODUCT_SHIPPING_API_LEVEL := 31
+SHIPPING_API_LEVEL := 32
+PRODUCT_SHIPPING_API_LEVEL := 32
 
 #Initial bringup flags
 
@@ -291,9 +291,18 @@ ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
 # Multiple chips
 TARGET_WLAN_CHIP := qca6174 qca6390 qcn7605 qca6490
 include device/qcom/wlan/msmnile_au/wlan.mk
+WLAN_CFG_OVERRIDE_qca6390 += CONFIG_VCPU_TIMESTOLEN=y
+WLAN_CFG_OVERRIDE_qca6174 += CONFIG_VCPU_TIMESTOLEN=y
+WLAN_CFG_OVERRIDE_qcn7605 += CONFIG_VCPU_TIMESTOLEN=y
+WLAN_CFG_OVERRIDE_qca6490 += CONFIG_VCPU_TIMESTOLEN=y
 endif
 
 TARGET_MOUNT_POINTS_SYMLINKS := false
+
+#Copy supported features list
+ifeq ($(TARGET_USES_GAS),true)
+PRODUCT_COPY_FILES += device/qcom/msmnile_gvmq/msmnile_gvmq_features.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/msmnile_gvmq_features.xml
+endif
 
 # Camera configuration file. Shared by passthrough/binderized camera HAL
 PRODUCT_PACKAGES += camera.device@3.2-impl
