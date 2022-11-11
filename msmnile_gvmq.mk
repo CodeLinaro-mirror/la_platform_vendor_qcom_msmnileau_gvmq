@@ -34,6 +34,7 @@ TARGET_NO_TELEPHONY := true
 TARGET_USES_QTIC := false
 TARGET_USES_QTIC_EXTENSION := false
 ENABLE_HYP := true
+TARGET_CONSOLE_ENABLED ?= true
 # FR77687: Migrate AIDL interface using -ndk_platform.so to -ndk.so
 NEED_AIDL_NDK_PLATFORM_BACKEND := true
 BOARD_HAS_QCOM_WLAN := false
