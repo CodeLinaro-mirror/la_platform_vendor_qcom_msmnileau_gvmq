@@ -86,36 +86,6 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <instance>default</instance>
         </interface>
     </hal>
-
-    <hal format="hidl" optional="false">
-        <name>android.hardware.graphics.allocator</name>
-        <!-- New, non-Go devices should use 4.0, tested in vts_treble_vintf_vendor_test -->
-        <transport>hwbinder</transport>
-        <version>4.0</version>
-        <interface>
-        <name>IAllocator</name>
-        <instance>default</instance>
-        </interface>
-    </hal>
-    <hal format="hidl" optional="false">
-        <name>android.hardware.graphics.mapper</name>
-        <transport>hwbinder</transport>
-        <version>4.0</version>
-        <interface>
-        <name>IMapper</name>
-        <instance>default</instance>
-        </interface>
-    </hal>
-    <hal format="hidl" optional="false">
-        <name>android.hardware.graphics.composer</name>
-        <transport>hwbinder</transport>
-        <version>2.1</version>
-        <interface>
-        <name>IComposer</name>
-        <instance>default</instance>
-        </interface>
-    </hal>
-
     <!-- graphics renderscript-->
     <hal format="hidl">
         <name>android.hardware.renderscript</name>
