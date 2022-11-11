@@ -169,7 +169,18 @@ TARGET_USES_ION := true
 TARGET_USES_NEW_ION_API :=true
 TARGET_USES_QCOM_BSP := false
 
-BOARD_KERNEL_CMDLINE := console=hvc0,115200 debug user_debug=31 loglevel=9 print-fatal-signals=1 androidboot.console=ttyAMA0 androidboot.hardware=qcom androidboot.selinux=enforcing androidboot.memcg=1 init=/init swiotlb=4096 androidboot.usbcontroller=a600000.dwc3 androidboot.recover_usb=1 kpti=0 pcie_ports=compat firmware_class.path=/vendor/firmware_mnt/image
+BOARD_BOOTCONFIG := androidboot.hardware=qcom androidboot.selinux=enforcing androidboot.memcg=1 androidboot.usbcontroller=a600000.dwc3 androidboot.recover_usb=1
+
+BOARD_KERNEL_CMDLINE := debug user_debug=31 loglevel=9 print-fatal-signals=1  init=/init swiotlb=4096  kpti=0 pcie_ports=compat firmware_class.path=/vendor/firmware_mnt/image
+
+ifeq ($(TARGET_CONSOLE_ENABLED),true)
+BOARD_KERNEL_CMDLINE += console=hvc0,115200
+BOARD_BOOTCONFIG += androidboot.console=ttyAMA0
+else
+ifeq ($(TARGET_CONSOLE_ENABLED),false)
+BOARD_KERNEL_CMDLINE += qcom_geni_serial.con_enabled=0
+endif
+endif
 
 BOARD_EGL_CFG := device/qcom/$(TARGET_BOARD_PLATFORM)/egl.cfg
 
