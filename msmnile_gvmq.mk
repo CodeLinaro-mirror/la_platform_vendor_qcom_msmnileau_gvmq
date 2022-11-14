@@ -249,6 +249,10 @@ PRODUCT_PACKAGES += update_engine \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.vendor.bootctrl.enable=true
 
+PRODUCT_PROPERTY_OVERRIDES  += \
+   ro.crypto.state=unencrypted
+
+
 PRODUCT_PACKAGES += fstab.postinstall \
                     cppreopts.sh \
                     preloads_copy.sh \
