@@ -31,6 +31,7 @@ import /vendor/etc/init/hw/init.qti.kernel.rc
 
 on early-init
 #    exec_background u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules snd_event_dlkm wglink_dlkm q6_pdr_dlkm q6_notifier_dlkm apr_dlkm adsp_loader_dlkm q6_dlkm native_dlkm usf_dlkm pinctrl_wcd_dlkm swr_dlkm platform_dlkm wcd_spi_dlkm stub_dlkm wcd_core_dlkm wsa881x_dlkm wcd9360_dlkm hdmi_dlkm machine_dlkm pci-msm-drv
+     exec_background u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules snd_event_dlkm q6_pdr_dlkm q6_notifier_dlkm apr_dlkm q6_dlkm native_dlkm platform_dlkm machine_dlkm adsp_loader_dlkm
 #    chown system system /sys/kernel/boot_kpi/kpi_values
     write /proc/sys/kernel/sched_boost 1
     symlink /data/tombstones /tombstones
@@ -104,18 +105,6 @@ on boot
     chown cameraserver cameraserver /dev/cpuset/camera-daemon/tasks
     chmod 0660 /dev/cpuset/camera-daemon/tasks
 
-on property:init.svc.zygote=running
-    write /sys/kernel/boot_kpi/kpi_values "M - USER Zygote Start"
-
-on property:service.bootanim.exit=0
-    write /sys/kernel/boot_kpi/kpi_values "K - USER Boot Animation Start"
-
-on property:sys.boot_completed=1
-    write /sys/kernel/boot_kpi/kpi_values "K - USER Android Boot Complete"
-
-on property:init.svc.surfaceflinger=running
-    write /sys/kernel/boot_kpi/kpi_values "M - USER SurfaceFlinger Start"
-
 #USB controller configuration
     setprop vendor.usb.rndis.func.name "gsi"
     setprop vendor.usb.rmnet.func.name "gsi"
@@ -130,6 +119,18 @@ on boot && property:persist.vendor.usb.controller.default=*
 
 on property:vendor.usb.controller=*
     setprop sys.usb.controller ${vendor.usb.controller}
+
+on property:init.svc.zygote=running
+    write /sys/kernel/boot_kpi/kpi_values "M - USER Zygote Start"
+
+on property:service.bootanim.exit=0
+    write /sys/kernel/boot_kpi/kpi_values "K - USER Boot Animation Start"
+
+on property:sys.boot_completed=1
+    write /sys/kernel/boot_kpi/kpi_values "K - USER Android Boot Complete"
+
+on property:init.svc.surfaceflinger=running
+    write /sys/kernel/boot_kpi/kpi_values "M - USER SurfaceFlinger Start"
 
 #Load WLAN driver
     exec u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules cnss2

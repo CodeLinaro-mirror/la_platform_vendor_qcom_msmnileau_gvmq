@@ -2,7 +2,7 @@
 #
 # Product-specific compile-time definitions.
 #
-TARGET_KERNEL_DLKM_DISABLE := true
+TARGET_KERNEL_DLKM_DISABLE := false
 TARGET_SEPOLICY_DIR := gen3_gvmq
 
 TARGET_ARCH := arm64
@@ -21,6 +21,7 @@ BOARD_SECCOMP_POLICY := device/qcom/$(TARGET_BOARD_PLATFORM)/seccomp
 TARGET_NO_BOOTLOADER := true
 TARGET_USES_UEFI := true
 TARGET_NO_KERNEL := false
+ENABLE_AUDIO_LEGACY_TECHPACK := true
 
 TARGET_USES_IOPHAL := true
 
@@ -232,7 +233,7 @@ USE_SENSOR_HAL_VER := 1.0
 ADD_RADIO_FILES := true
 
 #Generate DTBO image
-BOARD_KERNEL_SEPARATED_DTBO := true
+BOARD_KERNEL_SEPARATED_DTBO := false
 
 #Enable INTERACTION_BOOST
 TARGET_USES_INTERACTION_BOOST := true
@@ -259,23 +260,6 @@ BOARD_SYSTEMSDK_VERSIONS:=31
 
 #Enable VNDK Compliance
 BOARD_VNDK_VERSION:=current
-TARGET_KERNEL_DLKM_OVERRIDE += ais.ko
-TARGET_KERNEL_DLKM_OVERRIDE += msm_drm.ko
-TARGET_KERNEL_DLKM_OVERRIDE += msm_kgsl.ko
-TARGET_KERNEL_DLKM_OVERRIDE += msm-vidc.ko
-TARGET_KERNEL_DLKM_OVERRIDE += q6_notifier_dlkm.ko
-TARGET_KERNEL_DLKM_OVERRIDE += q6_dlkm.ko
-TARGET_KERNEL_DLKM_OVERRIDE += machine_dlkm.ko
-TARGET_KERNEL_DLKM_OVERRIDE += adsp_loader_dlkm.ko
-TARGET_KERNEL_DLKM_OVERRIDE += apr_dlkm.ko
-TARGET_KERNEL_DLKM_OVERRIDE += platform_dlkm.ko
-TARGET_KERNEL_DLKM_OVERRIDE += native_dlkm.ko
-TARGET_KERNEL_DLKM_OVERRIDE += stub_dlkm.ko
-TARGET_KERNEL_DLKM_OVERRIDE += hdmi_dlkm.ko
-TARGET_KERNEL_DLKM_OVERRIDE += snd_event_dlkm.ko
-TARGET_KERNEL_DLKM_OVERRIDE += tz_log_dlkm.ko qcedev-mod_dlkm.ko qcrypto-msm_dlkm.ko qce50_dlkm.ko hdcp_qseecom_dlkm.ko qrng_dlkm.ko qseecom_dlkm.ko
-TARGET_KERNEL_DLKM_OVERRIDE += wlan-platform-module-symvers cnss2.ko cnss_plat_ipc_qmi_svc.ko wlan_firmware_service.ko cnss_nl.ko cnss_utils.ko
-TARGET_KERNEL_DLKM_OVERRIDE += $(foreach chip, $(TARGET_WLAN_CHIP), $(WLAN_CHIPSET)_$(chip).ko)
 
 #################################################################################
 # This is the End of BoardConfig.mk file.

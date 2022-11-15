@@ -6,7 +6,7 @@ ENABLE_AIDL_VHAL := true
 TARGET_DISABLE_DISPLAY := true
 TARGET_DISABLE_CODEC2 := true
 TARGET_DISABLE_VPP_FILTER := true
-AUDIO_USE_STUB_HAL := true
+AUDIO_USE_STUB_HAL := false
 # Skip VINTF checks for kernel configs since we do not have kernel source
 PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
 
