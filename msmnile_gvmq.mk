@@ -20,6 +20,7 @@ ENABLE_CAR_POWER_MANAGER := true
 VPP_TARGET_USES_SERVICE := NO
 TARGET_HAS_DIAG_ROUTER := true
 
+TARGET_USES_GAS := true
 
 # Dynamic-partition enabled by default
 BOARD_DYNAMIC_PARTITION_ENABLE := true
@@ -307,6 +308,8 @@ ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
 # Multiple chips
 TARGET_WLAN_CHIP := qca6174 qca6390 qcn7605
 include device/qcom/wlan/msmnile_au/wlan.mk
+WLAN_CFG_OVERRIDE_qca6390 += CONFIG_VCPU_TIMESTOLEN=y
+WLAN_CFG_OVERRIDE_qca6174 += CONFIG_VCPU_TIMESTOLEN=y
 endif
 
 TARGET_MOUNT_POINTS_SYMLINKS := false
