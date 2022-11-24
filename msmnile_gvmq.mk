@@ -18,7 +18,7 @@ ALLOW_MISSING_DEPENDENCIES := true
   ENABLE_AB ?= true
   # Enable virtual-ab by default
   ifeq ($(ENABLE_AB), true)
-    ENABLE_VIRTUAL_AB ?= true
+    ENABLE_VIRTUAL_AB ?= false
   endif
   ifeq ($(ENABLE_VIRTUAL_AB), true)
     $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
