@@ -246,6 +246,9 @@ PRODUCT_PACKAGES += update_engine \
     update_engine_sideload
 
 
+PRODUCT_PROPERTY_OVERRIDES  += \
+   persist.vendor.usb.config=adb
+
 # bootctrl property
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.vendor.bootctrl.enable=true
