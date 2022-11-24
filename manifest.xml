@@ -193,6 +193,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
         <interface>
             <name>IBluetoothHci</name>
             <instance>default</instance>
+            <instance>hci1</instance>
         </interface>
     </hal>
     <!-- QSEECom HAL service -->
@@ -202,6 +203,20 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
         <version>1.0</version>
         <interface>
             <name>IQSEECom</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+    <!-- QTEEConnector HAL service -->
+    <hal format="hidl">
+        <name>vendor.qti.hardware.qteeconnector</name>
+        <transport>hwbinder</transport>
+        <version>1.0</version>
+        <interface>
+            <name>IAppConnector</name>
+            <instance>default</instance>
+        </interface>
+        <interface>
+            <name>IGPAppConnector</name>
             <instance>default</instance>
         </interface>
     </hal>

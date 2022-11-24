@@ -216,8 +216,19 @@ ro.boot.wificountrycode=us
 # See commit e63f6d6bda16bd94d43537fc5db754a103c6a757
 # (1) If the property is set as true, it indicates that AVRCP(TG) is enabled.
 # (2) If the property is set as false, it indicates that AVRCP(CT) is enabled.
-# In Fluoride Bluetooth stack, the default value for the property is true. This is valid with Mobile SP.
-# However in Automotive SP, AVRCP(CT) is enabled in Car UI.
-# So the property should be set as false.
+# In Bluetooth stack, the default value for the property is true.
 persist.bluetooth.enablenewavrcp=false
 
+# enable dual bluetooth
+ro.vehicle.dual_bt=true
+
+# enable dual adapter mode
+persist.vendor.service.bt.dual_adapter_mode=true
+
+# enable bluetooth automatic detecting
+persist.vendor.bt.auto_detect=true
+
+# btsnoop file for default bluetooth
+persist.bluetooth.btsnooppath=/data/misc/bluetooth/logs/btsnoop_hci.cfa
+# btsnoop file for new bluetooth
+persist.bluetooth.newbtsnooppath=/data/misc/bluetooth/newlogs/btsnoop_hci.cfa

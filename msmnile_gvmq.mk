@@ -30,6 +30,8 @@ TARGET_FWK_SUPPORTS_AV_VALUEADDS := true
 TARGET_USES_AOSP_FOR_WLAN := true
 ENABLE_CAR_POWER_MANAGER := true
 VPP_TARGET_USES_SERVICE := NO
+BOARD_HAVE_DUAL_BLUETOOTH := true
+TARGET_SUPPORT_DUAL_WLAN := true
 
 # Mismatch in the uses-library tags between build system and the manifest leads
 # to soong APK manifest_check tool errors. Enable the flag to fix this.
@@ -108,8 +110,8 @@ PRODUCT_MODEL := msmnile_gvmq for arm64
 PRODUCT_COPY_FILES += \
     device/qcom/msmnile_gvmq/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf
 
-SHIPPING_API_LEVEL := 31
-PRODUCT_SHIPPING_API_LEVEL := 31
+SHIPPING_API_LEVEL := 32
+PRODUCT_SHIPPING_API_LEVEL := 32
 
 #Initial bringup flags
 
@@ -204,6 +206,11 @@ PRODUCT_PACKAGES += $(PCIE_DLKM)
 CNSS_DLKM := cnss2
 PRODUCT_PACKAGES += $(CNSS_DLKM)
 
+ifeq ($(BOARD_HAVE_DUAL_BLUETOOTH),true)
+BT_DLKM += btpower_new.ko
+PRODUCT_PACKAGES += $(BT_DLKM)
+endif
+
 # HS-I2S DLKM
 PRODUCT_PACKAGES += hsi2s.ko
 # HS-I2S test app
@@ -291,9 +298,18 @@ ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
 # Multiple chips
 TARGET_WLAN_CHIP := qca6174 qca6390 qcn7605 qca6490
 include device/qcom/wlan/msmnile_au/wlan.mk
+WLAN_CFG_OVERRIDE_qca6390 += CONFIG_VCPU_TIMESTOLEN=y
+WLAN_CFG_OVERRIDE_qca6174 += CONFIG_VCPU_TIMESTOLEN=y
+WLAN_CFG_OVERRIDE_qcn7605 += CONFIG_VCPU_TIMESTOLEN=y
+WLAN_CFG_OVERRIDE_qca6490 += CONFIG_VCPU_TIMESTOLEN=y
 endif
 
 TARGET_MOUNT_POINTS_SYMLINKS := false
+
+#Copy supported features list
+ifeq ($(TARGET_USES_GAS),true)
+PRODUCT_COPY_FILES += device/qcom/msmnile_gvmq/msmnile_gvmq_features.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/msmnile_gvmq_features.xml
+endif
 
 # Camera configuration file. Shared by passthrough/binderized camera HAL
 PRODUCT_PACKAGES += camera.device@3.2-impl
