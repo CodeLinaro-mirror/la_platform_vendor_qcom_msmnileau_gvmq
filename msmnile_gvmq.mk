@@ -66,12 +66,6 @@ ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
 # to soong APK manifest_check tool errors. Enable the flag to fix this.
 RELAX_USES_LIBRARY_CHECK := true
 
-#BOARD_AVB_VBMETA_SYSTEM := system
-#BOARD_AVB_VBMETA_SYSTEM_KEY_PATH := external/avb/test/data/testkey_rsa2048.pem
-#BOARD_AVB_VBMETA_SYSTEM_ALGORITHM := SHA256_RSA2048
-#BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
-#BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX_LOCATION := 2
-
 ifeq ($(ENABLE_AB), true)
 PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
 else
@@ -132,8 +126,8 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.sensor.hifi_sensors.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.hifi_sensors.xml
 
 
-SHIPPING_API_LEVEL := 31
-PRODUCT_SHIPPING_API_LEVEL := 31
+SHIPPING_API_LEVEL := 33
+PRODUCT_SHIPPING_API_LEVEL := 33
 
 #Initial bringup flags
 
@@ -245,7 +239,6 @@ PRODUCT_PACKAGES += update_engine \
     android.hardware.boot@1.2-impl-qti \
     android.hardware.boot@1.2-impl-qti.recovery \
     update_engine_sideload
-
 
 # bootctrl property
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -379,6 +372,202 @@ PRODUCT_ENFORCE_RRO_TARGETS := framework-res
 #add libnbaio for avenhancement
 PRODUCT_PACKAGES += libnbaio
 
+PRODUCT_VENDOR_PROPERTIES += rild.libpath=/vendor/lib64/libril-qc-hal-qmi.so \
+                persist.rild.nitz_plmn=
+                persist.rild.nitz_long_ons_0=
+                persist.rild.nitz_long_ons_1=
+                persist.rild.nitz_long_ons_2=
+                persist.rild.nitz_long_ons_3=
+                persist.rild.nitz_short_ons_0=
+                persist.rild.nitz_short_ons_1=
+                persist.rild.nitz_short_ons_2=
+                persist.rild.nitz_short_ons_3=
+                ril.subscription.types=NV,RUIM \
+                persist.adb.tcp.port=5555 \
+                DEVICE_PROVISIONED=1 \
+                dalvik.vm.heapsize=36m \
+                dev.pm.dyn_samplingrate=1 \
+                qcom.hw.aac.encoder=true
+
+# Set network mode to (T/L/G/W/1X/EVDO, T/L/G/W/1X/EVDO) for 7+7 mode device on DSDS mode
+PRODUCT_VENDOR_PROPERTIES += ro.telephony.default_network=22,22 \
+                            ro.radio.noril=true
+
+# system props for the cne module
+PRODUCT_VENDOR_PROPERTIES += persist.vendor.cne.feature=1
+
+#system props for the MM modules
+PRODUCT_VENDOR_PROPERTIES += media.stagefright.enable-player=true \
+                            media.stagefright.enable-http=true \
+                            media.stagefright.enable-aac=true \
+                            media.stagefright.enable-qcp=true \
+                            media.stagefright.enable-fma2dp=true \
+                            media.stagefright.enable-scan=true \
+                            mmp.enable.3g2=true \
+                            media.aac_51_output_enabled=true \
+                            mm.enable.smoothstreaming=true
+
+#13631487 is decimal sum of supported codecs in AAL
+#codecs:(PARSER_)AAC AC3 AMR_NB AMR_WB ASF AVI DTS FLV 3GP 3G2 MKV MP2PS MP2TS MP3 OGG QCP WAV FLAC AIFF APE DSD MOV XVID
+PRODUCT_VENDOR_PROPERTIES += vendor.mm.enable.qcom_parser=63963135 \
+                            persist.mm.enable.prefetch=true
+
+# system props for the data modules
+PRODUCT_VENDOR_PROPERTIES += ro.vendor.use_data_netmgrd=true \
+                            persist.vendor.data.mode=concurrent
+
+#system props for time-services
+PRODUCT_VENDOR_PROPERTIES += persist.timed.enable=true
+
+# system prop for opengles version
+# 196608 is decimal for 0x30000 to report version 3
+# 196609 is decimal for 0x30001 to report version 3.1
+# 196610 is decimal for 0x30002 to report version 3.2
+PRODUCT_VENDOR_PROPERTIES += ro.opengles.version=196610
+
+# system property for maximum number of HFP client connections
+PRODUCT_VENDOR_PROPERTIES += bt.max.hfpclient.connections=1
+
+# system prop to turn on CdmaLTEPhone always
+PRODUCT_VENDOR_PROPERTIES += telephony.lteOnCdmaDevice=1
+
+#Simulate sdcard on /data/media
+PRODUCT_VENDOR_PROPERTIES += persist.fuse_sdcard=true
+
+#system prop for wipower support
+PRODUCT_VENDOR_PROPERTIES += ro.bluetooth.emb_wp_mode=false \
+                            ro.bluetooth.wipower=false
+
+PRODUCT_VENDOR_PROPERTIES += persist.vendor.service.bt.a2dp.sink=true \
+                            persist.vendor.btstack.enable.splita2dp=false \
+                            persist.vendor.service.bdroid.sibs=false \
+                            persist.bt.clock_boottime_alarm=false
+
+# system prop for Hardware type Automotive
+PRODUCT_VENDOR_PROPERTIES += ro.hardware.type=automotive
+
+PRODUCT_VENDOR_PROPERTIES += ro.hardware.sensors=msmnile.asm_auto
+
+# snapdragon value add features
+PRODUCT_VENDOR_PROPERTIES += ro.qc.sdk.audio.ssr=false
+
+# fluencetype can be "fluence" or "fluencepro" or "none"
+PRODUCT_VENDOR_PROPERTIES += ro.qc.sdk.audio.fluencetype=none \
+                            persist.audio.fluence.voicecall=true \
+                            persist.audio.fluence.voicerec=false \
+                            persist.audio.fluence.speaker=true
+
+# system prop for RmNet Data
+PRODUCT_VENDOR_PROPERTIES += persist.rmnet.data.enable=true \
+                            persist.data.wda.enable=true \
+                            persist.data.df.dl_mode=5 \
+                            persist.data.df.ul_mode=5 \
+                            persist.data.df.agg.dl_pkt=10 \
+                            persist.data.df.agg.dl_size=4096 \
+                            persist.data.df.mux_count=8 \
+                            persist.data.df.iwlan_mux=9 \
+                            persist.data.df.dev_name=rmnet_usb0
+
+# property to enable user to access Google WFD settings
+PRODUCT_VENDOR_PROPERTIES += persist.debug.wfd.enable=1
+
+# property to choose between virtual/external wfd display
+PRODUCT_VENDOR_PROPERTIES += persist.sys.wfd.virtual=0
+
+# enable tunnel encoding for amrwb
+PRODUCT_VENDOR_PROPERTIES += tunnel.audio.encode = true
+
+#Buffer size in kbytes for compress offload playback
+PRODUCT_VENDOR_PROPERTIES += audio.offload.buffer.size.kb=32
+
+# Enable offload audio video playback by default
+PRODUCT_VENDOR_PROPERTIES += av.offload.enable=true
+
+# Enable voice path for PCM VoIP by default
+PRODUCT_VENDOR_PROPERTIES += use.voice.path.for.pcm.voip=true
+
+# system prop for NFC DT
+PRODUCT_VENDOR_PROPERTIES += ro.nfc.port=I2C
+
+# Enable dsp gapless mode by default
+PRODUCT_VENDOR_PROPERTIES += audio.offload.gapless.enabled=true
+
+# initialize QCA1530 detection
+PRODUCT_VENDOR_PROPERTIES += sys.qca1530=detect
+
+# Enable stm events
+PRODUCT_VENDOR_PROPERTIES += persist.debug.coresight.config=stm-events
+
+# hwui properties
+PRODUCT_VENDOR_PROPERTIES += ro.hwui.texture_cache_size=72 \
+                            ro.hwui.layer_cache_size=48 \
+                            ro.hwui.r_buffer_cache_size=8 \
+                            ro.hwui.path_cache_size=32 \
+                            ro.hwui.gradient_cache_size=1 \
+                            ro.hwui.drop_shadow_cache_size=6 \
+                            ro.hwui.texture_cache_flushrate=0.4 \
+                            ro.hwui.text_small_cache_width=1024 \
+                            ro.hwui.text_small_cache_height=1024 \
+                            ro.hwui.text_large_cache_width=2048 \
+                            ro.hwui.text_large_cache_height=1024 \
+
+PRODUCT_VENDOR_PROPERTIES += config.disable_rtt=true
+
+#Bringup properties
+PRODUCT_VENDOR_PROPERTIES += persist.sys.force_sw_gles=1 \
+                            persist.vendor.radio.atfwd.start=true \
+                            ro.kernel.qemu.gles=0 \
+                            qemu.hw.mainkeys=0
+
+#Increase cached app limit
+PRODUCT_VENDOR_PROPERTIES += ro.vendor.qti.sys.fw.bg_apps_limit=60
+
+# Enable ZRAM
+PRODUCT_VENDOR_PROPERTIES += ro.vendor.qti.config.zram=true
+
+#IOP properties
+PRODUCT_VENDOR_PROPERTIES += vendor.iop.enable_uxe=1 \
+                            vendor.perf.iop_v3.enable=true
+
+# Property to enable perf boosts from System Server
+PRODUCT_VENDOR_PROPERTIES += vendor.perf.gestureflingboost.enable=true
+
+#Enable ULMK properties
+PRODUCT_VENDOR_PROPERTIES += ro.lmk.kill_heaviest_task=true \
+                            ro.lmk.kill_timeout_ms=15 \
+                            ro.lmk.use_minfree_levels=true \
+                            ro.lmk.enhance_batch_kill=true \
+                            ro.lmk.enable_adaptive_lmk=true \
+                            ro.lmk.vmpressure_file_min=80640 \
+
+#Property to enable scroll pre-obtain view
+PRODUCT_VENDOR_PROPERTIES += ro.vendor.scroll.preobtain.enable=true
+
+#Expose aux camera for below packages
+PRODUCT_VENDOR_PROPERTIES += vendor.camera.aux.packagelist=org.codeaurora.snapcam
+
+#Display mirroring
+PRODUCT_VENDOR_PROPERTIES += vendor.display.builtin_mirroring=true
+
+#Display hwcId allocation
+PRODUCT_VENDOR_PROPERTIES += vendor.display.builtin_baseid_and_size=5,3 \
+                            vendor.display.pluggable_baseid_and_size=1,4 \
+                            vendor.display.virtual_baseid_and_size=8,1 \
+
+# Enable CPMS for LPM
+PRODUCT_VENDOR_PROPERTIES += persist.vendor.car.lpm=true
+
+# default wifi country code
+PRODUCT_VENDOR_PROPERTIES += ro.boot.wificountrycode=us
+
+# The property "persist.bluetooth.enablenewavrcp" is introduced in AOSP.
+# See commit e63f6d6bda16bd94d43537fc5db754a103c6a757
+# (1) If the property is set as true, it indicates that AVRCP(TG) is enabled.
+# (2) If the property is set as false, it indicates that AVRCP(CT) is enabled.
+# In Fluoride Bluetooth stack, the default value for the property is true. This is valid with Mobile SP.
+# However in Automotive SP, AVRCP(CT) is enabled in Car UI.
+# So the property should be set as false.
+PRODUCT_VENDOR_PROPERTIES += persist.bluetooth.enablenewavrcp=false
 
 ###################################################################################
 # This is the End of target.mk file.
