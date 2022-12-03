@@ -46,7 +46,7 @@ on early-init && property:ro.boot.audio=""
 
 # AudioReach
 on early-init && property:ro.boot.audio=audioreach
-    exec_background u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules stub_dlkm spf_machine_dlkm
+    exec_background u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules stub_dlkm gvm_spf_machine_dlkm
     setprop ro.hardware.audio.primary "msmnile.ar"
     setprop ro.hardware.sound_trigger.primary "msmnile.ar"
 
