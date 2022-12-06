@@ -104,18 +104,6 @@ on boot
     chown cameraserver cameraserver /dev/cpuset/camera-daemon/tasks
     chmod 0660 /dev/cpuset/camera-daemon/tasks
 
-on property:init.svc.zygote=running
-    write /sys/kernel/boot_kpi/kpi_values "M - USER Zygote Start"
-
-on property:service.bootanim.exit=0
-    write /sys/kernel/boot_kpi/kpi_values "K - USER Boot Animation Start"
-
-on property:sys.boot_completed=1
-    write /sys/kernel/boot_kpi/kpi_values "K - USER Android Boot Complete"
-
-on property:init.svc.surfaceflinger=running
-    write /sys/kernel/boot_kpi/kpi_values "M - USER SurfaceFlinger Start"
-
 #USB controller configuration
     setprop vendor.usb.rndis.func.name "gsi"
     setprop vendor.usb.rmnet.func.name "gsi"
@@ -130,6 +118,18 @@ on boot && property:persist.vendor.usb.controller.default=*
 
 on property:vendor.usb.controller=*
     setprop sys.usb.controller ${vendor.usb.controller}
+
+on property:init.svc.zygote=running
+    write /sys/kernel/boot_kpi/kpi_values "M - USER Zygote Start"
+
+on property:service.bootanim.exit=0
+    write /sys/kernel/boot_kpi/kpi_values "K - USER Boot Animation Start"
+
+on property:sys.boot_completed=1
+    write /sys/kernel/boot_kpi/kpi_values "K - USER Android Boot Complete"
+
+on property:init.svc.surfaceflinger=running
+    write /sys/kernel/boot_kpi/kpi_values "M - USER SurfaceFlinger Start"
 
 #Load WLAN driver
     exec u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules cnss2
