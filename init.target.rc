@@ -105,10 +105,6 @@ on boot
     chown cameraserver cameraserver /dev/cpuset/camera-daemon/tasks
     chmod 0660 /dev/cpuset/camera-daemon/tasks
 
-on property:sys.boot_completed=1
-    # Enable WLAN cold boot calibration
-    write /sys/kernel/cnss/fs_ready 1
-
 #USB controller configuration
     setprop vendor.usb.rndis.func.name "gsi"
     setprop vendor.usb.rmnet.func.name "gsi"
@@ -136,19 +132,9 @@ on property:sys.boot_completed=1
 on property:init.svc.surfaceflinger=running
     write /sys/kernel/boot_kpi/kpi_values "M - USER SurfaceFlinger Start"
 
-#Load WLAN driver
-    exec u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules cnss2
-    start wlan_multiko
-
-on property:ro.vendor.wlan.chip=*
-    insmod /vendor/lib/modules/qca_cld3_${ro.vendor.wlan.chip}.ko
-    setprop wlan.driver.status "ok"
-
-service wlan_multiko /vendor/bin/init.qcom.wlan.sh
-    user root
-    group root
-    disabled
-    oneshot
+on property:sys.boot_completed=1
+    # Enable WLAN cold boot calibration
+    write /sys/kernel/cnss/fs_ready 1
 
 #pd-mapper
 service vendor.pd_mapper /vendor/bin/pd-mapper
