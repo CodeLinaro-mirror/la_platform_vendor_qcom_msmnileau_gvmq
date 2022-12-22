@@ -108,8 +108,8 @@ PRODUCT_MODEL := msmnile_gvmq for arm64
 PRODUCT_COPY_FILES += \
     device/qcom/msmnile_gvmq/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf
 
-SHIPPING_API_LEVEL := 31
-PRODUCT_SHIPPING_API_LEVEL := 31
+SHIPPING_API_LEVEL := 32
+PRODUCT_SHIPPING_API_LEVEL := 32
 
 #Initial bringup flags
 
@@ -294,6 +294,11 @@ include device/qcom/wlan/msmnile_au/wlan.mk
 endif
 
 TARGET_MOUNT_POINTS_SYMLINKS := false
+
+#Copy supported features list
+ifeq ($(TARGET_USES_GAS),true)
+PRODUCT_COPY_FILES += device/qcom/msmnile_gvmq/msmnile_gvmq_features.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/msmnile_gvmq_features.xml
+endif
 
 # Camera configuration file. Shared by passthrough/binderized camera HAL
 PRODUCT_PACKAGES += camera.device@3.2-impl
