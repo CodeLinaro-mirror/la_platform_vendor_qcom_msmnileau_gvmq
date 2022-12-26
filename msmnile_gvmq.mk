@@ -16,10 +16,11 @@ TARGET_DISABLE_LIBVIRTDIAG := true
 AUDIO_USE_STUB_HAL := false
 # Skip VINTF checks for kernel configs since we do not have kernel source
 PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
+PRODUCT_MANUFACTURER := Qualcomm
+PRODUCT_DEVICE := msmnile_gvmq
 
 PRODUCT_VENDOR_PROPERTIES += \
     ro.soc.manufacturer=$(PRODUCT_MANUFACTURER) \
-    ro.soc.model=$(PRODUCT_DEVICE)
 
 ALLOW_MISSING_DEPENDENCIES := true
   ENABLE_AB ?= true
@@ -131,7 +132,6 @@ PRODUCT_PROPERTY_OVERRIDES += ro.control_privapp_permissions=enforce
 $(call inherit-product, packages/services/Car/car_product/build/car.mk)
 
 PRODUCT_NAME := msmnile_gvmq
-PRODUCT_DEVICE := msmnile_gvmq
 PRODUCT_BRAND := qti
 PRODUCT_MODEL := msmnile_gvmq for arm64
 
