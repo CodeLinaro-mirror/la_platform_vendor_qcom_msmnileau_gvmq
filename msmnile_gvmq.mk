@@ -437,6 +437,8 @@ PRODUCT_ENFORCE_RRO_TARGETS := framework-res
 #add libnbaio for avenhancement
 PRODUCT_PACKAGES += libnbaio
 
+PRODUCT_PRODUCT_PROPERTIES += persist.adb.tcp.port=5555
+
 PRODUCT_VENDOR_PROPERTIES += rild.libpath=/vendor/lib64/libril-qc-hal-qmi.so \
                 persist.rild.nitz_plmn=
                 persist.rild.nitz_long_ons_0=
@@ -448,7 +450,6 @@ PRODUCT_VENDOR_PROPERTIES += rild.libpath=/vendor/lib64/libril-qc-hal-qmi.so \
                 persist.rild.nitz_short_ons_2=
                 persist.rild.nitz_short_ons_3=
                 ril.subscription.types=NV,RUIM \
-                persist.adb.tcp.port=5555 \
                 DEVICE_PROVISIONED=1 \
                 dalvik.vm.heapsize=36m \
                 dev.pm.dyn_samplingrate=1 \
