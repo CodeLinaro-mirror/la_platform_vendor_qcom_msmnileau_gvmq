@@ -128,6 +128,7 @@ ifneq ($(AB_OTA_UPDATER),true)
 endif
 
 TARGET_RECOVERY_FSTAB := device/qcom/msmnile_gvmq/fstab.qcom
+BOARD_USES_METADATA_PARTITION := true
 
 #Enable split vendor image
 ENABLE_VENDOR_IMAGE := true
