@@ -48,6 +48,8 @@ BOARD_HAS_QCOM_WLAN := true
 ENABLE_CAR_POWER_MANAGER := true
 VPP_TARGET_USES_SERVICE := NO
 
+#Enable Userspace Restart
+$(call inherit-product, $(SRC_TARGET_DIR)/product/userspace_reboot.mk)
 
 
 # Dynamic-partition enabled by default
