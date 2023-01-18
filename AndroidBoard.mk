@@ -68,7 +68,7 @@ LOCAL_SRC_FILES    := $(LOCAL_MODULE)
 LOCAL_MODULE_PATH  := $(TARGET_OUT_KEYLAYOUT)
 include $(BUILD_PREBUILT)
 
-ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
+ifeq ($(strip $(PRODUCT_USE_DYNAMIC_PARTITIONS)),true)
   include $(CLEAR_VARS)
   LOCAL_MODULE       := fstab.qcom
   LOCAL_MODULE_TAGS  := optional
@@ -90,7 +90,9 @@ else
     LOCAL_POST_INSTALL_CMD := echo $(VENDOR_FSTAB_ENTRY) >> $(LOCAL_MODULE_PATH)/$(LOCAL_MODULE)
   endif
   include $(BUILD_PREBUILT)
-endif ##BOARD_DYNAMIC_PARTITION_ENABLE
+endif ##PRODUCT_USE_DYNAMIC_PARTITIONS
+
+include device/qcom/vendor-common/MergeConfig.mk
 
 #----------------------------------------------------------------------
 # Radio image

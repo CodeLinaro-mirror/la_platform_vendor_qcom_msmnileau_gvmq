@@ -7,6 +7,11 @@ TARGET_DISABLE_DISPLAY := false
 TARGET_DISABLE_CODEC2 := true
 TARGET_DISABLE_VPP_FILTER := true
 AUDIO_USE_STUB_HAL := false
+
+SYSTEMEXT_SEPARATE_PARTITION_ENABLE = true
+TARGET_USES_QSSI := true
+PRODUCT_ENFORCE_VINTF_MANIFEST := false
+
 # Skip VINTF checks for kernel configs since we do not have kernel source
 PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
 
@@ -51,12 +56,12 @@ VPP_TARGET_USES_SERVICE := NO
 
 
 # Dynamic-partition enabled by default
-BOARD_DYNAMIC_PARTITION_ENABLE := true
-ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
+#BOARD_DYNAMIC_PARTITION_ENABLE := true
+#ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
 
   PRODUCT_USE_DYNAMIC_PARTITIONS := true
-  BOARD_BUILD_SUPER_IMAGE_BY_DEFAULT := true
-  PRODUCT_BUILD_SUPER_PARTITION := true
+  #BOARD_BUILD_SUPER_IMAGE_BY_DEFAULT := true
+  #PRODUCT_BUILD_SUPER_PARTITION := true
   PRODUCT_BUILD_RAMDISK_IMAGE := true
   # Enable System_ext
   PRODUCT_BUILD_SYSTEM_EXT_IMAGE := true
@@ -71,18 +76,18 @@ PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.qti:$(TAR
 else
 PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
 endif
-endif
-#PRODUCT_BUILD_SYSTEM_IMAGE := true
+#endif
+PRODUCT_BUILD_SYSTEM_IMAGE := false
 PRODUCT_BUILD_SYSTEM_OTHER_IMAGE := false
-#PRODUCT_BUILD_VENDOR_IMAGE := true
+PRODUCT_BUILD_VENDOR_IMAGE := true
 PRODUCT_BUILD_PRODUCT_IMAGE := false
 PRODUCT_BUILD_PRODUCT_SERVICES_IMAGE := false
-#PRODUCT_BUILD_ODM_IMAGE := true
+PRODUCT_BUILD_ODM_IMAGE := false
 PRODUCT_BUILD_CACHE_IMAGE := false
 PRODUCT_BUILD_RAMDISK_IMAGE := true
 PRODUCT_BUILD_USERDATA_IMAGE := true
 PRODUCT_BUILD_VENDOR_BOOT_IMAGE := true
-PRODUCT_BUILD_VENDOR_DLKM_IMAGE := true
+#PRODUCT_BUILD_VENDOR_DLKM_IMAGE := true
 PRODUCT_BUILD_SYSTEM_DLKM_IMAGE := true
 
 ifneq ("$(wildcard device/qcom/$(TARGET_BOARD_PLATFORM)-kernel/vendor_dlkm/system_dlkm.modules.blocklist)", "")
@@ -183,7 +188,7 @@ ifeq ($(TARGET_NO_QTI_WFD),)
 endif
 
 # Ethernet configuration file
-PRODUCT_COPY_FILES += \
+#PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.ethernet.xml:system/etc/permissions/android.hardware.ethernet.xml
 
 # Video codec configuration files
