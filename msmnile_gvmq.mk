@@ -132,6 +132,7 @@ PRODUCT_COPY_FILES += \
 
 
 PRODUCT_SHIPPING_API_LEVEL := 33
+SHIPPING_API_LEVEL := 33
 
 #Initial bringup flags
 
