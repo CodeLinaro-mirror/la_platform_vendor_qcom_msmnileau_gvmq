@@ -177,6 +177,8 @@ TARGET_USES_QCOM_BSP := false
 
 BOARD_BOOTCONFIG := androidboot.hardware=qcom androidboot.selinux=enforcing androidboot.memcg=1 androidboot.usbcontroller=a600000.dwc3 androidboot.recover_usb=1
 
+BOARD_BOOTCONFIG += androidboot.audio=audioreach
+
 BOARD_KERNEL_CMDLINE := debug user_debug=31 loglevel=9 print-fatal-signals=1  init=/init swiotlb=4096  kpti=0 pcie_ports=compat firmware_class.path=/vendor/firmware_mnt/image
 
 ifeq ($(TARGET_CONSOLE_ENABLED),true)
