@@ -249,7 +249,7 @@ PRODUCT_PACKAGES += update_engine \
     update_engine_sideload
 
 # bootctrl property
-PRODUCT_PROPERTY_OVERRIDES += \
+PRODUCT_VENDOR_PROPERTIES += \
     ro.vendor.bootctrl.enable=true
 
 PRODUCT_PROPERTY_OVERRIDES  += \
