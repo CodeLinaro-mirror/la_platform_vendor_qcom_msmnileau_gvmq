@@ -51,4 +51,6 @@
    <unavailable-feature name="android.hardware.camera.flash" />
    <unavailable-feature name="android.hardware.camera.front" />
    <unavailable-feature name="android.software.backup" />
+   <!-- No network location feature -->
+   <unavailable-feature name="android.hardware.location.network" />
 </permissions>
