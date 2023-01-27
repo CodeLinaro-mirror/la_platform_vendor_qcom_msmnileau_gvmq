@@ -39,7 +39,7 @@ vendor                                                 /vendor                 e
 system_dlkm                                            /system_dlkm            ext4    ro,barrier=1,discard                                 wait,logical,first_stage_mount,slotselect,avb
 vendor_dlkm                                            /vendor_dlkm            ext4    ro,barrier=1,discard                                 wait,logical,first_stage_mount,slotselect,avb
 /dev/block/by-name/metadata                            /metadata               ext4    noatime,nosuid,nodev,discard                         wait,formattable
-/dev/block/by-name/userdata                            /data                   ext4    rw,noatime,nosuid,nodev                              latemount,wait,check,quota,reservedsize=128M,checkpoint=block
+/dev/block/userdata                                    /data                   ext4    rw,noatime,nosuid,nodev                              wait,check,quota,reservedsize=128M
 /devices/platform/soc/8804000.sdhci/mmc_host*          /storage/sdcard1        vfat    nosuid,nodev                                         wait,voldmanaged=sdcard1:auto,encryptable=footer
 /devices/platform/soc/1da4000.ufshc_card/host*         /storage/sdcard1        vfat    nosuid,nodev                                         wait,voldmanaged=sdcard1:auto,encryptable=footer
 /dev/block/modem                                       /vendor/firmware_mnt    vfat    ro,shortname=lower,uid=0,gid=1000,dmask=227,fmask=337,context=u:object_r:firmware_file:s0               defaults,slotselect
@@ -48,5 +48,5 @@ vendor_dlkm                                            /vendor_dlkm            e
 # Need to have this entry in here even though the mount point itself is no longer needed.
 # The update_engine code looks for this entry in order to determine the boot device address
 # and fails if it does not find it.
-/dev/block/by-name/misc                                        /misc                   emmc    defaults                                             defaults
+/dev/block/misc                                        /misc                   emmc    defaults                                             defaults
 /devices/*/xhci-hcd.*.auto*                            /storage/usbotg         vfat    nosuid,nodev                                         wait,voldmanaged=usbotg:auto
