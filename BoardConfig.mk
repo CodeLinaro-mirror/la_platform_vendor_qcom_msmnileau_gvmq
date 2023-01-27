@@ -42,6 +42,11 @@ BOARD_USE_LEGACY_UI := true
 BOARD_BOOT_HEADER_VERSION := 4
 BOARD_MKBOOTIMG_ARGS := --header_version $(BOARD_BOOT_HEADER_VERSION)
 
+ifeq ($(TARGET_NO_RECOVERY), true)
+BOARD_MOVE_RECOVERY_RESOURCES_TO_VENDOR_BOOT := true
+BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT := true
+endif
+
 # Specify init boot header version
 BOARD_INIT_BOOT_HEADER_VERSION := 4
 BOARD_MKBOOTIMG_INIT_ARGS += --header_version $(BOARD_INIT_BOOT_HEADER_VERSION)
@@ -123,6 +128,7 @@ ifneq ($(AB_OTA_UPDATER),true)
 endif
 
 TARGET_RECOVERY_FSTAB := device/qcom/msmnile_gvmq/fstab.qcom
+BOARD_USES_METADATA_PARTITION := true
 
 #Enable split vendor image
 ENABLE_VENDOR_IMAGE := true
