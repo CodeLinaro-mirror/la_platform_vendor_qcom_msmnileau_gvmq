@@ -48,6 +48,8 @@ BOARD_HAS_QCOM_WLAN := true
 ENABLE_CAR_POWER_MANAGER := true
 VPP_TARGET_USES_SERVICE := NO
 
+#Enable Userspace Restart
+$(call inherit-product, $(SRC_TARGET_DIR)/product/userspace_reboot.mk)
 
 
 # Dynamic-partition enabled by default
@@ -126,7 +128,6 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.sensor.hifi_sensors.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.hifi_sensors.xml
 
 
-SHIPPING_API_LEVEL := 33
 PRODUCT_SHIPPING_API_LEVEL := 33
 
 #Initial bringup flags
@@ -349,11 +350,9 @@ PRODUCT_PACKAGES += \
 
 #PRODUCT_PACKAGES += android.hardware.automotive.audiocontrol@1.0-service
 
-PRODUCT_PACKAGES += android.hardware.health@2.1-service \
-                    android.hardware.health@2.1-impl \
-                    android.hardware.health@2.1-impl.recovery \
-                    android.hardware.dumpstate@1.1-service.example \
-                    android.hardware.thermal@2.0-service.mock \
+PRODUCT_PACKAGES += android.hardware.health-service.example \
+                    android.hardware.dumpstate-service.example \
+                    android.hardware.thermal@2.0-service.mock
 
 PRODUCT_PACKAGES += android.hardware.gnss@2.0-service
 PRODUCT_PACKAGES += qcar-gsi.avbpubkey
