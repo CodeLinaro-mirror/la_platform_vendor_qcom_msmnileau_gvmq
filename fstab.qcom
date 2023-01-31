@@ -12,7 +12,7 @@
 # The update_engine code looks for this entry in order to determine the boot device address
 # and fails if it does not find it.
 /devices/platform/soc/*/xhci-hcd.*.auto*                /storage/usbotg        vfat    nosuid,nodev                          wait,voldmanaged=usbotg:auto
-/dev/block/system                                       /                      ext4    ro                                    defaults,avb
+/dev/block/system                                       /                      ext4    ro                                    defaults,avb,avb_keys=/avb/qcar-gsi.avbpubkey
 /dev/block/userdata                                     /data                  f2fs    rw                                    latemount,wait,checkpoint=fs
 /dev/block/metadata                                     /metadata              ext4    noatime,nosuid,nodev,discard          wait,formattable,first_stage_mount
 /dev/block/persist                                      /mnt/vendor/persist    ext4    rw                                    defaults

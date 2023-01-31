@@ -574,6 +574,9 @@ PRODUCT_VENDOR_PROPERTIES += ro.boot.wificountrycode=us
 # So the property should be set as false.
 PRODUCT_VENDOR_PROPERTIES += persist.bluetooth.enablenewavrcp=false
 
+# Add gsi avb keys
+PRODUCT_PACKAGES += qcar-gsi.avbpubkey
+
 ###################################################################################
 # This is the End of target.mk file.
 # Now, Pickup other split product.mk files:
