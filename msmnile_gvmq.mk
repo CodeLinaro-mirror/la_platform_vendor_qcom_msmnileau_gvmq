@@ -378,7 +378,9 @@ PRODUCT_PACKAGES += android.hardware.neuralnetworks@1.0.vendor \
 PRODUCT_ENFORCE_RRO_TARGETS := framework-res
 
 #add libnbaio for avenhancement
+ifeq ($(TARGET_FWK_SUPPORTS_FULL_VALUEADDS), true)
 PRODUCT_PACKAGES += libnbaio
+endif
 
 PRODUCT_PRODUCT_PROPERTIES += persist.adb.tcp.port=5555
 
@@ -418,8 +420,7 @@ PRODUCT_VENDOR_PROPERTIES += media.stagefright.enable-player=true \
 
 #13631487 is decimal sum of supported codecs in AAL
 #codecs:(PARSER_)AAC AC3 AMR_NB AMR_WB ASF AVI DTS FLV 3GP 3G2 MKV MP2PS MP2TS MP3 OGG QCP WAV FLAC AIFF APE DSD MOV XVID
-PRODUCT_VENDOR_PROPERTIES += vendor.mm.enable.qcom_parser=63963135 \
-                            persist.mm.enable.prefetch=true
+PRODUCT_VENDOR_PROPERTIES += persist.mm.enable.prefetch=true
 
 # system props for the data modules
 PRODUCT_VENDOR_PROPERTIES += ro.vendor.use_data_netmgrd=true \
