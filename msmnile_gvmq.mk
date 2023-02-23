@@ -327,7 +327,7 @@ ENABLE_VENDOR_RIL_SERVICE := true
 #----------------------------------------------------------------------
 ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
 # Multiple chips
-TARGET_WLAN_CHIP := qca6390 qca6490 qcn7605
+TARGET_WLAN_CHIP := qca6390 qca6490 qcn7605 qca6174
 include device/qcom/wlan/msmnile_au/wlan.mk
 endif
 
