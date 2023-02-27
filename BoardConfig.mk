@@ -27,6 +27,8 @@ TARGET_USES_IOPHAL := true
 
 BUILD_BROKEN_DUP_RULES := true
 
+BOARD_RAMDISK_USE_LZ4 := true
+
 BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 
 -include $(QCPATH)/common/msmnile_gvmq/BoardConfigVendor.mk
@@ -177,10 +179,10 @@ TARGET_USES_QCOM_BSP := false
 
 BOARD_BOOTCONFIG := androidboot.hardware=qcom androidboot.selinux=enforcing androidboot.memcg=1 androidboot.usbcontroller=a600000.dwc3 androidboot.recover_usb=1
 
-BOARD_KERNEL_CMDLINE := debug user_debug=31 loglevel=9 print-fatal-signals=1  init=/init swiotlb=4096  kpti=0 pcie_ports=compat firmware_class.path=/vendor/firmware_mnt/image loop.max_part=7
+BOARD_KERNEL_CMDLINE := user_debug=31 print-fatal-signals=1  init=/init swiotlb=4096  kpti=0 pcie_ports=compat firmware_class.path=/vendor/firmware_mnt/image loop.max_part=7
 
 ifeq ($(TARGET_CONSOLE_ENABLED),true)
-BOARD_KERNEL_CMDLINE += console=hvc0,115200
+BOARD_KERNEL_CMDLINE += console=hvc0,115200 debug loglevel=9
 BOARD_BOOTCONFIG += androidboot.console=ttyAMA0
 else
 ifeq ($(TARGET_CONSOLE_ENABLED),false)
