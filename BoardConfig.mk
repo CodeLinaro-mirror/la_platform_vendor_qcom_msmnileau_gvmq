@@ -128,6 +128,7 @@ ifneq ($(AB_OTA_UPDATER),true)
 endif
 
 TARGET_RECOVERY_FSTAB := device/qcom/msmnile_gvmq/fstab.qcom
+BOARD_USES_METADATA_PARTITION := true
 
 #Enable split vendor image
 ENABLE_VENDOR_IMAGE := true
@@ -137,6 +138,7 @@ TARGET_COPY_OUT_VENDOR := vendor
 BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
 endif
 TARGET_USERIMAGES_USE_EXT4 := true
+TARGET_USERIMAGES_USE_F2FS := true
 BOARD_BOOTIMAGE_PARTITION_SIZE := 0x04000000
 BOARD_KERNEL-GKI_BOOTIMAGE_PARTITION_SIZE := $(BOARD_BOOTIMAGE_PARTITION_SIZE)
 BOARD_VENDOR_BOOTIMAGE_PARTITION_SIZE := 0x04000000
@@ -148,7 +150,7 @@ BOARD_PREBUILT_DTBOIMAGE := out/target/product/msmnile_gvmq/prebuilt_dtbo.img
 BOARD_DTBOIMG_PARTITION_SIZE := 0x0800000
 BOARD_PERSISTIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_FLASH_BLOCK_SIZE := 131072 # (BOARD_KERNEL_PAGESIZE * 64)
-
+BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := f2fs
 #----------------------------------------------------------------------
 # Compile Linux Kernel
 #----------------------------------------------------------------------
