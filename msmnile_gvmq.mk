@@ -560,6 +560,9 @@ PRODUCT_VENDOR_PROPERTIES += vendor.display.builtin_baseid_and_size=5,3 \
                             vendor.display.pluggable_baseid_and_size=1,4 \
                             vendor.display.virtual_baseid_and_size=8,1 \
 
+# Disable boot animation
+PRODUCT_PROPERTY_OVERRIDES += debug.sf.nobootanimation=1
+
 # Enable CPMS for LPM
 PRODUCT_VENDOR_PROPERTIES += persist.vendor.car.lpm=true
 
