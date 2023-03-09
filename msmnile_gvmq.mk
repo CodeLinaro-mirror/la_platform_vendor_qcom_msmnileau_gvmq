@@ -30,7 +30,6 @@ TARGET_FWK_SUPPORTS_AV_VALUEADDS := true
 TARGET_USES_AOSP_FOR_WLAN := true
 ENABLE_CAR_POWER_MANAGER := true
 VPP_TARGET_USES_SERVICE := NO
-BOARD_HAVE_DUAL_BLUETOOTH := true
 TARGET_SUPPORT_DUAL_WLAN := true
 
 # Mismatch in the uses-library tags between build system and the manifest leads
@@ -205,11 +204,6 @@ PRODUCT_PACKAGES += $(PCIE_DLKM)
 
 CNSS_DLKM := cnss2
 PRODUCT_PACKAGES += $(CNSS_DLKM)
-
-ifeq ($(BOARD_HAVE_DUAL_BLUETOOTH),true)
-BT_DLKM += btpower_new.ko
-PRODUCT_PACKAGES += $(BT_DLKM)
-endif
 
 # HS-I2S DLKM
 PRODUCT_PACKAGES += hsi2s.ko

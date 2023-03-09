@@ -193,7 +193,6 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
         <interface>
             <name>IBluetoothHci</name>
             <instance>default</instance>
-            <instance>hci1</instance>
         </interface>
     </hal>
     <!-- QSEECom HAL service -->
