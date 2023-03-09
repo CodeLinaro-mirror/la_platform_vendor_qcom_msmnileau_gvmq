@@ -21,11 +21,6 @@ cd $IMG_PATH
 OUTPATH="$PWD/../../../out/target/product/msmnile_gvmq"
 #echo "$OUTPATH"
 cd $OUTPATH
-
-echo "Creating misc image"
-truncate -s 8M misc.img
-mkfs.ext4 misc.img
-
 # Create scratch folder to copy the images for creating split PIL images
 if [ -d "$OUTPATH/scratch" ]
 then
