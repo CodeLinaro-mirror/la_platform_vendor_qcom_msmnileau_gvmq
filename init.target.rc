@@ -30,10 +30,10 @@
 import /vendor/etc/init/hw/init.qti.kernel.rc
 
 on early-init
-#    chown system system /sys/kernel/boot_kpi/kpi_values
+    chown system system /sys/kernel/boot_kpi/kpi_values
     write /proc/sys/kernel/sched_boost 1
     symlink /data/tombstones /tombstones
- #   write /sys/kernel/boot_kpi/kpi_values "M - INITRC Userspace Start"
+    write /sys/kernel/boot_kpi/kpi_values "M - INITRC Userspace Start"
 
 # Elite
 on early-init && property:ro.boot.audio=""
