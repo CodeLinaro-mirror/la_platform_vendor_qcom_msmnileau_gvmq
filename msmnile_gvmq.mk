@@ -57,6 +57,7 @@ TARGET_USES_AOSP_FOR_WLAN := true
 BOARD_HAS_QCOM_WLAN := false
 ENABLE_CAR_POWER_MANAGER := true
 VPP_TARGET_USES_SERVICE := NO
+TARGET_GVMGH_SPECIFIC := false
 
 # U-BRINGUP disable userspace reboot
 #Enable Userspace Restart
