@@ -76,8 +76,10 @@ RELAX_USES_LIBRARY_CHECK := true
 
 ifeq ($(ENABLE_AB), true)
 PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
+PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
 else
 PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
+PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
 endif
 #endif
 PRODUCT_BUILD_SYSTEM_IMAGE := false
@@ -377,6 +379,7 @@ PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 
 #add vndservicemanager
 PRODUCT_PACKAGES += vndservicemanager
+PRODUCT_PACKAGES += fstab.gen4.qcom
 
 #add neuralnetworks
 PRODUCT_PACKAGES += android.hardware.neuralnetworks@1.0.vendor \
