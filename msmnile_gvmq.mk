@@ -2,12 +2,11 @@ TARGET_BOARD_PLATFORM := msmnile
 TARGET_BOOTLOADER_BOARD_NAME := msmnile
 TARGET_BOARD_TYPE := auto
 TARGET_BOARD_SUFFIX := _gvmq
-PRODUCT_MANUFACTURER := qti
+PRODUCT_MANUFACTURER := Qualcomm
 PRODUCT_DEVICE := msmnile_gvmq
 
 PRODUCT_VENDOR_PROPERTIES += \
     ro.soc.manufacturer=$(PRODUCT_MANUFACTURER) \
-    ro.soc.model=$(PRODUCT_DEVICE)
 
 ALLOW_MISSING_DEPENDENCIES := true
 # Enable AVB 2.0
@@ -225,6 +224,10 @@ PRODUCT_PACKAGES += update_engine \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.vendor.bootctrl.enable=true
 
+# Board suffix property
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.vendor.board.suffix=$(TARGET_BOARD_SUFFIX)
+
 PRODUCT_HOST_PACKAGES += \
 	brillo_update_payload
 
@@ -251,10 +254,6 @@ PRODUCT_PACKAGES += \
 
 # MSM IRQ Balancer configuration file
 PRODUCT_COPY_FILES += device/qcom/msmnile/msm_irqbalance.conf:$(TARGET_COPY_OUT_VENDOR)/etc/msm_irqbalance.conf
-
-# MIDI feature
-PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/android.software.midi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.midi.xml
 
 #Copy unsupported features list
 PRODUCT_COPY_FILES += \
