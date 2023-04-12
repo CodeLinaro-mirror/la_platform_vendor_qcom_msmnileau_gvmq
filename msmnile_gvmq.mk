@@ -7,6 +7,7 @@ TARGET_DISABLE_DISPLAY := false
 TARGET_DISABLE_CODEC2 := true
 TARGET_DISABLE_VPP_FILTER := true
 AUDIO_USE_STUB_HAL := false
+TARGET_GVMGH_SPECIFIC := false
 # Skip VINTF checks for kernel configs since we do not have kernel source
 PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
 
@@ -41,7 +42,6 @@ TARGET_NO_QTI_WFD := true
 BOARD_HAVE_QCOM_FM := false
 BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := false
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := false
-TARGET_USES_GAS := true
 TARGET_FWK_SUPPORTS_AV_VALUEADDS := true
 #TARGET_FWK_SUPPORTS_FULL_VALUEADDS := false
 TARGET_USES_AOSP_FOR_WLAN := true
@@ -87,6 +87,12 @@ PRODUCT_BUILD_USERDATA_IMAGE := true
 PRODUCT_BUILD_VENDOR_BOOT_IMAGE := true
 PRODUCT_BUILD_VENDOR_DLKM_IMAGE := true
 PRODUCT_BUILD_SYSTEM_DLKM_IMAGE := true
+
+#Using sha256 for dm-verity partitions.
+#system, system_other, system_ext and product.
+BOARD_AVB_SYSTEM_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
+BOARD_AVB_SYSTEM_EXT_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
+BOARD_AVB_VENDOR_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
 
 ifneq ("$(wildcard device/qcom/$(TARGET_BOARD_PLATFORM)-kernel/vendor_dlkm/system_dlkm.modules.blocklist)", "")
 PRODUCT_COPY_FILES += device/qcom/$(TARGET_BOARD_PLATFORM)-kernel/vendor_dlkm/system_dlkm.modules.blocklist:$(TARGET_COPY_OUT_VENDOR_DLKM)/lib/modules/system_dlkm.modules.blocklist
@@ -246,10 +252,6 @@ PRODUCT_PACKAGES += update_engine \
 PRODUCT_VENDOR_PROPERTIES += \
     ro.vendor.bootctrl.enable=true
 
-PRODUCT_PROPERTY_OVERRIDES  += \
-   ro.crypto.state=unencrypted
-
-
 PRODUCT_PACKAGES += fstab.postinstall \
                     cppreopts.sh \
                     preloads_copy.sh \
@@ -275,9 +277,11 @@ DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := vendor/qcom/opensource/core-utils/
 # Enable Scoped Storage related
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
-# Display/Graphics
+# BroadcastRadio
 PRODUCT_PACKAGES += \
-    android.hardware.broadcastradio@1.0-impl
+    android.hardware.broadcastradio@2.0-service
+
+PRODUCT_COPY_FILES += frameworks/native/data/etc/android.hardware.broadcastradio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.broadcastradio.xml
 
 # MSM IRQ Balancer configuration file
 PRODUCT_COPY_FILES += device/qcom/msmnile_gvmq/msm_irqbalance.conf:$(TARGET_COPY_OUT_VENDOR)/etc/msm_irqbalance.conf
@@ -294,6 +298,9 @@ PRODUCT_COPY_FILES += \
 #PRODUCT_COPY_FILES += \
 #    device/qcom/msmnile_gvmq/msmnile_gvmq_excluded_features.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/msmnile_gvmq_excluded_features.xml
 
+
+PRODUCT_PACKAGES += \
+       audio.eavb.default \
 
 # Kernel modules install path
 KERNEL_MODULES_INSTALL := dlkm
@@ -323,7 +330,7 @@ ENABLE_VENDOR_RIL_SERVICE := true
 #----------------------------------------------------------------------
 ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
 # Multiple chips
-TARGET_WLAN_CHIP := qca6390 qca6490
+TARGET_WLAN_CHIP := qca6390 qca6490 qcn7605 qca6174
 include device/qcom/wlan/msmnile_au/wlan.mk
 endif
 
@@ -335,6 +342,7 @@ PRODUCT_PROPERTY_OVERRIDES += vendor.usb.diag_mdm.inst.name=diag_mdm2
 #Copy supported features list
 ifeq ($(TARGET_USES_GAS),true)
 PRODUCT_COPY_FILES += device/qcom/msmnile_gvmq/msmnile_gvmq_features.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/msmnile_gvmq_features.xml
+PRODUCT_PRODUCT_PROPERTIES += ro.gas.sharesensordata.enabled=1
 endif
 
 # Camera configuration file. Shared by passthrough/binderized camera HAL
@@ -563,6 +571,9 @@ PRODUCT_VENDOR_PROPERTIES += vendor.display.builtin_mirroring=true
 PRODUCT_VENDOR_PROPERTIES += vendor.display.builtin_baseid_and_size=5,3 \
                             vendor.display.pluggable_baseid_and_size=1,4 \
                             vendor.display.virtual_baseid_and_size=8,1 \
+
+# Disable boot animation
+PRODUCT_PROPERTY_OVERRIDES += debug.sf.nobootanimation=1
 
 # Enable CPMS for LPM
 PRODUCT_VENDOR_PROPERTIES += persist.vendor.car.lpm=true
