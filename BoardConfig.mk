@@ -39,8 +39,17 @@ BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/qcom/common/automotive
 USE_OPENGL_RENDERER := true
 BOARD_USE_LEGACY_UI := true
 # Set Header version for bootimage
-BOARD_BOOT_HEADER_VERSION := 3
+BOARD_BOOT_HEADER_VERSION := 4
 BOARD_MKBOOTIMG_ARGS := --header_version $(BOARD_BOOT_HEADER_VERSION)
+
+ifeq ($(TARGET_NO_RECOVERY), true)
+BOARD_MOVE_RECOVERY_RESOURCES_TO_VENDOR_BOOT := true
+BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT := true
+endif
+
+# Specify init boot header version
+BOARD_INIT_BOOT_HEADER_VERSION := 4
+BOARD_MKBOOTIMG_INIT_ARGS += --header_version $(BOARD_INIT_BOOT_HEADER_VERSION)
 
 ### Dynamic partition Handling
 ifneq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
@@ -51,7 +60,7 @@ ifneq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
   BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
   ifeq ($(ENABLE_AB), true)
       TARGET_NO_RECOVERY := true
-      BOARD_USES_RECOVERY_AS_BOOT := true
+      BOARD_USES_RECOVERY_AS_BOOT := false
   else
       BOARD_RECOVERYIMAGE_PARTITION_SIZE := 0x04000000
   endif
@@ -73,14 +82,14 @@ else
   # Define the Dynamic Partition sizes and groups.
   ifeq ($(ENABLE_AB), true)
     TARGET_NO_RECOVERY := true
-    BOARD_USES_RECOVERY_AS_BOOT := true
+    BOARD_USES_RECOVERY_AS_BOOT := false
     BOARD_SUPER_PARTITION_SIZE := 12884901888
   else
     BOARD_RECOVERYIMAGE_PARTITION_SIZE := 67108864
     BOARD_SUPER_PARTITION_SIZE := 5318967296
   endif
   BOARD_SUPER_PARTITION_GROUPS := qti_dynamic_partitions
-  BOARD_QTI_DYNAMIC_PARTITIONS_SIZE := 2659483647
+  BOARD_QTI_DYNAMIC_PARTITIONS_SIZE := 5314772992
   BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := system vendor system_ext vendor_dlkm system_dlkm
   BOARD_EXT4_SHARE_DUP_BLOCKS := true
 endif
@@ -119,6 +128,10 @@ ifneq ($(AB_OTA_UPDATER),true)
 endif
 
 TARGET_RECOVERY_FSTAB := device/qcom/msmnile_gvmq/fstab.qcom
+BOARD_USES_METADATA_PARTITION := true
+
+TARGET_HW_DISK_ENCRYPTION := false
+TARGET_HW_DISK_ENCRYPTION_PERF := false
 
 #Enable split vendor image
 ENABLE_VENDOR_IMAGE := true
@@ -128,10 +141,11 @@ TARGET_COPY_OUT_VENDOR := vendor
 BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
 endif
 TARGET_USERIMAGES_USE_EXT4 := true
+TARGET_USERIMAGES_USE_F2FS := true
 BOARD_BOOTIMAGE_PARTITION_SIZE := 0x04000000
 BOARD_KERNEL-GKI_BOOTIMAGE_PARTITION_SIZE := $(BOARD_BOOTIMAGE_PARTITION_SIZE)
 BOARD_VENDOR_BOOTIMAGE_PARTITION_SIZE := 0x04000000
-#BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3221225472
+BOARD_INIT_BOOT_IMAGE_PARTITION_SIZE := 0x00800000
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 10737418240
 BOARD_PERSISTIMAGE_PARTITION_SIZE := 33554432
 BOARD_METADATAIMAGE_PARTITION_SIZE := 16777216
@@ -139,7 +153,7 @@ BOARD_PREBUILT_DTBOIMAGE := out/target/product/msmnile_gvmq/prebuilt_dtbo.img
 BOARD_DTBOIMG_PARTITION_SIZE := 0x0800000
 BOARD_PERSISTIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_FLASH_BLOCK_SIZE := 131072 # (BOARD_KERNEL_PAGESIZE * 64)
-
+BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := f2fs
 #----------------------------------------------------------------------
 # Compile Linux Kernel
 #----------------------------------------------------------------------
@@ -164,7 +178,19 @@ TARGET_USES_ION := true
 TARGET_USES_NEW_ION_API :=true
 TARGET_USES_QCOM_BSP := false
 
-BOARD_KERNEL_CMDLINE := console=ttyAMA0 earlycon=pl011,0x1c090000 debug user_debug=31 loglevel=9 print-fatal-signals=1 androidboot.console=ttyAMA0 androidboot.hardware=qcom androidboot.selinux=enforcing androidboot.memcg=1 init=/init swiotlb=4096 androidboot.usbcontroller=a600000.dwc3 androidboot.recover_usb=1 kpti=0 pcie_ports=compat firmware_class.path=/vendor/firmware_mnt/image 
+BOARD_BOOTCONFIG := androidboot.hardware=qcom androidboot.selinux=permissive androidboot.memcg=1 androidboot.usbcontroller=a600000.dwc3 androidboot.recover_usb=1
+
+BOARD_KERNEL_CMDLINE := debug user_debug=31 loglevel=9 print-fatal-signals=1  init=/init swiotlb=4096  kpti=0 pcie_ports=compat firmware_class.path=/vendor/firmware_mnt/image
+
+ifeq ($(TARGET_CONSOLE_ENABLED),true)
+BOARD_KERNEL_CMDLINE += console=hvc0,115200
+BOARD_BOOTCONFIG += androidboot.console=ttyAMA0 earlycon=pl011,0x1c090000
+else
+ifeq ($(TARGET_CONSOLE_ENABLED),false)
+BOARD_KERNEL_CMDLINE += qcom_geni_serial.con_enabled=0
+BOARD_KERNEL_CMDLINE += earlycon=pl011,0x1c090000
+endif
+endif
 
 BOARD_EGL_CFG := device/qcom/$(TARGET_BOARD_PLATFORM)/egl.cfg
 
@@ -186,9 +212,6 @@ else
 	TARGET_USES_UNCOMPRESSED_KERNEL := true
 endif
 
-KERN_PATH := kernel_platform/msm-kernel/
-$(shell if ! [ -L $(KERN_PATH)gen_headers_arm64.bp ]; then rm $(KERN_PATH)gen_headers_arm64.bp && ln -s gen_headers_arm64_auto.bp $(KERN_PATH)gen_headers_arm64.bp; fi)
-$(shell if ! [ -L $(KERN_PATH)gen_headers_arm.bp ]; then rm $(KERN_PATH)gen_headers_arm.bp && ln -s gen_headers_arm_auto.bp $(KERN_PATH)gen_headers_arm.bp; fi)
 
 MAX_EGL_CACHE_KEY_SIZE := 12*1024
 MAX_EGL_CACHE_SIZE := 2048*1024
@@ -256,7 +279,7 @@ endif
 
 #Flag to enable System SDK Requirements.
 #All vendor APK will be compiled against system_current API set.
-BOARD_SYSTEMSDK_VERSIONS:=31
+BOARD_SYSTEMSDK_VERSIONS:=33
 
 #Enable VNDK Compliance
 BOARD_VNDK_VERSION:=current
@@ -279,5 +302,6 @@ BUILD_BROKEN_USES_BUILD_HOST_SHARED_LIBRARY := true
 BUILD_BROKEN_USES_BUILD_HOST_EXECUTABLE := true
 BUILD_BROKEN_USES_BUILD_COPY_HEADERS := true
 BUILD_BROKEN_USES_BUILD_HOST_STATIC_LIBRARY := true
+BUILD_BROKEN_CLANG_PROPERTY := true
 #Enable Camera2 APIs on automotive builds
 ENABLE_CAMERA_SERVICE := true
