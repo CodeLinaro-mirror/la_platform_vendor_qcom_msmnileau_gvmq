@@ -144,20 +144,6 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
            <instance>default</instance>
        </interface>
    </hal>
-    <!-- playready HAL service -->
-    <hal format="hidl">
-        <name>android.hardware.drm</name>
-        <transport>hwbinder</transport>
-        <version>1.3</version>
-        <interface>
-            <name>ICryptoFactory</name>
-            <instance>playready</instance>
-        </interface>
-        <interface>
-            <name>IDrmFactory</name>
-            <instance>playready</instance>
-        </interface>
-    </hal>
     <hal format="hidl">
         <name>vendor.qti.gnss</name>
         <transport>hwbinder</transport>
