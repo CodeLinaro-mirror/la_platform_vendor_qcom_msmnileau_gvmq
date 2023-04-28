@@ -209,6 +209,14 @@ PRODUCT_PACKAGES += hsi2s.ko
 # HS-I2S test app
 PRODUCT_PACKAGES += hsi2s_test
 
+# PTP VIRTUAL DLKM
+PRODUCT_PACKAGES += ptp_virtual.ko
+
+#gptp app and daemon
+PRODUCT_PACKAGES += gptp \
+    libgptp.so \
+    libgptp_test
+
 PRODUCT_PACKAGES += fs_config_files
 
 #A/B related packages
