@@ -139,6 +139,7 @@ SPDX-License-Identifier: BSD-3-Clause-Clear
         </interface>
     </hal>
     <!-- keymaster -->
+   <!--
    <hal format="hidl">
        <name>android.hardware.keymaster</name>
        <transport>hwbinder</transport>
@@ -148,7 +149,9 @@ SPDX-License-Identifier: BSD-3-Clause-Clear
            <instance>default</instance>
        </interface>
     </hal>
+    -->
     <!-- gatekeeper -->
+    <!--
     <hal format="hidl">
        <name>android.hardware.gatekeeper</name>
        <transport>hwbinder</transport>
@@ -158,6 +161,7 @@ SPDX-License-Identifier: BSD-3-Clause-Clear
            <instance>default</instance>
        </interface>
    </hal>
+   -->
     <!-- playready HAL service -->
     <hal format="hidl">
         <name>android.hardware.drm</name>
