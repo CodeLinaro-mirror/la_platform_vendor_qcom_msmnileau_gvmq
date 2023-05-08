@@ -218,6 +218,9 @@ AUDIO_DLKM += audio_native.ko
 AUDIO_DLKM += audio_machine_msmnile.ko
 PRODUCT_PACKAGES += $(AUDIO_DLKM)
 
+PRODUCT_VENDOR_PROPERTIES += \
+    ro.boot.audio=audioreach
+
 # Bluetooth DLKM
 BT_DLKM := btpower.ko
 PRODUCT_PACKAGES += $(BT_DLKM)
