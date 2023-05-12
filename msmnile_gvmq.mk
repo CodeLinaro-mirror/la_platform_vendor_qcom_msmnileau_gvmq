@@ -330,10 +330,8 @@ PRODUCT_PACKAGES += fs_config_files
 PRODUCT_PACKAGES += update_engine \
     update_engine_client \
     update_verifier \
-    bootctrl.msmnile \
-    android.hardware.boot@1.2-service \
-    android.hardware.boot@1.2-impl-qti \
-    android.hardware.boot@1.2-impl-qti.recovery \
+    android.hardware.boot-service.qti.recovery \
+    android.hardware.boot-service.qti \
     update_engine_sideload
 
 # bootctrl property
