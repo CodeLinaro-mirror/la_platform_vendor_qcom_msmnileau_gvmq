@@ -23,10 +23,12 @@ ALLOW_MISSING_DEPENDENCIES := true
   ENABLE_AB ?= true
   # Enable virtual-ab by default
   ifeq ($(ENABLE_AB), true)
-    ENABLE_VIRTUAL_AB ?= false
+    ENABLE_VIRTUAL_AB ?= true
   endif
   ifeq ($(ENABLE_VIRTUAL_AB), true)
-    $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
+    $(call inherit-product, $(SRC_TARGET_DIR)/product/generic_ramdisk.mk)
+    $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/android_t_baseline.mk)
+    PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := gz
   endif
 # Enable AVB 2.0
 BOARD_AVB_ENABLE := true
@@ -76,8 +78,10 @@ RELAX_USES_LIBRARY_CHECK := true
 
 ifeq ($(ENABLE_AB), true)
 PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
+PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
 else
 PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
+PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
 endif
 #endif
 PRODUCT_BUILD_SYSTEM_IMAGE := false
@@ -98,6 +102,8 @@ PRODUCT_BUILD_SYSTEM_DLKM_IMAGE := true
 BOARD_AVB_SYSTEM_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
 BOARD_AVB_SYSTEM_EXT_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
 BOARD_AVB_VENDOR_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
+BOARD_AVB_SYSTEM_DLKM_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
+BOARD_AVB_VENDOR_DLKM_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
 
 ifneq ("$(wildcard device/qcom/$(TARGET_BOARD_PLATFORM)-kernel/vendor_dlkm/system_dlkm.modules.blocklist)", "")
 PRODUCT_COPY_FILES += device/qcom/$(TARGET_BOARD_PLATFORM)-kernel/vendor_dlkm/system_dlkm.modules.blocklist:$(TARGET_COPY_OUT_VENDOR_DLKM)/lib/modules/system_dlkm.modules.blocklist
@@ -377,6 +383,7 @@ PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 
 #add vndservicemanager
 PRODUCT_PACKAGES += vndservicemanager
+PRODUCT_PACKAGES += fstab.gen4.qcom
 
 #add neuralnetworks
 PRODUCT_PACKAGES += android.hardware.neuralnetworks@1.0.vendor \
