@@ -268,6 +268,11 @@ PRODUCT_COPY_FILES += device/qcom/msmnile/msm_irqbalance.conf:$(TARGET_COPY_OUT_
 PRODUCT_COPY_FILES += \
     device/qcom/msmnile_gvmq/msmnile_gvmq_excluded_features.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/msmnile_gvmq_excluded_features.xml
 
+#Copy supported features list
+ifeq ($(TARGET_USES_GAS),true)
+PRODUCT_COPY_FILES += \
+    device/qcom/msmnile_gvmq/msmnile_gvmq_features.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/msmnile_gvmq_features.xml
+endif
 
 # Kernel modules install path
 KERNEL_MODULES_INSTALL := dlkm
