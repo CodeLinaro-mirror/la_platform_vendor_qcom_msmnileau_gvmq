@@ -164,13 +164,6 @@ ifeq ($(KERNEL_DEFCONFIG),)
     endif
 endif
 
-# install lkdtm only for userdebug and eng build variants
-ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
-    ifeq (,$(findstring qgki_defconfig, $(KERNEL_DEFCONFIG)))
-        #BOARD_VENDOR_KERNEL_MODULES += $(KERNEL_MODULES_OUT)/lkdtm.ko
-    endif
-endif
-
 BOARD_DO_NOT_STRIP_VENDOR_MODULES := true
 BOARD_VENDOR_KERNEL_MODULES += $(shell ls $(KERNEL_MODULES_OUT)/*.ko)
 TARGET_USES_ION := true
