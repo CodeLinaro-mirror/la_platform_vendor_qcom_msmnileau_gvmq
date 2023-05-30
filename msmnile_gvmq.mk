@@ -56,7 +56,6 @@ ENABLE_CAR_POWER_MANAGER := true
 VPP_TARGET_USES_SERVICE := NO
 TARGET_GVMGH_SPECIFIC := false
 TARGET_USES_RRO := true
-DEVICE_SUPPORTS_64_BIT_APPS_ONLY := true
 
 #Enable Userspace Restart
 $(call inherit-product, $(SRC_TARGET_DIR)/product/userspace_reboot.mk)
