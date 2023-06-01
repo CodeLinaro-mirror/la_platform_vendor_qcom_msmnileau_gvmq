@@ -108,8 +108,8 @@ PRODUCT_MODEL := msmnile_gvmq for arm64
 PRODUCT_COPY_FILES += \
     device/qcom/msmnile_gvmq/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf
 
-SHIPPING_API_LEVEL := 31
-PRODUCT_SHIPPING_API_LEVEL := 31
+SHIPPING_API_LEVEL := 32
+PRODUCT_SHIPPING_API_LEVEL := 32
 
 #Initial bringup flags
 
@@ -209,6 +209,14 @@ PRODUCT_PACKAGES += hsi2s.ko
 # HS-I2S test app
 PRODUCT_PACKAGES += hsi2s_test
 
+# PTP VIRTUAL DLKM
+PRODUCT_PACKAGES += ptp_virtual.ko
+
+#gptp app and daemon
+PRODUCT_PACKAGES += gptp \
+    libgptp.so \
+    libgptp_test
+
 PRODUCT_PACKAGES += fs_config_files
 
 #A/B related packages
@@ -260,6 +268,11 @@ PRODUCT_COPY_FILES += device/qcom/msmnile/msm_irqbalance.conf:$(TARGET_COPY_OUT_
 PRODUCT_COPY_FILES += \
     device/qcom/msmnile_gvmq/msmnile_gvmq_excluded_features.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/msmnile_gvmq_excluded_features.xml
 
+#Copy supported features list
+ifeq ($(TARGET_USES_GAS),true)
+PRODUCT_COPY_FILES += \
+    device/qcom/msmnile_gvmq/msmnile_gvmq_features.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/msmnile_gvmq_features.xml
+endif
 
 # Kernel modules install path
 KERNEL_MODULES_INSTALL := dlkm
