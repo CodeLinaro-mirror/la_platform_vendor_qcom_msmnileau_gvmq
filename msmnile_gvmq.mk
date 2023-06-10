@@ -55,6 +55,7 @@ BOARD_HAS_QCOM_WLAN := true
 ENABLE_CAR_POWER_MANAGER := true
 VPP_TARGET_USES_SERVICE := NO
 TARGET_GVMGH_SPECIFIC := false
+TARGET_USES_RRO := true
 
 #Enable Userspace Restart
 $(call inherit-product, $(SRC_TARGET_DIR)/product/userspace_reboot.mk)
@@ -390,8 +391,6 @@ PRODUCT_PACKAGES += android.hardware.neuralnetworks@1.0.vendor \
                     android.hardware.neuralnetworks@1.1.vendor \
                     android.hardware.neuralnetworks@1.2.vendor \
                     android.hardware.neuralnetworks@1.3.vendor
-
-PRODUCT_ENFORCE_RRO_TARGETS := framework-res
 
 #add libnbaio for avenhancement
 ifeq ($(TARGET_FWK_SUPPORTS_FULL_VALUEADDS), true)
