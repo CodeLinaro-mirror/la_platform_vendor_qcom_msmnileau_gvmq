@@ -68,6 +68,7 @@ LOCAL_SRC_FILES    := $(LOCAL_MODULE)
 LOCAL_MODULE_PATH  := $(TARGET_OUT_KEYLAYOUT)
 include $(BUILD_PREBUILT)
 
+ifneq ($(TARGET_USES_GY),true)
 ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
   include $(CLEAR_VARS)
   LOCAL_MODULE       := fstab.qcom
@@ -91,7 +92,9 @@ else
   endif
   include $(BUILD_PREBUILT)
 endif ##BOARD_DYNAMIC_PARTITION_ENABLE
+endif
 
+ifneq ($(TARGET_USES_GY),true)
 ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
   include $(CLEAR_VARS)
   LOCAL_MODULE       := fstab.gen4.qcom
@@ -115,7 +118,7 @@ else
   endif
   include $(BUILD_PREBUILT)
 endif ##BOARD_DYNAMIC_PARTITION_ENABLE
-
+endif
 #----------------------------------------------------------------------
 # Radio image
 #----------------------------------------------------------------------
