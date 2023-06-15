@@ -107,6 +107,10 @@ on boot
     chmod 0770 /data/vendor/netmgr/recovery
     write /data/vendor/netmgr/recovery/recovery_info ""
     chown radio radio /data/vendor/netmgr/recovery/recovery_info
+    chown system system /sys/bus/platform/drivers/xhci-hcd/unbind
+    chown system system /sys/bus/platform/drivers/xhci-hcd/bind
+    chmod 0777 /sys/bus/platform/drivers/xhci-hcd/unbind
+    chmod 0777 /sys/bus/platform/drivers/xhci-hcd/bind
 
 # Add a cpuset for the camera daemon
 # We want all cores for camera
