@@ -31,6 +31,7 @@ ENABLE_CAR_POWER_MANAGER := true
 VPP_TARGET_USES_SERVICE := NO
 BOARD_HAVE_DUAL_BLUETOOTH := true
 TARGET_SUPPORT_DUAL_WLAN := true
+TARGET_GVMGH_SPECIFIC := false
 
 # Mismatch in the uses-library tags between build system and the manifest leads
 # to soong APK manifest_check tool errors. Enable the flag to fix this.
