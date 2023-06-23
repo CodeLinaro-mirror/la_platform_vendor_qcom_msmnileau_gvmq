@@ -175,7 +175,7 @@ BOARD_BOOTCONFIG := androidboot.hardware=qcom androidboot.selinux=enforcing andr
 BOARD_KERNEL_CMDLINE := user_debug=31 print-fatal-signals=1  init=/init swiotlb=4096  kpti=0 pcie_ports=compat firmware_class.path=/vendor/firmware_mnt/image loop.max_part=7
 
 ifeq ($(TARGET_CONSOLE_ENABLED),true)
-BOARD_KERNEL_CMDLINE += console=hvc0,115200 debug loglevel=9
+BOARD_KERNEL_CMDLINE += console=hvc0,115200 debug loglevel=8 printk.devkmsg=on log_buf_len=1M
 BOARD_BOOTCONFIG += androidboot.console=ttyAMA0
 else
 ifeq ($(TARGET_CONSOLE_ENABLED),false)
