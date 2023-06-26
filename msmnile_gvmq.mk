@@ -10,10 +10,11 @@ AUDIO_USE_STUB_HAL := false
 TARGET_GVMGH_SPECIFIC := false
 # Skip VINTF checks for kernel configs since we do not have kernel source
 PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
+PRODUCT_MANUFACTURER := Qualcomm
+PRODUCT_DEVICE := msmnile_gvmq
 
 PRODUCT_VENDOR_PROPERTIES += \
     ro.soc.manufacturer=$(PRODUCT_MANUFACTURER) \
-    ro.soc.model=$(PRODUCT_DEVICE)
 
 ALLOW_MISSING_DEPENDENCIES := true
   ENABLE_AB ?= true
@@ -50,6 +51,7 @@ TARGET_USES_AOSP_FOR_WLAN := true
 BOARD_HAS_QCOM_WLAN := true
 ENABLE_CAR_POWER_MANAGER := true
 VPP_TARGET_USES_SERVICE := NO
+DEVICE_SUPPORTS_64_BIT_APPS_ONLY := true
 
 #Enable Userspace Restart
 $(call inherit-product, $(SRC_TARGET_DIR)/product/userspace_reboot.mk)
@@ -97,6 +99,8 @@ PRODUCT_BUILD_SYSTEM_DLKM_IMAGE := true
 BOARD_AVB_SYSTEM_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
 BOARD_AVB_SYSTEM_EXT_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
 BOARD_AVB_VENDOR_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
+BOARD_AVB_SYSTEM_DLKM_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
+BOARD_AVB_VENDOR_DLKM_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
 
 ifneq ("$(wildcard device/qcom/$(TARGET_BOARD_PLATFORM)-kernel/vendor_dlkm/system_dlkm.modules.blocklist)", "")
 PRODUCT_COPY_FILES += device/qcom/$(TARGET_BOARD_PLATFORM)-kernel/vendor_dlkm/system_dlkm.modules.blocklist:$(TARGET_COPY_OUT_VENDOR_DLKM)/lib/modules/system_dlkm.modules.blocklist
@@ -118,22 +122,16 @@ PRODUCT_PROPERTY_OVERRIDES += ro.control_privapp_permissions=enforce
 $(call inherit-product, packages/services/Car/car_product/build/car.mk)
 
 PRODUCT_NAME := msmnile_gvmq
-PRODUCT_DEVICE := msmnile_gvmq
 PRODUCT_BRAND := qti
 PRODUCT_MODEL := msmnile_gvmq for arm64
 
+TARGET_OUT_INTERMEDIATES := out/target/product/$(PRODUCT_NAME)/obj
+$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr:
+	mkdir -p $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
 
 # Sensor conf files
 PRODUCT_COPY_FILES += \
     device/qcom/msmnile_gvmq/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf \
-    frameworks/native/data/etc/android.hardware.sensor.compass.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.compass.xml \
-    frameworks/native/data/etc/android.hardware.sensor.light.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.light.xml \
-    frameworks/native/data/etc/android.hardware.sensor.proximity.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.proximity.xml \
-    frameworks/native/data/etc/android.hardware.sensor.barometer.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.barometer.xml \
-    frameworks/native/data/etc/android.hardware.sensor.stepcounter.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.stepcounter.xml \
-    frameworks/native/data/etc/android.hardware.sensor.stepdetector.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.stepdetector.xml \
-    frameworks/native/data/etc/android.hardware.sensor.ambient_temperature.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.ambient_temperature.xml \
-    frameworks/native/data/etc/android.hardware.sensor.relative_humidity.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.relative_humidity.xml \
     frameworks/native/data/etc/android.hardware.sensor.hifi_sensors.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.hifi_sensors.xml
 
 
