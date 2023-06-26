@@ -2,19 +2,12 @@ TARGET_BOARD_PLATFORM := msmnile
 TARGET_BOOTLOADER_BOARD_NAME := msmnile
 TARGET_BOARD_TYPE := auto
 TARGET_BOARD_SUFFIX := _gvmq
-ENABLE_AIDL_VHAL := true
-TARGET_DISABLE_DISPLAY := false
-TARGET_DISABLE_CODEC2 := true
-TARGET_DISABLE_VPP_FILTER := true
-AUDIO_USE_STUB_HAL := false
-TARGET_GVMGH_SPECIFIC := false
-# Skip VINTF checks for kernel configs since we do not have kernel source
-PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
-PRODUCT_MANUFACTURER := Qualcomm
+PRODUCT_MANUFACTURER := qti
 PRODUCT_DEVICE := msmnile_gvmq
 
 PRODUCT_VENDOR_PROPERTIES += \
     ro.soc.manufacturer=$(PRODUCT_MANUFACTURER) \
+    ro.soc.model=$(PRODUCT_DEVICE)
 
 ALLOW_MISSING_DEPENDENCIES := true
 # Enable AVB 2.0
@@ -107,6 +100,7 @@ PRODUCT_PROPERTY_OVERRIDES += ro.control_privapp_permissions=enforce
 $(call inherit-product, packages/services/Car/car_product/build/car.mk)
 
 PRODUCT_NAME := msmnile_gvmq
+PRODUCT_DEVICE := msmnile_gvmq
 PRODUCT_BRAND := qti
 PRODUCT_MODEL := msmnile_gvmq for arm64
 
