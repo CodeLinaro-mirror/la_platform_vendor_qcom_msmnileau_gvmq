@@ -45,7 +45,7 @@
    <bool name="config_enableKeyguardService">false</bool>
 
    <!-- Regex of Ethernet ifaces -->
-   <string translatable="false" name="config_ethernet_iface_regex">VETH0_\\d\\d|VETH0_\\d|eth\\d</string>
+   <string translatable="false" name="config_ethernet_iface_regex">VETH0_\\d\\d|VETH0_\\d|eth\\d|en\\d</string>
 
    <!-- Configuration of Ethernet interfaces in the following format:
          <interface name|mac address>;[Network Capabilities];[IP config];[Override Transport]
@@ -68,6 +68,7 @@
    -->
    <string-array translatable="false" name="config_ethernet_interfaces">
       <item>eth0;0,13,14,15,28;ip=192.168.1.3/24 gateway=192.168.1.10 dns=8.8.4.4,8.8.8.8</item>
+      <item>en0;12,13,14,15,28;ip=192.168.1.4/24 gateway=192.168.1.10 dns=8.8.4.4,8.8.8.8</item>
       <item>eth1;12,13,14,15,28;ip=192.168.6.3/24 gateway=192.168.6.10 dns=8.8.4.4,8.8.8.8</item>
       <item>eth2;1,13,14,15,28;ip=192.168.1.4/24 gateway=192.168.1.10 dns=8.8.4.4,8.8.8.8</item>
       <item>VETH0_44;12,13,14,15,28;ip=192.168.5.3/24 gateway=192.168.5.10 dns=8.8.4.4,8.8.8.8</item>
