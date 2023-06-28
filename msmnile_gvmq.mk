@@ -392,8 +392,7 @@ PRODUCT_PACKAGES += libnbaio
 
 PRODUCT_PRODUCT_PROPERTIES += persist.adb.tcp.port=5555
 
-PRODUCT_VENDOR_PROPERTIES += rild.libpath=/vendor/lib64/libril-qc-hal-qmi.so \
-                persist.rild.nitz_plmn=
+PRODUCT_VENDOR_PROPERTIES += \
                 persist.rild.nitz_long_ons_0=
                 persist.rild.nitz_long_ons_1=
                 persist.rild.nitz_long_ons_2=
