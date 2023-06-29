@@ -57,7 +57,6 @@ TARGET_USES_AOSP_FOR_WLAN := true
 BOARD_HAS_QCOM_WLAN := false
 ENABLE_CAR_POWER_MANAGER := true
 VPP_TARGET_USES_SERVICE := NO
-TARGET_USES_RRO := true
 
 # U-BRINGUP disable userspace reboot
 #Enable Userspace Restart
@@ -468,6 +467,8 @@ PRODUCT_PACKAGES += android.hardware.neuralnetworks@1.0.vendor \
                     android.hardware.neuralnetworks@1.1.vendor \
                     android.hardware.neuralnetworks@1.2.vendor \
                     android.hardware.neuralnetworks@1.3.vendor
+
+PRODUCT_ENFORCE_RRO_TARGETS := framework-res
 
 #add libnbaio for avenhancement
 PRODUCT_PACKAGES += libnbaio
