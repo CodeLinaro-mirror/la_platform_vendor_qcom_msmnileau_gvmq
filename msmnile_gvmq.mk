@@ -102,9 +102,6 @@ PRODUCT_DEVICE := msmnile_gvmq
 PRODUCT_BRAND := qti
 PRODUCT_MODEL := msmnile_gvmq for arm64
 
-TARGET_OUT_INTERMEDIATES := out/target/product/$(PRODUCT_NAME)/obj
-$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr:
-	mkdir -p $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
 
 # Sensor conf files
 PRODUCT_COPY_FILES += \
