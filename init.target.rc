@@ -44,8 +44,13 @@ on early-init && property:ro.boot.audio=audioreach
      setprop ro.hardware.audio.primary "msmnile.ar"
      setprop ro.hardware.sound_trigger.primary "msmnile.ar"
 
-# AudioReach
+# AudioReach GEN3
 on early-init && property:ro.boot.audio=audioreach_gen3
+     setprop ro.hardware.audio.primary "msmnile.ar"
+     setprop ro.hardware.sound_trigger.primary "msmnile.ar"
+
+# AudioReach VIO
+on early-init && property:ro.boot.audio=audioreach_vio
      setprop ro.hardware.audio.primary "msmnile.ar"
      setprop ro.hardware.sound_trigger.primary "msmnile.ar"
 
