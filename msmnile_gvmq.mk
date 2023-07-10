@@ -208,10 +208,6 @@ endif
 ###########
 #QMAA flags ends
 
-TARGET_OUT_INTERMEDIATES := out/target/product/$(PRODUCT_NAME)/obj
-$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr:
-	mkdir -p $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
-
 # Sensor conf files
 PRODUCT_COPY_FILES += \
     device/qcom/msmnile_gvmq/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf \
