@@ -139,15 +139,15 @@ SPDX-License-Identifier: BSD-3-Clause-Clear
         </interface>
     </hal>
     <!-- keymaster -->
-   <!--
-   <hal format="hidl">
-       <name>android.hardware.keymaster</name>
-       <transport>hwbinder</transport>
-       <version>4.1</version>
-       <interface>
-           <name>IKeymasterDevice</name>
-           <instance>default</instance>
-       </interface>
+    <!--
+    <hal format="hidl">
+        <name>android.hardware.keymaster</name>
+        <transport>hwbinder</transport>
+        <version>4.1</version>
+        <interface>
+            <name>IKeymasterDevice</name>
+            <instance>default</instance>
+        </interface>
     </hal>
     -->
     <!-- gatekeeper -->
