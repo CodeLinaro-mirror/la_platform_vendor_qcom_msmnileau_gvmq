@@ -135,13 +135,16 @@ on property:service.bootanim.exit=0
 
 on property:sys.boot_completed=1
     write /sys/kernel/boot_kpi/kpi_values "K - USER Android Boot Complete"
+    start wlan_multiko
 
 on property:init.svc.surfaceflinger=running
     write /sys/kernel/boot_kpi/kpi_values "M - USER SurfaceFlinger Start"
 
-on property:sys.boot_completed=1
-    # Enable WLAN cold boot calibration
-    write /sys/kernel/cnss/fs_ready 1
+service wlan_multiko /vendor/bin/init.qcom.wlan.sh
+    user root
+    group root
+    disabled
+    oneshot
 
 #pd-mapper
 service vendor.pd_mapper /vendor/bin/pd-mapper
