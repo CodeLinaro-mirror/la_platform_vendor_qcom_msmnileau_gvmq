@@ -92,6 +92,8 @@ else
   include $(BUILD_PREBUILT)
 endif ##BOARD_DYNAMIC_PARTITION_ENABLE
 
+include device/qcom/vendor-common/MergeConfig.mk
+
 #----------------------------------------------------------------------
 # Radio image
 #----------------------------------------------------------------------
