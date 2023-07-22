@@ -4,12 +4,12 @@ TARGET_BOARD_TYPE := auto
 TARGET_BOARD_SUFFIX := _gvmq
 ENABLE_AIDL_VHAL := true
 # U-BRINGUP disable display
-TARGET_DISABLE_DISPLAY := true
-TARGET_IS_HEADLESS := true
+TARGET_DISABLE_DISPLAY := false
+TARGET_IS_HEADLESS := false
 TARGET_DISABLE_CODEC2 := true
 TARGET_DISABLE_VPP_FILTER := true
 TARGET_DISABLE_HSI2S_DLKM := true
-TARGET_DISABLE_DISPLAY_DLKM := true
+TARGET_DISABLE_DISPLAY_DLKM := false
 TARGET_DISABLE_AIS_DLKM := true
 TARGET_DISABLE_LIBVIRTDIAG := true
 
@@ -128,11 +128,6 @@ PRODUCT_PROPERTY_OVERRIDES  += \
 
 PRODUCT_PROPERTY_OVERRIDES += ro.control_privapp_permissions=enforce
 
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.config.headless=1 \
-    config.disable_noncore=true \
-    config.disable_systemui=true \
-
 $(call inherit-product, packages/services/Car/car_product/build/car.mk)
 
 PRODUCT_NAME := msmnile_gvmq
@@ -165,7 +160,7 @@ TARGET_USES_QMAA_OVERRIDE_CVP  := false
 TARGET_USES_QMAA_OVERRIDE_DATA_NET := false
 TARGET_USES_QMAA_OVERRIDE_DATA := false
 TARGET_USES_QMAA_OVERRIDE_DIAG := false
-TARGET_USES_QMAA_OVERRIDE_DISPLAY := false
+TARGET_USES_QMAA_OVERRIDE_DISPLAY := true
 TARGET_USES_QMAA_OVERRIDE_DPM  := false
 TARGET_USES_QMAA_OVERRIDE_DRM  := false
 TARGET_USES_QMAA_OVERRIDE_EID := false
