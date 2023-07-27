@@ -26,7 +26,7 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 Changes from Qualcomm Innovation Center are provided under the following license:
-Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+Copyright (c) 2022-2023, Qualcomm Innovation Center, Inc. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause-Clear
 -->
 <manifest version="1.0" type="device" target-level="7">
@@ -287,14 +287,12 @@ SPDX-License-Identifier: BSD-3-Clause-Clear
             <instance>default</instance>
         </interface>
     </hal>
-<!--
     <hal format="aidl">
         <name>android.hardware.automotive.audiocontrol</name>
-        <version>1</version>
+        <version>3</version>
         <interface>
             <name>IAudioControl</name>
             <instance>default</instance>
         </interface>
     </hal>
--->
 </manifest>
