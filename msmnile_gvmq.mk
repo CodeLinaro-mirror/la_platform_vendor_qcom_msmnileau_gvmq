@@ -351,12 +351,6 @@ PRODUCT_COPY_FILES += device/qcom/msmnile_gvmq/msmnile_gvmq_features.xml:$(TARGE
 PRODUCT_PRODUCT_PROPERTIES += ro.gas.sharesensordata.enabled=1
 endif
 
-# Camera configuration file. Shared by passthrough/binderized camera HAL
-PRODUCT_PACKAGES += camera.device@3.2-impl
-PRODUCT_PACKAGES += camera.device@1.0-impl
-PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-impl
-PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-service
-
 # enable audio hidl hal 5.0
 PRODUCT_PACKAGES += \
     android.hardware.audio@5.0 \
