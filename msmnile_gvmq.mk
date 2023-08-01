@@ -238,6 +238,12 @@ PRODUCT_PACKAGES += $(PCIE_DLKM)
 #PRODUCT_PACKAGES += hsi2s.ko
 # HS-I2S test app
 PRODUCT_PACKAGES += hsi2s_test
+
+#gptp app and daemon
+PRODUCT_PACKAGES += gptp \
+    libgptp.so \
+    libgptp_test
+
 PRODUCT_PACKAGES += uhabtest
 
 PRODUCT_PACKAGES += fs_config_files
