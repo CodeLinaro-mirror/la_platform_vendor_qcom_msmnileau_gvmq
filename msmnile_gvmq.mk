@@ -224,10 +224,6 @@ PRODUCT_PACKAGES += update_engine \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.vendor.bootctrl.enable=true
 
-# Board suffix property
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.vendor.board.suffix=$(TARGET_BOARD_SUFFIX)
-
 PRODUCT_HOST_PACKAGES += \
 	brillo_update_payload
 
