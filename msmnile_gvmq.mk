@@ -354,7 +354,6 @@ PRODUCT_PROPERTY_OVERRIDES += vendor.usb.diag_mdm.inst.name=diag_mdm2
 #Copy supported features list
 ifeq ($(TARGET_USES_GAS),true)
 PRODUCT_COPY_FILES += device/qcom/msmnile_gvmq/msmnile_gvmq_features.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/msmnile_gvmq_features.xml
-PRODUCT_PRODUCT_PROPERTIES += ro.gas.sharesensordata.enabled=1
 endif
 
 # enable audio hidl hal 5.0
