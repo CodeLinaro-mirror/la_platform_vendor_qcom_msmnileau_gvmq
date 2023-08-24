@@ -29,7 +29,9 @@ ALLOW_MISSING_DEPENDENCIES := true
     ENABLE_VIRTUAL_AB ?= false
   endif
   ifeq ($(ENABLE_VIRTUAL_AB), true)
-    $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
+    $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/vabc_features.mk)
+    PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := gz
+    PRODUCT_VENDOR_PROPERTIES += ro.virtual_ab.compression.threads=true
   endif
 # Enable AVB 2.0
 BOARD_AVB_ENABLE := true
@@ -48,7 +50,6 @@ NEED_AIDL_NDK_PLATFORM_BACKEND := true
 TARGET_NO_QTI_WFD := true
 BOARD_HAVE_QCOM_FM := false
 BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := false
-EXCLUDE_LOCATION_FEATURES := true
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := false
 TARGET_FWK_SUPPORTS_AV_VALUEADDS := true
 #TARGET_FWK_SUPPORTS_FULL_VALUEADDS := false
@@ -79,6 +80,8 @@ ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
   # Enable System_ext
   PRODUCT_BUILD_SYSTEM_EXT_IMAGE := true
   PRODUCT_PACKAGES += fastbootd
+   # Add default implementation of fastboot AIDL.
+  PRODUCT_PACKAGES += android.hardware.fastboot-service.example_recovery
   
 # Mismatch in the uses-library tags between build system and the manifest leads
 # to soong APK manifest_check tool errors. Enable the flag to fix this.
@@ -211,8 +214,8 @@ PRODUCT_COPY_FILES += \
     device/qcom/msmnile_gvmq/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf \
     frameworks/native/data/etc/android.hardware.sensor.hifi_sensors.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.hifi_sensors.xml
 
-
-PRODUCT_SHIPPING_API_LEVEL := 33
+SHIPPING_API_LEVEL := 34
+PRODUCT_SHIPPING_API_LEVEL := $(SHIPPING_API_LEVEL)
 
 #Initial bringup flags
 
