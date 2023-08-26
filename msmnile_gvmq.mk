@@ -16,10 +16,11 @@ TARGET_DISABLE_LIBVIRTDIAG := true
 AUDIO_USE_STUB_HAL := false
 # Skip VINTF checks for kernel configs since we do not have kernel source
 PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
+PRODUCT_MANUFACTURER := Qualcomm
+PRODUCT_DEVICE := msmnile_gvmq
 
 PRODUCT_VENDOR_PROPERTIES += \
     ro.soc.manufacturer=$(PRODUCT_MANUFACTURER) \
-    ro.soc.model=$(PRODUCT_DEVICE)
 
 ALLOW_MISSING_DEPENDENCIES := true
   ENABLE_AB ?= true
@@ -28,7 +29,9 @@ ALLOW_MISSING_DEPENDENCIES := true
     ENABLE_VIRTUAL_AB ?= false
   endif
   ifeq ($(ENABLE_VIRTUAL_AB), true)
-    $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
+    $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/vabc_features.mk)
+    PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := gz
+    PRODUCT_VENDOR_PROPERTIES += ro.virtual_ab.compression.threads=true
   endif
 # Enable AVB 2.0
 BOARD_AVB_ENABLE := true
@@ -47,7 +50,6 @@ NEED_AIDL_NDK_PLATFORM_BACKEND := true
 TARGET_NO_QTI_WFD := true
 BOARD_HAVE_QCOM_FM := false
 BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := false
-EXCLUDE_LOCATION_FEATURES := true
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := false
 TARGET_FWK_SUPPORTS_AV_VALUEADDS := false
 #TARGET_FWK_SUPPORTS_FULL_VALUEADDS := false
@@ -78,6 +80,8 @@ ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
   # Enable System_ext
   PRODUCT_BUILD_SYSTEM_EXT_IMAGE := true
   PRODUCT_PACKAGES += fastbootd
+   # Add default implementation of fastboot AIDL.
+  PRODUCT_PACKAGES += android.hardware.fastboot-service.example_recovery
   
 # Mismatch in the uses-library tags between build system and the manifest leads
 # to soong APK manifest_check tool errors. Enable the flag to fix this.
@@ -131,7 +135,6 @@ PRODUCT_PROPERTY_OVERRIDES += ro.control_privapp_permissions=enforce
 $(call inherit-product, packages/services/Car/car_product/build/car.mk)
 
 PRODUCT_NAME := msmnile_gvmq
-PRODUCT_DEVICE := msmnile_gvmq
 PRODUCT_BRAND := qti
 PRODUCT_MODEL := msmnile_gvmq for arm64
 
@@ -162,7 +165,7 @@ TARGET_USES_QMAA_OVERRIDE_DATA := false
 TARGET_USES_QMAA_OVERRIDE_DIAG := false
 TARGET_USES_QMAA_OVERRIDE_DISPLAY := true
 TARGET_USES_QMAA_OVERRIDE_DPM  := false
-TARGET_USES_QMAA_OVERRIDE_DRM  := false
+TARGET_USES_QMAA_OVERRIDE_DRM  := true
 TARGET_USES_QMAA_OVERRIDE_EID := false
 TARGET_USES_QMAA_OVERRIDE_FASTCV  := true
 TARGET_USES_QMAA_OVERRIDE_FASTRPC := false
@@ -173,14 +176,14 @@ TARGET_USES_QMAA_OVERRIDE_GPS := true
 TARGET_USES_QMAA_OVERRIDE_GP := false
 TARGET_USES_QMAA_OVERRIDE_GPT := false
 TARGET_USES_QMAA_OVERRIDE_KERNEL_TESTS_INTERNAL := false
-TARGET_USES_QMAA_OVERRIDE_KMGK := false
+TARGET_USES_QMAA_OVERRIDE_KMGK := true
 TARGET_USES_QMAA_OVERRIDE_MSMIRQBALANCE := true
 TARGET_USES_QMAA_OVERRIDE_OPENVX  := true
 TARGET_USES_QMAA_OVERRIDE_PERF := true
 TARGET_USES_QMAA_OVERRIDE_REMOTE_EFS := false
 TARGET_USES_QMAA_OVERRIDE_RPMB := true
 TARGET_USES_QMAA_OVERRIDE_SCVE  := false
-TARGET_USES_QMAA_OVERRIDE_SECUREMSM_TESTS := false
+TARGET_USES_QMAA_OVERRIDE_SECUREMSM_TESTS := true
 TARGET_USES_QMAA_OVERRIDE_SENSORS := true
 TARGET_USES_QMAA_OVERRIDE_SMCINVOKE := false
 TARGET_USES_QMAA_OVERRIDE_SOTER := false
@@ -189,7 +192,7 @@ TARGET_USES_QMAA_OVERRIDE_SYNX := false
 TARGET_USES_QMAA_OVERRIDE_TFTP := false
 TARGET_USES_QMAA_OVERRIDE_USB := true
 TARGET_USES_QMAA_OVERRIDE_VIBRATOR := false
-TARGET_USES_QMAA_OVERRIDE_VIDEO   := false
+TARGET_USES_QMAA_OVERRIDE_VIDEO   := true
 TARGET_USES_QMAA_OVERRIDE_VPP := false
 TARGET_USES_QMAA_OVERRIDE_WFD     := true
 TARGET_USES_QMAA_OVERRIDE_WLAN    := true
@@ -206,27 +209,13 @@ endif
 ###########
 #QMAA flags ends
 
-TARGET_OUT_INTERMEDIATES := out/target/product/$(PRODUCT_NAME)/obj
-$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr:
-	mkdir -p $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
-
 # Sensor conf files
 PRODUCT_COPY_FILES += \
     device/qcom/msmnile_gvmq/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf \
-    frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.accelerometer.xml \
-    frameworks/native/data/etc/android.hardware.sensor.compass.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.compass.xml \
-    frameworks/native/data/etc/android.hardware.sensor.gyroscope.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.gyroscope.xml \
-    frameworks/native/data/etc/android.hardware.sensor.light.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.light.xml \
-    frameworks/native/data/etc/android.hardware.sensor.proximity.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.proximity.xml \
-    frameworks/native/data/etc/android.hardware.sensor.barometer.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.barometer.xml \
-    frameworks/native/data/etc/android.hardware.sensor.stepcounter.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.stepcounter.xml \
-    frameworks/native/data/etc/android.hardware.sensor.stepdetector.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.stepdetector.xml \
-    frameworks/native/data/etc/android.hardware.sensor.ambient_temperature.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.ambient_temperature.xml \
-    frameworks/native/data/etc/android.hardware.sensor.relative_humidity.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.relative_humidity.xml \
     frameworks/native/data/etc/android.hardware.sensor.hifi_sensors.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.hifi_sensors.xml
 
-
-PRODUCT_SHIPPING_API_LEVEL := 33
+SHIPPING_API_LEVEL := 34
+PRODUCT_SHIPPING_API_LEVEL := $(SHIPPING_API_LEVEL)
 
 #Initial bringup flags
 
@@ -510,11 +499,7 @@ PRODUCT_VENDOR_PROPERTIES += media.stagefright.enable-player=true \
                             media.stagefright.enable-scan=true \
                             mmp.enable.3g2=true \
                             media.aac_51_output_enabled=true \
-                            mm.enable.smoothstreaming=true
-
-#13631487 is decimal sum of supported codecs in AAL
-#codecs:(PARSER_)AAC AC3 AMR_NB AMR_WB ASF AVI DTS FLV 3GP 3G2 MKV MP2PS MP2TS MP3 OGG QCP WAV FLAC AIFF APE DSD MOV XVID
-PRODUCT_VENDOR_PROPERTIES += vendor.mm.enable.qcom_parser=63963135 \
+                            mm.enable.smoothstreaming=true \
                             persist.mm.enable.prefetch=true
 
 # system props for the data modules
