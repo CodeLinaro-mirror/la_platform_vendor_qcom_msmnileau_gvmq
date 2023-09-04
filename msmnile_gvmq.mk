@@ -63,6 +63,7 @@ TARGET_USES_QCOM_MM_AUDIO := true
 TARGET_GVMGH_SPECIFIC := false
 
 TARGET_USES_RRO := true
+TARGET_HAS_VIRTIO_FASTRPC := true
 
 # U-BRINGUP disable userspace reboot
 #Enable Userspace Restart
