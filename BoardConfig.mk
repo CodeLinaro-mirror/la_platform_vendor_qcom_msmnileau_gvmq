@@ -21,7 +21,7 @@ BOARD_SECCOMP_POLICY := device/qcom/$(TARGET_BOARD_PLATFORM)/seccomp
 TARGET_NO_BOOTLOADER := true
 TARGET_USES_UEFI := true
 TARGET_NO_KERNEL := false
-ENABLE_AUDIO_LEGACY_TECHPACK := true
+
 
 TARGET_USES_IOPHAL := true
 
@@ -178,9 +178,9 @@ TARGET_USES_ION := true
 TARGET_USES_NEW_ION_API :=true
 TARGET_USES_QCOM_BSP := false
 
-BOARD_BOOTCONFIG := androidboot.hardware=qcom androidboot.selinux=permissive androidboot.memcg=1 androidboot.recover_usb=1
+BOARD_BOOTCONFIG := androidboot.hardware=qcom androidboot.selinux=enforcing androidboot.memcg=1 androidboot.recover_usb=1 androidboot.dtbo_idx=1
 
-BOARD_KERNEL_CMDLINE := debug user_debug=31 loglevel=9 print-fatal-signals=1  init=/init swiotlb=4096  kpti=0 pcie_ports=compat firmware_class.path=/vendor/firmware_mnt/image
+BOARD_KERNEL_CMDLINE := debug user_debug=31 loglevel=9 print-fatal-signals=1  init=/init swiotlb=4096  kpti=0 pcie_ports=compat firmware_class.path=/vendor/firmware_mnt/image loop.max_part=7
 
 ifeq ($(TARGET_CONSOLE_ENABLED),true)
 BOARD_KERNEL_CMDLINE += console=hvc0,115200
@@ -269,6 +269,12 @@ SOONG_CONFIG_NAMESPACES += ufsbsg
 SOONG_CONFIG_ufsbsg += ufsframework
 SOONG_CONFIG_ufsbsg_ufsframework := bsg
 
+#namespace definition for qtiwifi
+#differentiate auto and non-auto target
+SOONG_CONFIG_NAMESPACES += qtiwifi
+SOONG_CONFIG_qtiwifi += automobile
+SOONG_CONFIG_qtiwifi_automobile := true
+
 #----------------------------------------------------------------------
 # wlan specific
 #----------------------------------------------------------------------
@@ -278,7 +284,7 @@ endif
 
 #Flag to enable System SDK Requirements.
 #All vendor APK will be compiled against system_current API set.
-BOARD_SYSTEMSDK_VERSIONS:=33
+BOARD_SYSTEMSDK_VERSIONS:= $(SHIPPING_API_LEVEL)
 
 #Enable VNDK Compliance
 BOARD_VNDK_VERSION:=current
