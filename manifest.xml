@@ -216,6 +216,7 @@ SPDX-License-Identifier: BSD-3-Clause-Clear
         <interface>
             <name>IBluetoothHci</name>
             <instance>default</instance>
+            <instance>hci1</instance>
         </interface>
     </hal>
     <!-- QSEECom HAL service -->
