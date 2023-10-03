@@ -138,16 +138,16 @@ on property:vendor.usb.controller=*
     setprop sys.usb.controller ${vendor.usb.controller}
 
 on property:init.svc.zygote=running
-    write /dev/kmsg "M - USER Zygote Start"
+    write /dev/kmsg "boot_kpi: M - USER Zygote Start"
 
 on property:service.bootanim.exit=0
-    write /dev/kmsg "K - USER Boot Animation Start"
+    write /dev/kmsg "boot_kpi: K - USER Boot Animation Start"
 
 on property:sys.boot_completed=1
-    write /dev/kmsg "K - USER Android Boot Complete"
+    write /dev/kmsg "boot_kpi: K - USER Android Boot Complete"
 
 on property:init.svc.surfaceflinger=running
-    write /dev/kmsg "M - USER SurfaceFlinger Start"
+    write /dev/kmsg "boot_kpi: M - USER SurfaceFlinger Start"
 
 on property:sys.boot_completed=1
     # Enable WLAN cold boot calibration
