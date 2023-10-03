@@ -13,6 +13,9 @@ TARGET_DISABLE_DISPLAY_DLKM := false
 TARGET_DISABLE_AIS_DLKM := true
 TARGET_DISABLE_LIBVIRTDIAG := true
 
+SHIPPING_API_LEVEL := 34
+PRODUCT_SHIPPING_API_LEVEL := $(SHIPPING_API_LEVEL)
+
 AUDIO_USE_STUB_HAL := false
 # Skip VINTF checks for kernel configs since we do not have kernel source
 PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
@@ -23,16 +26,23 @@ PRODUCT_VENDOR_PROPERTIES += \
     ro.soc.manufacturer=$(PRODUCT_MANUFACTURER) \
 
 ALLOW_MISSING_DEPENDENCIES := true
-  ENABLE_AB ?= true
-  # Enable virtual-ab by default
-  ifeq ($(ENABLE_AB), true)
-    ENABLE_VIRTUAL_AB ?= false
-  endif
-  ifeq ($(ENABLE_VIRTUAL_AB), true)
+ENABLE_AB ?= true
+# Enable virtual-ab by default
+ifeq ($(ENABLE_AB), true)
+  ENABLE_VIRTUAL_AB ?= true
+endif
+ifeq ($(ENABLE_VIRTUAL_AB), true)
+  ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),34))
+    # For OTA updates with shipping api level 34 and above.
     $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/vabc_features.mk)
-    PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := gz
     PRODUCT_VENDOR_PROPERTIES += ro.virtual_ab.compression.threads=true
+  else
+    # For OTA updates with shipping api level 33 and below.
+    $(call inherit-product, $(SRC_TARGET_DIR)/product/generic_ramdisk.mk)
+    $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/android_t_baseline.mk)
   endif
+  PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := gz
+endif
 # Enable AVB 2.0
 BOARD_AVB_ENABLE := true
 BOARD_USES_QCNE := false
@@ -219,9 +229,6 @@ endif
 PRODUCT_COPY_FILES += \
     device/qcom/msmnile_gvmq/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf \
     frameworks/native/data/etc/android.hardware.sensor.hifi_sensors.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.hifi_sensors.xml
-
-SHIPPING_API_LEVEL := 34
-PRODUCT_SHIPPING_API_LEVEL := $(SHIPPING_API_LEVEL)
 
 #Initial bringup flags
 
