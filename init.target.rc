@@ -34,10 +34,9 @@
 import /vendor/etc/init/hw/init.qti.kernel.rc
 
 on early-init
-#    chown system system /sys/kernel/boot_kpi/kpi_values
     write /proc/sys/kernel/sched_boost 1
     symlink /data/tombstones /tombstones
- #   write /sys/kernel/boot_kpi/kpi_values "M - INITRC Userspace Start"
+    write /dev/kmsg "boot_kpi: M - INITRC Userspace Start"
 
 # Elite
 on early-init && property:ro.boot.audio=""
@@ -127,8 +126,10 @@ on boot
     setprop vendor.usb.rmnet.inst.name "rmnet"
     setprop vendor.usb.dpl.inst.name "dpl"
     setprop vendor.usb.qdss.inst.name "qdss"
-    setprop vendor.usb.controller a600000.dwc3
     setprop sys.usb.configfs 1
+
+on property:ro.boot.usbcontroller=*
+    setprop vendor.usb.controller ${ro.boot.usbcontroller}
 
 on boot && property:persist.vendor.usb.controller.default=*
     setprop vendor.usb.controller ${persist.vendor.usb.controller.default}
@@ -137,16 +138,16 @@ on property:vendor.usb.controller=*
     setprop sys.usb.controller ${vendor.usb.controller}
 
 on property:init.svc.zygote=running
-    write /sys/kernel/boot_kpi/kpi_values "M - USER Zygote Start"
+    write /dev/kmsg "M - USER Zygote Start"
 
 on property:service.bootanim.exit=0
-    write /sys/kernel/boot_kpi/kpi_values "K - USER Boot Animation Start"
+    write /dev/kmsg "K - USER Boot Animation Start"
 
 on property:sys.boot_completed=1
-    write /sys/kernel/boot_kpi/kpi_values "K - USER Android Boot Complete"
+    write /dev/kmsg "K - USER Android Boot Complete"
 
 on property:init.svc.surfaceflinger=running
-    write /sys/kernel/boot_kpi/kpi_values "M - USER SurfaceFlinger Start"
+    write /dev/kmsg "M - USER SurfaceFlinger Start"
 
 on property:sys.boot_completed=1
     # Enable WLAN cold boot calibration
