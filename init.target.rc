@@ -73,11 +73,6 @@ on init
 on init && property:vendor.gdb.dump=true
     setrlimit 4 -1 -1
 
-on property:vendor.gdb.dump=true
-    mkdir data/core
-    chmod 0777 data/core
-    write /proc/sys/kernel/core_pattern "/data/core/core.%e.%p.%h.%t"
-
 on fs
     mount_all --early
     chown root system /mnt/vendor/persist
@@ -243,7 +238,7 @@ service carpowerd /vendor/bin/car_power_daemon
     disabled
 
 #Install Bluetooth power driver for the 2nd Bluetooth chip
-on property:ro.vehicle.dual_bt=true
+on property:persist.vendor.qcom.bluetooth.dual_bt=true
     insmod /vendor/lib/modules/btpower_new.ko
     chmod 0666 /sys/class/rfkill/rfkill1/state
 
