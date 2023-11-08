@@ -27,6 +27,8 @@ TARGET_USES_IOPHAL := true
 
 BUILD_BROKEN_DUP_RULES := true
 
+BOARD_RAMDISK_USE_LZ4 := true
+
 BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 
 -include $(QCPATH)/common/msmnile_gvmq/BoardConfigVendor.mk
@@ -86,10 +88,10 @@ else
     BOARD_SUPER_PARTITION_SIZE := 12884901888
   else
     BOARD_RECOVERYIMAGE_PARTITION_SIZE := 67108864
-    BOARD_SUPER_PARTITION_SIZE := 5318967296
+    BOARD_SUPER_PARTITION_SIZE := 6442450944 #6GB
   endif
   BOARD_SUPER_PARTITION_GROUPS := qti_dynamic_partitions
-  BOARD_QTI_DYNAMIC_PARTITIONS_SIZE := 5314772992
+  BOARD_QTI_DYNAMIC_PARTITIONS_SIZE := 6438256640 #(6GB - 4MB)
   BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := vendor vendor_dlkm system_dlkm
   BOARD_EXT4_SHARE_DUP_BLOCKS := true
 endif
@@ -180,10 +182,10 @@ TARGET_USES_QCOM_BSP := false
 
 BOARD_BOOTCONFIG := androidboot.hardware=qcom androidboot.selinux=enforcing androidboot.memcg=1 androidboot.recover_usb=1 androidboot.dtbo_idx=1
 
-BOARD_KERNEL_CMDLINE := debug user_debug=31 loglevel=9 print-fatal-signals=1  init=/init swiotlb=4096  kpti=0 pcie_ports=compat firmware_class.path=/vendor/firmware_mnt/image loop.max_part=7
+BOARD_KERNEL_CMDLINE := user_debug=31 print-fatal-signals=1  init=/init swiotlb=4096  kpti=0 pcie_ports=compat firmware_class.path=/vendor/firmware_mnt/image loop.max_part=7
 
 ifeq ($(TARGET_CONSOLE_ENABLED),true)
-BOARD_KERNEL_CMDLINE += console=hvc0,115200
+BOARD_KERNEL_CMDLINE += console=hvc0,115200 debug loglevel=9
 BOARD_BOOTCONFIG += androidboot.console=ttyAMA0
 else
 ifeq ($(TARGET_CONSOLE_ENABLED),false)
@@ -274,6 +276,11 @@ SOONG_CONFIG_ufsbsg_ufsframework := bsg
 SOONG_CONFIG_NAMESPACES += qtiwifi
 SOONG_CONFIG_qtiwifi += automobile
 SOONG_CONFIG_qtiwifi_automobile := true
+
+#enable 64bit audioservice
+SOONG_CONFIG_NAMESPACES += android_hardware_audio
+SOONG_CONFIG_android_hardware_audio += run_64bit
+SOONG_CONFIG_android_hardware_audio_run_64bit := true
 
 #----------------------------------------------------------------------
 # wlan specific
