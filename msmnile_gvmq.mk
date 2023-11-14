@@ -13,6 +13,9 @@ TARGET_DISABLE_DISPLAY_DLKM := false
 TARGET_DISABLE_AIS_DLKM := true
 TARGET_DISABLE_LIBVIRTDIAG := true
 
+SHIPPING_API_LEVEL := 34
+PRODUCT_SHIPPING_API_LEVEL := $(SHIPPING_API_LEVEL)
+
 AUDIO_USE_STUB_HAL := false
 # Skip VINTF checks for kernel configs since we do not have kernel source
 PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
@@ -23,16 +26,23 @@ PRODUCT_VENDOR_PROPERTIES += \
     ro.soc.manufacturer=$(PRODUCT_MANUFACTURER) \
 
 ALLOW_MISSING_DEPENDENCIES := true
-  ENABLE_AB ?= true
-  # Enable virtual-ab by default
-  ifeq ($(ENABLE_AB), true)
-    ENABLE_VIRTUAL_AB ?= false
-  endif
-  ifeq ($(ENABLE_VIRTUAL_AB), true)
+ENABLE_AB ?= true
+# Enable virtual-ab by default
+ifeq ($(ENABLE_AB), true)
+  ENABLE_VIRTUAL_AB ?= true
+endif
+ifeq ($(ENABLE_VIRTUAL_AB), true)
+  ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),34))
+    # For OTA updates with shipping api level 34 and above.
     $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/vabc_features.mk)
-    PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := gz
     PRODUCT_VENDOR_PROPERTIES += ro.virtual_ab.compression.threads=true
+  else
+    # For OTA updates with shipping api level 33 and below.
+    $(call inherit-product, $(SRC_TARGET_DIR)/product/generic_ramdisk.mk)
+    $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/android_t_baseline.mk)
   endif
+  PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := gz
+endif
 # Enable AVB 2.0
 BOARD_AVB_ENABLE := true
 BOARD_USES_QCNE := false
@@ -55,7 +65,7 @@ TARGET_FWK_SUPPORTS_AV_VALUEADDS := true
 #TARGET_FWK_SUPPORTS_FULL_VALUEADDS := false
 TARGET_USES_AOSP_FOR_WLAN := true
 # U-BRINGUP disable wlan
-BOARD_HAS_QCOM_WLAN := false
+BOARD_HAS_QCOM_WLAN := true
 ENABLE_CAR_POWER_MANAGER := true
 VPP_TARGET_USES_SERVICE := NO
 ENABLE_AUDIO_LEGACY_TECHPACK := true
@@ -63,6 +73,7 @@ TARGET_USES_QCOM_MM_AUDIO := true
 TARGET_GVMGH_SPECIFIC := false
 
 TARGET_USES_RRO := true
+TARGET_HAS_VIRTIO_FASTRPC := true
 
 # U-BRINGUP disable userspace reboot
 #Enable Userspace Restart
@@ -89,8 +100,10 @@ RELAX_USES_LIBRARY_CHECK := true
 
 ifeq ($(ENABLE_AB), true)
 PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
+PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
 else
 PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
+PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
 endif
 endif
 #PRODUCT_BUILD_SYSTEM_IMAGE := true
@@ -217,9 +230,6 @@ PRODUCT_COPY_FILES += \
     device/qcom/msmnile_gvmq/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf \
     frameworks/native/data/etc/android.hardware.sensor.hifi_sensors.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.hifi_sensors.xml
 
-SHIPPING_API_LEVEL := 34
-PRODUCT_SHIPPING_API_LEVEL := $(SHIPPING_API_LEVEL)
-
 #Initial bringup flags
 
 #Default vendor image configuration
@@ -320,6 +330,11 @@ PRODUCT_PACKAGES += $(PCIE_DLKM)
 # HS-I2S test app
 PRODUCT_PACKAGES += hsi2s_test
 
+#gptp app and daemon
+PRODUCT_PACKAGES += gptp \
+    libgptp.so \
+    libgptp_test
+
 PRODUCT_PACKAGES += fs_config_files
 
 #A/B related packages
@@ -395,6 +410,7 @@ PRODUCT_COMPATIBLE_PROPERTY_OVERRIDE := true
 
 #Enable vndk-sp Libraries
 PRODUCT_PACKAGES += vndk_package
+PRODUCT_PACKAGES += fstab.gen4.qcom
 
 DEVICE_PACKAGE_OVERLAYS += device/qcom/msmnile_gvmq/overlay
 
@@ -408,7 +424,7 @@ ENABLE_VENDOR_RIL_SERVICE := true
 #----------------------------------------------------------------------
 ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
 # Multiple chips
-TARGET_WLAN_CHIP := qca6390
+TARGET_WLAN_CHIP := qca6390 qca6490
 include device/qcom/wlan/msmnile_au/wlan.mk
 endif
 
@@ -446,10 +462,8 @@ PRODUCT_PACKAGES += \
 #PRODUCT_PACKAGES += android.hardware.automotive.audiocontrol@1.0-service
 
 PRODUCT_PACKAGES += android.hardware.health-service.example \
-                    android.hardware.dumpstate-service.example \
-                    android.hardware.thermal@2.0-service.mock
+                    android.hardware.dumpstate-service.example
 
-PRODUCT_PACKAGES += android.hardware.gnss@2.0-service
 PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 
 #add vndservicemanager
@@ -644,6 +658,9 @@ PRODUCT_VENDOR_PROPERTIES += vendor.display.builtin_mirroring=true
 PRODUCT_VENDOR_PROPERTIES += vendor.display.builtin_baseid_and_size=5,3 \
                             vendor.display.pluggable_baseid_and_size=1,4 \
                             vendor.display.virtual_baseid_and_size=8,1 \
+
+# Disable boot animation
+PRODUCT_PROPERTY_OVERRIDES += debug.sf.nobootanimation=1
 
 # Enable CPMS for LPM
 PRODUCT_VENDOR_PROPERTIES += persist.vendor.car.lpm=true
