@@ -25,6 +25,9 @@ PRODUCT_DEVICE := msmnile_gvmq
 PRODUCT_VENDOR_PROPERTIES += \
     ro.soc.manufacturer=$(PRODUCT_MANUFACTURER) \
 
+# Enable support for APEX updates
+$(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
+
 ALLOW_MISSING_DEPENDENCIES := true
 ENABLE_AB ?= true
 # Enable virtual-ab by default
