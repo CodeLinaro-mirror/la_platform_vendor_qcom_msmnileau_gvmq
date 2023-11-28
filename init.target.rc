@@ -216,7 +216,11 @@ on boot
 
 #FastCV
 on property:sys.boot_completed=1
+    mkdir /data/vendor/fastcv 0700 media media
     start fastcv
+
 service fastcv /vendor/bin/fastcv.sh
+    user media
+    group media
     disabled
     oneshot
