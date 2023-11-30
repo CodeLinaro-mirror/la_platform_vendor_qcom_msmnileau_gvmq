@@ -30,14 +30,11 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 <config identifier="1" />
 <display
   name="port:129"
-  shouldShowSystemDecors="true"
   shouldShowIme="true" />
 <display
   name="port:3"
-  shouldShowSystemDecors="true"
   shouldShowIme="true" />
 <display
   name="port:4"
-  shouldShowSystemDecors="true"
   shouldShowIme="true" />
 </display-settings>
