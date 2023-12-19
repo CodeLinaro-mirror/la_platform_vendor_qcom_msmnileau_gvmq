@@ -79,12 +79,14 @@ TARGET_SUPPORT_DUAL_WLAN := true
 # to soong APK manifest_check tool errors. Enable the flag to fix this.
 RELAX_USES_LIBRARY_CHECK := true
 
+ifneq ($(TARGET_BOARD_DERIVATIVE_SUFFIX), _ext4)
 ifeq ($(ENABLE_AB), true)
 PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
 PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
 else
 PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
 PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
+endif
 endif
 #endif
 PRODUCT_BUILD_SYSTEM_IMAGE := false
@@ -310,8 +312,10 @@ PRODUCT_COPY_FILES += \
 
 
 # Kernel modules install path
+ifneq ($(TARGET_BOARD_DERIVATIVE_SUFFIX), _ext4)
 KERNEL_MODULES_INSTALL := dlkm
 KERNEL_MODULES_OUT := out/target/product/msmnile_gvmq/$(KERNEL_MODULES_INSTALL)/lib/modules
+endif
 
 #FEATURE_OPENGLES_EXTENSION_PACK support string config file
 PRODUCT_COPY_FILES += \
