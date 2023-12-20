@@ -78,9 +78,8 @@ TARGET_GVMGH_SPECIFIC := false
 TARGET_USES_RRO := true
 TARGET_HAS_VIRTIO_FASTRPC := true
 
-# U-BRINGUP disable userspace reboot
 #Enable Userspace Restart
-#$(call inherit-product, $(SRC_TARGET_DIR)/product/userspace_reboot.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/userspace_reboot.mk)
 
 
 # Dynamic-partition enabled by default
