@@ -195,7 +195,7 @@ on property:vold.decrypt=trigger_restart_framework
 
 service cnss_diag /system/vendor/bin/cnss_diag -q -f -t HELIUM
     class main
-    user system
+    user wifi
     group system wifi inet sdcard_rw media_rw diag
     oneshot
 
