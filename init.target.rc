@@ -222,3 +222,13 @@ service vendor.tlocd /vendor/bin/tloc_daemon
 #Start EMAC ethernet driver
 on boot
     insmod /vendor/lib/modules/emac_dwc_eqos.ko
+
+on property:sys.boot_completed=1
+    mkdir /data/vendor/fastcv 0700 media media
+    start fastcv
+
+service fastcv /vendor/bin/fastcv.sh
+    user media
+    group media
+    disabled
+    oneshot
