@@ -71,14 +71,14 @@ on property:vendor.gdb.dump=true
     write /proc/sys/kernel/core_pattern "/data/core/core.%e.%p.%h.%t"
 
 on fs
-    mount_all /vendor/etc/fstab.qcom --early
+    mount_all --early
     chown root system /mnt/vendor/persist
     chmod 0771 /mnt/vendor/persist
     restorecon_recursive /mnt/vendor/persist
     mkdir /mnt/vendor/persist/data 0700 system system
 
 on late-fs
-    mount_all /vendor/etc/fstab.qcom --late
+    mount_all --late
 
 on post-fs
     # set RLIMIT_MEMLOCK to 64MB
@@ -138,26 +138,32 @@ on property:vendor.usb.controller=*
     setprop sys.usb.controller ${vendor.usb.controller}
 
 on property:init.svc.zygote=running
-    write /dev/kmsg "M - USER Zygote Start"
+    write /dev/kmsg "boot_kpi: M - USER Zygote Start"
 
 on property:service.bootanim.exit=0
-    write /dev/kmsg "K - USER Boot Animation Start"
+    write /dev/kmsg "boot_kpi: K - USER Boot Animation Start"
 
 on property:sys.boot_completed=1
-    write /dev/kmsg "K - USER Android Boot Complete"
+    write /dev/kmsg "boot_kpi: K - USER Android Boot Complete"
 
 on property:init.svc.surfaceflinger=running
-    write /dev/kmsg "M - USER SurfaceFlinger Start"
+    write /dev/kmsg "boot_kpi: M - USER SurfaceFlinger Start"
 
 on property:sys.boot_completed=1
-    # Enable WLAN cold boot calibration
-    write /sys/kernel/cnss/fs_ready 1
+#Load WLAN driver
+    start wlan_multiko
 
 #pd-mapper
 service vendor.pd_mapper /vendor/bin/pd-mapper
     class core
     user system
     group system
+
+service wlan_multiko /vendor/bin/init.qcom.wlan.sh
+    user root
+    group root
+    disabled
+    oneshot
 
 service vendor.sec_nvm /vendor/bin/sec_nvm
     class core
