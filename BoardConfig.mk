@@ -129,7 +129,7 @@ ifneq ($(AB_OTA_UPDATER),true)
     TARGET_RECOVERY_UPDATER_LIBS += librecovery_updater_msm
 endif
 
-TARGET_RECOVERY_FSTAB := device/qcom/msmnile_gvmq/fstab.qcom
+TARGET_RECOVERY_FSTAB := device/qcom/msmnile_gvmq/fstab.gen4.qti
 BOARD_USES_METADATA_PARTITION := true
 
 TARGET_HW_DISK_ENCRYPTION := false
