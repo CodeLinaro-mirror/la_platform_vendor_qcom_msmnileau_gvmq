@@ -94,7 +94,4 @@
         <item>7</item>
     </integer-array>
 
-    <!-- android-u config for headless boot -->
-   <bool name="config_enable_hypervisor">false</bool>
-
 </resources>

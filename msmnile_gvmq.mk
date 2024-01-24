@@ -25,6 +25,9 @@ PRODUCT_DEVICE := msmnile_gvmq
 PRODUCT_VENDOR_PROPERTIES += \
     ro.soc.manufacturer=$(PRODUCT_MANUFACTURER) \
 
+# Enable support for APEX updates
+$(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
+
 ALLOW_MISSING_DEPENDENCIES := true
 ENABLE_AB ?= true
 # Enable virtual-ab by default
@@ -48,7 +51,7 @@ BOARD_AVB_ENABLE := true
 BOARD_USES_QCNE := false
 TARGET_BOARD_AUTO := true
 TARGET_USES_AOSP := true
-#TARGET_USES_GAS := true
+TARGET_USES_GAS := true
 TARGET_USES_QCOM_BSP := false
 TARGET_NO_TELEPHONY := true
 TARGET_USES_QTIC := false
@@ -66,6 +69,7 @@ TARGET_FWK_SUPPORTS_AV_VALUEADDS := true
 TARGET_USES_AOSP_FOR_WLAN := true
 # U-BRINGUP disable wlan
 BOARD_HAS_QCOM_WLAN := true
+QCOM_WLAN_FOR_AUTO_GVM := true
 ENABLE_CAR_POWER_MANAGER := true
 VPP_TARGET_USES_SERVICE := NO
 ENABLE_AUDIO_LEGACY_TECHPACK := true
@@ -75,9 +79,8 @@ TARGET_GVMGH_SPECIFIC := false
 TARGET_USES_RRO := true
 TARGET_HAS_VIRTIO_FASTRPC := true
 
-# U-BRINGUP disable userspace reboot
 #Enable Userspace Restart
-#$(call inherit-product, $(SRC_TARGET_DIR)/product/userspace_reboot.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/userspace_reboot.mk)
 
 
 # Dynamic-partition enabled by default
@@ -189,7 +192,7 @@ TARGET_USES_QMAA_OVERRIDE_FM  := true
 TARGET_USES_QMAA_OVERRIDE_FTM := false
 TARGET_USES_QMAA_OVERRIDE_GFX := true
 TARGET_USES_QMAA_OVERRIDE_GPS := true
-TARGET_USES_QMAA_OVERRIDE_GP := false
+TARGET_USES_QMAA_OVERRIDE_GP := true
 TARGET_USES_QMAA_OVERRIDE_GPT := false
 TARGET_USES_QMAA_OVERRIDE_KERNEL_TESTS_INTERNAL := false
 TARGET_USES_QMAA_OVERRIDE_KMGK := true
@@ -424,7 +427,7 @@ ENABLE_VENDOR_RIL_SERVICE := true
 #----------------------------------------------------------------------
 ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
 # Multiple chips
-TARGET_WLAN_CHIP := qca6390 qca6490
+TARGET_WLAN_CHIP := qca6390 qca6490 qcn7605
 include device/qcom/wlan/msmnile_au/wlan.mk
 endif
 
@@ -432,11 +435,6 @@ TARGET_MOUNT_POINTS_SYMLINKS := false
 
 
 PRODUCT_PROPERTY_OVERRIDES += vendor.usb.diag_mdm.inst.name=diag_mdm2
-
-#Copy supported features list
-ifeq ($(TARGET_USES_GAS),true)
-PRODUCT_COPY_FILES += device/qcom/msmnile_gvmq/msmnile_gvmq_features.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/msmnile_gvmq_features.xml
-endif
 
 # Camera configuration file. Shared by passthrough/binderized camera HAL
 PRODUCT_PACKAGES += camera.device@3.2-impl
