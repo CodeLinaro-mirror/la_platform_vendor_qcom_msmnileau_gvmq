@@ -102,6 +102,7 @@ on boot
     chown system system /sys/kernel/hbtp/display_pwr
     start rmt_storage
     start rfs_access
+    start wlan_multiko
 
     # Create netmgr recovery folder
     mkdir /data/vendor/netmgr/recovery 0700 radio radio
@@ -146,10 +147,6 @@ on property:sys.boot_completed=1
 
 on property:init.svc.surfaceflinger=running
     write /dev/kmsg "boot_kpi: M - USER SurfaceFlinger Start"
-
-on property:sys.boot_completed=1
-#Load WLAN driver
-    start wlan_multiko
 
 #pd-mapper
 service vendor.pd_mapper /vendor/bin/pd-mapper
