@@ -186,7 +186,7 @@ BOARD_KERNEL_CMDLINE := user_debug=31 print-fatal-signals=1  init=/init swiotlb=
 
 ifeq ($(TARGET_CONSOLE_ENABLED),true)
 BOARD_KERNEL_CMDLINE += console=hvc0,115200 debug loglevel=9
-BOARD_BOOTCONFIG += androidboot.console=ttyAMA0
+BOARD_BOOTCONFIG += androidboot.console=hvc0
 else
 ifeq ($(TARGET_CONSOLE_ENABLED),false)
 BOARD_KERNEL_CMDLINE += qcom_geni_serial.con_enabled=0
