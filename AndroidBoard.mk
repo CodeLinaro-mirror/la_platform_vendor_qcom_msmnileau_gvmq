@@ -74,9 +74,17 @@ ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
   LOCAL_MODULE_TAGS  := optional
   LOCAL_MODULE_CLASS := ETC
   ifeq ($(ENABLE_AB), true)
-    LOCAL_SRC_FILES := fstab_AB_dynamic_partition_variant.qti
+    ifeq (true,$(call math_gt_or_eq,$(PRODUCT_SHIPPING_API_LEVEL),34))
+        LOCAL_SRC_FILES := gen4_fstab_metadata_f2fs/fstab_AB_dynamic_partition_variant.qti
+    else
+        LOCAL_SRC_FILES := fstab_AB_dynamic_partition_variant.qti
+    endif
   else
-    LOCAL_SRC_FILES := fstab_non_AB_dynamic_partition_variant.qti
+    ifeq (true,$(call math_gt_or_eq,$(PRODUCT_SHIPPING_API_LEVEL),34))
+        LOCAL_SRC_FILES := gen4_fstab_metadata_f2fs/fstab_non_AB_dynamic_partition_variant.qti
+    else
+        LOCAL_SRC_FILES := fstab_non_AB_dynamic_partition_variant.qti
+    endif
   endif #ENABLE_AB
   LOCAL_MODULE_PATH  := $(TARGET_OUT_VENDOR_ETC)
   include $(BUILD_PREBUILT)
@@ -87,9 +95,17 @@ ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
   LOCAL_MODULE_TAGS  := optional
   LOCAL_MODULE_CLASS := ETC
   ifeq ($(ENABLE_AB), true)
-    LOCAL_SRC_FILES := fstab_AB_dynamic_partition_variant.gen4.qti
+    ifeq (true,$(call math_gt_or_eq,$(PRODUCT_SHIPPING_API_LEVEL),34))
+        LOCAL_SRC_FILES := gen4_fstab_metadata_f2fs/fstab_AB_dynamic_partition_variant.gen4.qti
+    else
+        LOCAL_SRC_FILES := fstab_AB_dynamic_partition_variant.gen4.qti
+    endif
   else
-    LOCAL_SRC_FILES := fstab_non_AB_dynamic_partition_variant.gen4.qti
+    ifeq (true,$(call math_gt_or_eq,$(PRODUCT_SHIPPING_API_LEVEL),34))
+        LOCAL_SRC_FILES := gen4_fstab_metadata_f2fs/fstab_non_AB_dynamic_partition_variant.gen4.qti
+    else
+        LOCAL_SRC_FILES := fstab_non_AB_dynamic_partition_variant.gen4.qti
+    endif
   endif #ENABLE_AB
   LOCAL_MODULE_PATH  := $(TARGET_OUT_VENDOR_ETC)
   include $(BUILD_PREBUILT)
@@ -130,7 +146,11 @@ else
   include $(CLEAR_VARS)
   LOCAL_MODULE       := fstab.gen4.qcom
   LOCAL_MODULE_CLASS := ETC
-  LOCAL_SRC_FILES    := $(LOCAL_MODULE)
+  ifeq (true,$(call math_gt_or_eq,$(PRODUCT_SHIPPING_API_LEVEL),34))
+      LOCAL_SRC_FILES    := gen4_fstab_metadata_f2fs/$(LOCAL_MODULE)
+  else
+      LOCAL_SRC_FILES    := $(LOCAL_MODULE)
+  endif
   LOCAL_MODULE_PATH  := $(TARGET_OUT_VENDOR_ETC)
   ifeq ($(ENABLE_VENDOR_IMAGE), true)
     LOCAL_POST_INSTALL_CMD := echo $(VENDOR_FSTAB_ENTRY) >> $(LOCAL_MODULE_PATH)/$(LOCAL_MODULE)

@@ -135,8 +135,21 @@ ifneq ($(AB_OTA_UPDATER),true)
     TARGET_RECOVERY_UPDATER_LIBS += librecovery_updater_msm
 endif
 
-TARGET_RECOVERY_FSTAB := device/qcom/msmnile_gvmq/fstab.gen4.qti
+ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),34))
+    TARGET_RECOVERY_FSTAB := device/qcom/msmnile_gvmq/gen4_fstab_metadata_f2fs/fstab.gen4.qti
+else
+    TARGET_RECOVERY_FSTAB := device/qcom/msmnile_gvmq/fstab.gen4.qti
+endif
+
+#Enable Metadata compilation and adding metadata related attributes
 BOARD_USES_METADATA_PARTITION := true
+ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),34))
+    BOARD_METADATAIMAGE_FILE_SYSTEM_TYPE := f2fs
+    BOARD_METADATAIMAGE_PARTITION_SIZE := 67108864
+else
+    BOARD_METADATAIMAGE_FILE_SYSTEM_TYPE := ext4
+    BOARD_METADATAIMAGE_PARTITION_SIZE := 16777216
+endif
 
 TARGET_HW_DISK_ENCRYPTION := false
 TARGET_HW_DISK_ENCRYPTION_PERF := false
@@ -156,7 +169,6 @@ BOARD_VENDOR_BOOTIMAGE_PARTITION_SIZE := 0x04000000
 BOARD_INIT_BOOT_IMAGE_PARTITION_SIZE := 0x00800000
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 26843545600
 BOARD_PERSISTIMAGE_PARTITION_SIZE := 33554432
-BOARD_METADATAIMAGE_PARTITION_SIZE := 16777216
 BOARD_PREBUILT_DTBOIMAGE := out/target/product/msmnile_gvmq/prebuilt_dtbo.img
 BOARD_DTBOIMG_PARTITION_SIZE := 0x0800000
 BOARD_PERSISTIMAGE_FILE_SYSTEM_TYPE := ext4
