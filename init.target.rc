@@ -155,12 +155,6 @@ on property:sys.boot_completed=1
 #Load WLAN driver
     start wlan_multiko
 
-#pd-mapper
-service vendor.pd_mapper /vendor/bin/pd-mapper
-    class core
-    user system
-    group system
-
 service wlan_multiko /vendor/bin/init.qcom.wlan.sh
     user root
     group root
