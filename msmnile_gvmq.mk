@@ -376,7 +376,6 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += android.hardware.health-service.example \
                     android.hardware.dumpstate-service.example \
-                    android.hardware.thermal@2.0-service.mock
 
 PRODUCT_PACKAGES += android.hardware.gnss@2.0-service
 PRODUCT_PACKAGES += qcar-gsi.avbpubkey
