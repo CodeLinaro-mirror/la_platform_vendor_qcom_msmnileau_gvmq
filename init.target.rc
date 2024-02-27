@@ -138,7 +138,6 @@ on boot && property:persist.vendor.usb.controller.default=*
 
 on property:vendor.usb.controller=*
 #Load WLAN driver
-    exec u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules cnss2
     start wlan_multiko
 
 on property:ro.vendor.wlan.chip=*
