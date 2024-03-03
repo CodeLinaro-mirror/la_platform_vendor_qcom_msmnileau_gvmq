@@ -27,6 +27,8 @@ TARGET_USES_IOPHAL := true
 
 BUILD_BROKEN_DUP_RULES := true
 
+BOARD_RAMDISK_USE_LZ4 := true
+
 BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 
 -include $(QCPATH)/common/msmnile_gvmq/BoardConfigVendor.mk
@@ -72,10 +74,10 @@ BOARD_MKBOOTIMG_INIT_ARGS += --header_version $(BOARD_INIT_BOOT_HEADER_VERSION)
     BOARD_SUPER_PARTITION_SIZE := 12884901888
   else
     BOARD_RECOVERYIMAGE_PARTITION_SIZE := 67108864
-    BOARD_SUPER_PARTITION_SIZE := 5318967296
+    BOARD_SUPER_PARTITION_SIZE := 6442450944 #6GB
   endif
   BOARD_SUPER_PARTITION_GROUPS := qti_dynamic_partitions
-  BOARD_QTI_DYNAMIC_PARTITIONS_SIZE := 5314772992
+  BOARD_QTI_DYNAMIC_PARTITIONS_SIZE := 6438256640 #(6GB - 4MB)
   BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := vendor vendor_dlkm system_dlkm
   BOARD_EXT4_SHARE_DUP_BLOCKS := true
 
@@ -148,7 +150,7 @@ ifeq ($(KERNEL_DEFCONFIG),)
     endif
 endif
 
-BOARD_DO_NOT_STRIP_VENDOR_MODULES := true
+BOARD_DO_NOT_STRIP_VENDOR_MODULES := false
 BOARD_VENDOR_KERNEL_MODULES += $(shell ls $(KERNEL_MODULES_OUT)/*.ko)
 TARGET_USES_ION := true
 TARGET_USES_NEW_ION_API :=true
@@ -156,11 +158,11 @@ TARGET_USES_QCOM_BSP := false
 
 BOARD_BOOTCONFIG := androidboot.hardware=qcom androidboot.selinux=enforcing androidboot.memcg=1 androidboot.recover_usb=1 androidboot.dtbo_idx=1
 
-BOARD_KERNEL_CMDLINE := debug user_debug=31 loglevel=9 print-fatal-signals=1  init=/init swiotlb=4096  kpti=0 pcie_ports=compat firmware_class.path=/vendor/firmware_mnt/image loop.max_part=7
+BOARD_KERNEL_CMDLINE := user_debug=31 print-fatal-signals=1  init=/init swiotlb=4096  kpti=0 pcie_ports=compat firmware_class.path=/vendor/firmware_mnt/image loop.max_part=7
 
 ifeq ($(TARGET_CONSOLE_ENABLED),true)
-BOARD_KERNEL_CMDLINE += console=hvc0,115200
-BOARD_BOOTCONFIG += androidboot.console=ttyAMA0
+BOARD_KERNEL_CMDLINE += console=hvc0,115200 debug loglevel=9
+BOARD_BOOTCONFIG += androidboot.console=hvc0
 else
 ifeq ($(TARGET_CONSOLE_ENABLED),false)
 BOARD_KERNEL_CMDLINE += qcom_geni_serial.con_enabled=0
