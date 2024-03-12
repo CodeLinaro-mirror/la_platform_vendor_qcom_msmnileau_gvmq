@@ -66,6 +66,9 @@ ifeq ($(ENABLE_AB), true)
   ENABLE_VIRTUAL_AB ?= true
 endif
 ifeq ($(ENABLE_VIRTUAL_AB), true)
+  ifeq ($(TARGET_SINGLE_TREE), true)
+    $(call inherit-product, $(SRC_TARGET_DIR)/product/generic_ramdisk.mk)
+  endif
   ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),34))
     # For OTA updates with shipping api level 34 and above.
     $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/vabc_features.mk)
@@ -804,7 +807,7 @@ ifeq ($(TARGET_SINGLE_TREE), true)
   ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),29))
     $(call inherit-product, device/qcom/qssi_au/qssi_au_whitelist.mk)
     PRODUCT_ARTIFACT_PATH_REQUIREMENT_IGNORE_PATHS := /system/system_ext/
-    PRODUCT_ENFORCE_ARTIFACT_PATH_REQUIREMENTS := true
+    PRODUCT_ENFORCE_ARTIFACT_PATH_REQUIREMENTS := false
   endif
 
   PRODUCT_PACKAGES += vendor.qti.qesdsys
