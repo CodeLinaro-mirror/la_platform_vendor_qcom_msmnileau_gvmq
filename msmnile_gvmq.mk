@@ -495,13 +495,6 @@ TARGET_MOUNT_POINTS_SYMLINKS := false
 
 PRODUCT_PROPERTY_OVERRIDES += vendor.usb.diag_mdm.inst.name=diag_mdm2
 
-ifeq ($(TARGET_SINGLE_TREE), true)
-  #Copy supported features list
-  ifeq ($(TARGET_USES_GAS),true)
-    PRODUCT_COPY_FILES += device/qcom/msmnile_gvmq/msmnile_gvmq_features.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/msmnile_gvmq_features.xml
-  endif
-endif
-
 # Camera configuration file. Shared by passthrough/binderized camera HAL
 PRODUCT_PACKAGES += camera.device@3.2-impl
 PRODUCT_PACKAGES += camera.device@1.0-impl
