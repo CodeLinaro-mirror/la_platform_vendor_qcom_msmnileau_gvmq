@@ -93,6 +93,28 @@ ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
   endif #ENABLE_AB
   LOCAL_MODULE_PATH  := $(TARGET_OUT_VENDOR_ETC)
   include $(BUILD_PREBUILT)
+  include $(CLEAR_VARS)
+  LOCAL_MODULE       := fstab.gen3.ufs.qcom
+  LOCAL_MODULE_TAGS  := optional
+  LOCAL_MODULE_CLASS := ETC
+  ifeq ($(ENABLE_AB), true)
+    LOCAL_SRC_FILES := 6155_ufs/fstab_AB_dynamic_partition_variant.qti
+  else
+    LOCAL_SRC_FILES := 6155_ufs/fstab_non_AB_dynamic_partition_variant.qti
+  endif #ENABLE_AB
+  LOCAL_MODULE_PATH  := $(TARGET_OUT_VENDOR_ETC)
+  include $(BUILD_PREBUILT)
+  include $(CLEAR_VARS)
+  LOCAL_MODULE       := fstab.gen3.emmc.qcom
+  LOCAL_MODULE_TAGS  := optional
+  LOCAL_MODULE_CLASS := ETC
+  ifeq ($(ENABLE_AB), true)
+    LOCAL_SRC_FILES := 6155_emmc/fstab_AB_dynamic_partition_variant.qti
+  else
+    LOCAL_SRC_FILES := 6155_emmc/fstab_non_AB_dynamic_partition_variant.qti
+  endif #ENABLE_AB
+  LOCAL_MODULE_PATH  := $(TARGET_OUT_VENDOR_ETC)
+  include $(BUILD_PREBUILT)
 else
   include $(CLEAR_VARS)
   LOCAL_MODULE       := fstab.qcom
