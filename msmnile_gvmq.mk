@@ -3,6 +3,7 @@ TARGET_BOOTLOADER_BOARD_NAME := msmnile
 TARGET_BOARD_TYPE := auto
 TARGET_BOARD_SUFFIX := _gvmq
 ENABLE_AIDL_VHAL := true
+ENABLE_AIDL_SENSOR := true
 # U-BRINGUP disable display
 TARGET_DISABLE_DISPLAY := false
 TARGET_IS_HEADLESS := false
@@ -66,6 +67,9 @@ ifeq ($(ENABLE_AB), true)
   ENABLE_VIRTUAL_AB ?= true
 endif
 ifeq ($(ENABLE_VIRTUAL_AB), true)
+  ifeq ($(TARGET_SINGLE_TREE), true)
+    $(call inherit-product, $(SRC_TARGET_DIR)/product/generic_ramdisk.mk)
+  endif
   ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),34))
     # For OTA updates with shipping api level 34 and above.
     $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/vabc_features.mk)
@@ -486,7 +490,7 @@ ENABLE_VENDOR_RIL_SERVICE := true
 #----------------------------------------------------------------------
 ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
 # Multiple chips
-TARGET_WLAN_CHIP := qca6390 qca6490 qcn7605
+TARGET_WLAN_CHIP := qca6390 qca6490 qcn7605 qca6174
 include device/qcom/wlan/msmnile_au/wlan.mk
 endif
 
@@ -804,7 +808,7 @@ ifeq ($(TARGET_SINGLE_TREE), true)
   ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),29))
     $(call inherit-product, device/qcom/qssi_au/qssi_au_whitelist.mk)
     PRODUCT_ARTIFACT_PATH_REQUIREMENT_IGNORE_PATHS := /system/system_ext/
-    PRODUCT_ENFORCE_ARTIFACT_PATH_REQUIREMENTS := true
+    PRODUCT_ENFORCE_ARTIFACT_PATH_REQUIREMENTS := false
   endif
 
   PRODUCT_PACKAGES += vendor.qti.qesdsys
