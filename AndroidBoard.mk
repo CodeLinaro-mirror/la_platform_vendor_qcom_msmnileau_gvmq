@@ -68,6 +68,7 @@ LOCAL_SRC_FILES    := $(LOCAL_MODULE)
 LOCAL_MODULE_PATH  := $(TARGET_OUT_KEYLAYOUT)
 include $(BUILD_PREBUILT)
 
+ifneq ($(TARGET_BOARD_DERIVATIVE_SUFFIX), _ext4)
 ifeq ($(strip $(PRODUCT_USE_DYNAMIC_PARTITIONS)),true)
   include $(CLEAR_VARS)
   LOCAL_MODULE       := fstab.qcom
@@ -91,9 +92,11 @@ else
   endif
   include $(BUILD_PREBUILT)
 endif ##PRODUCT_USE_DYNAMIC_PARTITIONS
+endif ##TARGET_BOARD_DERIVATIVE_SUFFIX
 
 include device/qcom/vendor-common/MergeConfig.mk
 
+ifneq ($(TARGET_BOARD_DERIVATIVE_SUFFIX), _ext4)
 ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
   include $(CLEAR_VARS)
   LOCAL_MODULE       := fstab.gen4.qcom
@@ -117,6 +120,7 @@ else
   endif
   include $(BUILD_PREBUILT)
 endif ##BOARD_DYNAMIC_PARTITION_ENABLE
+endif ##TARGET_BOARD_DERIVATIVE_SUFFIX
 
 #----------------------------------------------------------------------
 # Radio image
