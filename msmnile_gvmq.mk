@@ -122,6 +122,8 @@ PRODUCT_BUILD_VENDOR_BOOT_IMAGE := true
 PRODUCT_BUILD_VENDOR_DLKM_IMAGE := true
 PRODUCT_BUILD_SYSTEM_DLKM_IMAGE := true
 
+PRODUCT_SOONG_NAMESPACES += hardware/qcom/wlan/qcwcn
+
 #Using sha256 for dm-verity partitions.
 #system, system_other, system_ext and product.
 BOARD_AVB_SYSTEM_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
