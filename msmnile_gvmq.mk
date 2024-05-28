@@ -103,7 +103,7 @@ BOARD_HAVE_QCOM_FM := false
 BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := false
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := false
 TARGET_FWK_SUPPORTS_AV_VALUEADDS := true
-TARGET_FWK_SUPPORTS_FULL_VALUEADDS := false
+#TARGET_FWK_SUPPORTS_FULL_VALUEADDS := false
 ifeq ($(TARGET_SINGLE_TREE), true)
   TARGET_FWK_SUPPORTS_FULL_VALUEADDS := true
 endif
@@ -127,41 +127,53 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/userspace_reboot.mk)
 # Dynamic-partition enabled by default
 BOARD_DYNAMIC_PARTITION_ENABLE := true
 ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
-
   PRODUCT_USE_DYNAMIC_PARTITIONS := true
-  BOARD_BUILD_SUPER_IMAGE_BY_DEFAULT := true
-  PRODUCT_BUILD_SUPER_PARTITION := true
+  BOARD_BUILD_SUPER_IMAGE_BY_DEFAULT := false
+  PRODUCT_BUILD_SUPER_PARTITION := false
   PRODUCT_BUILD_RAMDISK_IMAGE := true
-  # Enable System_ext
-  PRODUCT_BUILD_SYSTEM_EXT_IMAGE := true
   PRODUCT_PACKAGES += fastbootd
    # Add default implementation of fastboot AIDL.
   PRODUCT_PACKAGES += android.hardware.fastboot-service.example_recovery
 
-# Mismatch in the uses-library tags between build system and the manifest leads
-# to soong APK manifest_check tool errors. Enable the flag to fix this.
-RELAX_USES_LIBRARY_CHECK := true
+  # Mismatch in the uses-library tags between build system and the manifest leads
+  # to soong APK manifest_check tool errors. Enable the flag to fix this.
+  RELAX_USES_LIBRARY_CHECK := true
 
-ifeq ($(ENABLE_AB), true)
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/6155_ufs/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen3.ufs.qcom
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/6155_emmc/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen3.emmc.qcom
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
-else
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/6155_ufs/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen3.ufs.qcom
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/6155_emmc/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen3.emmc.qcom
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
-endif
+  ifeq ($(ENABLE_AB), true)
+    PRODUCT_COPY_FILES += $(LOCAL_PATH)/6155_ufs/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen3.ufs.qcom
+    PRODUCT_COPY_FILES += $(LOCAL_PATH)/6155_emmc/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen3.emmc.qcom
+    ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),34))
+      PRODUCT_COPY_FILES += $(LOCAL_PATH)/gen4_fstab_metadata_f2fs/fstab_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
+      PRODUCT_COPY_FILES += $(LOCAL_PATH)/gen4_fstab_metadata_f2fs/fstab_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
+    else
+      PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
+      PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
+    endif
+  else
+    PRODUCT_COPY_FILES += $(LOCAL_PATH)/6155_ufs/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen3.ufs.qcom
+    PRODUCT_COPY_FILES += $(LOCAL_PATH)/6155_emmc/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen3.emmc.qcom
+    ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),34))
+      PRODUCT_COPY_FILES += $(LOCAL_PATH)/gen4_fstab_metadata_f2fs/fstab_non_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
+      PRODUCT_COPY_FILES += $(LOCAL_PATH)/gen4_fstab_metadata_f2fs/fstab_non_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
+    else
+      PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
+      PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
+    endif
+  endif
 endif
 
 PRODUCT_BUILD_SYSTEM_IMAGE := false
+# Enable System_ext
+PRODUCT_BUILD_SYSTEM_EXT_IMAGE := false
 PRODUCT_BUILD_PRODUCT_IMAGE := false
 TARGET_SKIP_OTA_PACKAGE := true
 ifeq ($(TARGET_SINGLE_TREE), true)
   PRODUCT_BUILD_SYSTEM_IMAGE := true
+  PRODUCT_BUILD_SYSTEM_EXT_IMAGE := true
   PRODUCT_BUILD_PRODUCT_IMAGE := true
   TARGET_SKIP_OTA_PACKAGE := false
+  BOARD_BUILD_SUPER_IMAGE_BY_DEFAULT := true
+  PRODUCT_BUILD_SUPER_PARTITION := true
 endif
 PRODUCT_BUILD_SYSTEM_OTHER_IMAGE := false
 #PRODUCT_BUILD_VENDOR_IMAGE := true
@@ -176,6 +188,7 @@ PRODUCT_BUILD_SYSTEM_DLKM_IMAGE := true
 
 #Using sha256 for dm-verity partitions.
 #system, system_other, system_ext and product.
+#TODO @asmemoha cleanup syste/system_ext avb configs. No impact either way
 BOARD_AVB_SYSTEM_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
 BOARD_AVB_SYSTEM_EXT_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
 ifeq ($(TARGET_SINGLE_TREE), true)
@@ -604,22 +617,6 @@ ifeq ($(TARGET_SINGLE_TREE), true)
     ro.crypto.allow_encrypt_override = true
 
 endif
-
-PRODUCT_VENDOR_PROPERTIES += rild.libpath=/vendor/lib64/libril-qc-hal-qmi.so \
-                persist.rild.nitz_plmn=
-                persist.rild.nitz_long_ons_0=
-                persist.rild.nitz_long_ons_1=
-                persist.rild.nitz_long_ons_2=
-                persist.rild.nitz_long_ons_3=
-                persist.rild.nitz_short_ons_0=
-                persist.rild.nitz_short_ons_1=
-                persist.rild.nitz_short_ons_2=
-                persist.rild.nitz_short_ons_3=
-                ril.subscription.types=NV,RUIM \
-                DEVICE_PROVISIONED=1 \
-                dalvik.vm.heapsize=36m \
-                dev.pm.dyn_samplingrate=1 \
-                qcom.hw.aac.encoder=true
 
 # Set network mode to (T/L/G/W/1X/EVDO, T/L/G/W/1X/EVDO) for 7+7 mode device on DSDS mode
 PRODUCT_VENDOR_PROPERTIES += ro.telephony.default_network=22,22 \
