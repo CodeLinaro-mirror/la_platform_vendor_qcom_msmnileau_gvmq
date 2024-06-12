@@ -30,16 +30,6 @@ Copyright (c) 2022-2023, Qualcomm Innovation Center, Inc. All rights reserved.
 SPDX-License-Identifier: BSD-3-Clause-Clear
 -->
 <manifest version="1.0" type="device" target-level="8">
-    <hal format="hidl" optional="true">
-        <name>android.hardware.graphics.mapper</name>
-        <transport>hwbinder</transport>
-        <!-- New, non-Go devices should use 4.0, tested in vts_treble_vintf_vendor_test -->
-        <version>2.1</version>
-        <interface>
-            <name>IMapper</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
    <hal format="hidl">
         <name>android.hardware.audio</name>
         <transport>hwbinder</transport>
@@ -77,25 +67,6 @@ SPDX-License-Identifier: BSD-3-Clause-Clear
             <instance>default</instance>
         </interface>
     </hal>
-   <!-- display -->
-    <hal format="hidl">
-        <name>vendor.display.color</name>
-        <transport>hwbinder</transport>
-        <version>1.3</version>
-        <interface>
-            <name>IDisplayColor</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.display.postproc</name>
-        <transport>hwbinder</transport>
-        <version>1.0</version>
-        <interface>
-            <name>IDisplayPostproc</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
     <!-- gatekeeper -->
     <hal format="aidl">
        <name>android.hardware.gatekeeper</name>
@@ -105,16 +76,6 @@ SPDX-License-Identifier: BSD-3-Clause-Clear
            <instance>default</instance>
        </interface>
    </hal>
-    <!-- bluetooth -->
-    <hal format="hidl">
-        <name>android.hardware.bluetooth</name>
-        <transport>hwbinder</transport>
-        <version>1.0</version>
-        <interface>
-            <name>IBluetoothHci</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
     <!-- TUI Communicator service -->
     <hal format="hidl">
         <name>vendor.qti.hardware.tui_comm</name>

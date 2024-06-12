@@ -3,6 +3,7 @@ TARGET_BOOTLOADER_BOARD_NAME := msmnile
 TARGET_BOARD_TYPE := auto
 TARGET_BOARD_SUFFIX := _gvmq
 ENABLE_AIDL_VHAL := true
+ENABLE_AIDL_SENSOR := true
 # U-BRINGUP disable display
 TARGET_DISABLE_DISPLAY := false
 TARGET_IS_HEADLESS := false
@@ -66,6 +67,9 @@ ifeq ($(ENABLE_AB), true)
   ENABLE_VIRTUAL_AB ?= true
 endif
 ifeq ($(ENABLE_VIRTUAL_AB), true)
+  ifeq ($(TARGET_SINGLE_TREE), true)
+    $(call inherit-product, $(SRC_TARGET_DIR)/product/generic_ramdisk.mk)
+  endif
   ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),34))
     # For OTA updates with shipping api level 34 and above.
     $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/vabc_features.mk)
@@ -99,7 +103,7 @@ BOARD_HAVE_QCOM_FM := false
 BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := false
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := false
 TARGET_FWK_SUPPORTS_AV_VALUEADDS := true
-TARGET_FWK_SUPPORTS_FULL_VALUEADDS := false
+#TARGET_FWK_SUPPORTS_FULL_VALUEADDS := false
 ifeq ($(TARGET_SINGLE_TREE), true)
   TARGET_FWK_SUPPORTS_FULL_VALUEADDS := true
 endif
@@ -123,41 +127,53 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/userspace_reboot.mk)
 # Dynamic-partition enabled by default
 BOARD_DYNAMIC_PARTITION_ENABLE := true
 ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
-
   PRODUCT_USE_DYNAMIC_PARTITIONS := true
-  BOARD_BUILD_SUPER_IMAGE_BY_DEFAULT := true
-  PRODUCT_BUILD_SUPER_PARTITION := true
+  BOARD_BUILD_SUPER_IMAGE_BY_DEFAULT := false
+  PRODUCT_BUILD_SUPER_PARTITION := false
   PRODUCT_BUILD_RAMDISK_IMAGE := true
-  # Enable System_ext
-  PRODUCT_BUILD_SYSTEM_EXT_IMAGE := true
   PRODUCT_PACKAGES += fastbootd
    # Add default implementation of fastboot AIDL.
   PRODUCT_PACKAGES += android.hardware.fastboot-service.example_recovery
 
-# Mismatch in the uses-library tags between build system and the manifest leads
-# to soong APK manifest_check tool errors. Enable the flag to fix this.
-RELAX_USES_LIBRARY_CHECK := true
+  # Mismatch in the uses-library tags between build system and the manifest leads
+  # to soong APK manifest_check tool errors. Enable the flag to fix this.
+  RELAX_USES_LIBRARY_CHECK := true
 
-ifeq ($(ENABLE_AB), true)
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/6155_ufs/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen3.ufs.qcom
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/6155_emmc/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen3.emmc.qcom
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
-else
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/6155_ufs/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen3.ufs.qcom
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/6155_emmc/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen3.emmc.qcom
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
-endif
+  ifeq ($(ENABLE_AB), true)
+    PRODUCT_COPY_FILES += $(LOCAL_PATH)/6155_ufs/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen3.ufs.qcom
+    PRODUCT_COPY_FILES += $(LOCAL_PATH)/6155_emmc/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen3.emmc.qcom
+    ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),34))
+      PRODUCT_COPY_FILES += $(LOCAL_PATH)/gen4_fstab_metadata_f2fs/fstab_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
+      PRODUCT_COPY_FILES += $(LOCAL_PATH)/gen4_fstab_metadata_f2fs/fstab_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
+    else
+      PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
+      PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
+    endif
+  else
+    PRODUCT_COPY_FILES += $(LOCAL_PATH)/6155_ufs/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen3.ufs.qcom
+    PRODUCT_COPY_FILES += $(LOCAL_PATH)/6155_emmc/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen3.emmc.qcom
+    ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),34))
+      PRODUCT_COPY_FILES += $(LOCAL_PATH)/gen4_fstab_metadata_f2fs/fstab_non_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
+      PRODUCT_COPY_FILES += $(LOCAL_PATH)/gen4_fstab_metadata_f2fs/fstab_non_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
+    else
+      PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
+      PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
+    endif
+  endif
 endif
 
 PRODUCT_BUILD_SYSTEM_IMAGE := false
+# Enable System_ext
+PRODUCT_BUILD_SYSTEM_EXT_IMAGE := false
 PRODUCT_BUILD_PRODUCT_IMAGE := false
 TARGET_SKIP_OTA_PACKAGE := true
 ifeq ($(TARGET_SINGLE_TREE), true)
   PRODUCT_BUILD_SYSTEM_IMAGE := true
+  PRODUCT_BUILD_SYSTEM_EXT_IMAGE := true
   PRODUCT_BUILD_PRODUCT_IMAGE := true
   TARGET_SKIP_OTA_PACKAGE := false
+  BOARD_BUILD_SUPER_IMAGE_BY_DEFAULT := true
+  PRODUCT_BUILD_SUPER_PARTITION := true
 endif
 PRODUCT_BUILD_SYSTEM_OTHER_IMAGE := false
 #PRODUCT_BUILD_VENDOR_IMAGE := true
@@ -172,6 +188,7 @@ PRODUCT_BUILD_SYSTEM_DLKM_IMAGE := true
 
 #Using sha256 for dm-verity partitions.
 #system, system_other, system_ext and product.
+#TODO @asmemoha cleanup syste/system_ext avb configs. No impact either way
 BOARD_AVB_SYSTEM_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
 BOARD_AVB_SYSTEM_EXT_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
 ifeq ($(TARGET_SINGLE_TREE), true)
@@ -389,6 +406,10 @@ PRODUCT_PACKAGES += gptp \
     libgptp.so \
     libgptp_test
 
+#eavb fe lib and app
+PRODUCT_PACKAGES += libeavbfe \
+    eavbfe_test
+
 PRODUCT_PACKAGES += fs_config_files
 
 #A/B related packages
@@ -486,7 +507,7 @@ ENABLE_VENDOR_RIL_SERVICE := true
 #----------------------------------------------------------------------
 ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
 # Multiple chips
-TARGET_WLAN_CHIP := qca6390 qca6490 qcn7605
+TARGET_WLAN_CHIP := qca6390 qca6490 qcn7605 qca6174
 include device/qcom/wlan/msmnile_au/wlan.mk
 endif
 
@@ -494,12 +515,6 @@ TARGET_MOUNT_POINTS_SYMLINKS := false
 
 
 PRODUCT_PROPERTY_OVERRIDES += vendor.usb.diag_mdm.inst.name=diag_mdm2
-
-# Camera configuration file. Shared by passthrough/binderized camera HAL
-PRODUCT_PACKAGES += camera.device@3.2-impl
-PRODUCT_PACKAGES += camera.device@1.0-impl
-PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-impl
-PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-service
 
 # enable audio hidl hal 5.0
 PRODUCT_PACKAGES += \
@@ -600,22 +615,6 @@ ifeq ($(TARGET_SINGLE_TREE), true)
     ro.crypto.allow_encrypt_override = true
 
 endif
-
-PRODUCT_VENDOR_PROPERTIES += rild.libpath=/vendor/lib64/libril-qc-hal-qmi.so \
-                persist.rild.nitz_plmn=
-                persist.rild.nitz_long_ons_0=
-                persist.rild.nitz_long_ons_1=
-                persist.rild.nitz_long_ons_2=
-                persist.rild.nitz_long_ons_3=
-                persist.rild.nitz_short_ons_0=
-                persist.rild.nitz_short_ons_1=
-                persist.rild.nitz_short_ons_2=
-                persist.rild.nitz_short_ons_3=
-                ril.subscription.types=NV,RUIM \
-                DEVICE_PROVISIONED=1 \
-                dalvik.vm.heapsize=36m \
-                dev.pm.dyn_samplingrate=1 \
-                qcom.hw.aac.encoder=true
 
 # Set network mode to (T/L/G/W/1X/EVDO, T/L/G/W/1X/EVDO) for 7+7 mode device on DSDS mode
 PRODUCT_VENDOR_PROPERTIES += ro.telephony.default_network=22,22 \
@@ -804,7 +803,7 @@ ifeq ($(TARGET_SINGLE_TREE), true)
   ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),29))
     $(call inherit-product, device/qcom/qssi_au/qssi_au_whitelist.mk)
     PRODUCT_ARTIFACT_PATH_REQUIREMENT_IGNORE_PATHS := /system/system_ext/
-    PRODUCT_ENFORCE_ARTIFACT_PATH_REQUIREMENTS := true
+    PRODUCT_ENFORCE_ARTIFACT_PATH_REQUIREMENTS := false
   endif
 
   PRODUCT_PACKAGES += vendor.qti.qesdsys
