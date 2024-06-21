@@ -289,10 +289,6 @@ ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
 include device/qcom/wlan/msmnile_au/BoardConfigWlan.mk
 endif
 
-#Flag to enable System SDK Requirements.
-#All vendor APK will be compiled against system_current API set.
-BOARD_SYSTEMSDK_VERSIONS:= $(SHIPPING_API_LEVEL)
-
 #Enable VNDK Compliance
 BOARD_VNDK_VERSION:=current
 
