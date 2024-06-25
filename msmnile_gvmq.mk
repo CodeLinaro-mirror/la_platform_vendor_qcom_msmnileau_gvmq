@@ -140,15 +140,25 @@ ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
   RELAX_USES_LIBRARY_CHECK := true
 
   ifeq ($(ENABLE_AB), true)
-    PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
     PRODUCT_COPY_FILES += $(LOCAL_PATH)/6155_ufs/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen3.ufs.qcom
     PRODUCT_COPY_FILES += $(LOCAL_PATH)/6155_emmc/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen3.emmc.qcom
-    PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
+    ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),34))
+      PRODUCT_COPY_FILES += $(LOCAL_PATH)/gen4_fstab_metadata_f2fs/fstab_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
+      PRODUCT_COPY_FILES += $(LOCAL_PATH)/gen4_fstab_metadata_f2fs/fstab_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
+    else
+      PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
+      PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
+    endif
   else
-    PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
     PRODUCT_COPY_FILES += $(LOCAL_PATH)/6155_ufs/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen3.ufs.qcom
     PRODUCT_COPY_FILES += $(LOCAL_PATH)/6155_emmc/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen3.emmc.qcom
-    PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
+    ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),34))
+      PRODUCT_COPY_FILES += $(LOCAL_PATH)/gen4_fstab_metadata_f2fs/fstab_non_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
+      PRODUCT_COPY_FILES += $(LOCAL_PATH)/gen4_fstab_metadata_f2fs/fstab_non_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
+    else
+      PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
+      PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_non_AB_dynamic_partition_variant.gen4.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.gen4.qcom
+    endif
   endif
 endif
 
@@ -396,6 +406,10 @@ PRODUCT_PACKAGES += gptp \
     libgptp.so \
     libgptp_test
 
+#eavb fe lib and app
+PRODUCT_PACKAGES += libeavbfe \
+    eavbfe_test
+
 PRODUCT_PACKAGES += fs_config_files
 
 #A/B related packages
@@ -503,12 +517,6 @@ TARGET_MOUNT_POINTS_SYMLINKS := false
 PRODUCT_PROPERTY_OVERRIDES += vendor.usb.diag_mdm.inst.name=diag_mdm2
 PRODUCT_PROPERTY_OVERRIDES += debug.sf.nobootanimation=1
 
-# Camera configuration file. Shared by passthrough/binderized camera HAL
-PRODUCT_PACKAGES += camera.device@3.2-impl
-PRODUCT_PACKAGES += camera.device@1.0-impl
-PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-impl
-PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-service
-
 # enable audio hidl hal 5.0
 PRODUCT_PACKAGES += \
     android.hardware.audio@5.0 \
@@ -608,22 +616,6 @@ ifeq ($(TARGET_SINGLE_TREE), true)
     ro.crypto.allow_encrypt_override = true
 
 endif
-
-PRODUCT_VENDOR_PROPERTIES += rild.libpath=/vendor/lib64/libril-qc-hal-qmi.so \
-                persist.rild.nitz_plmn=
-                persist.rild.nitz_long_ons_0=
-                persist.rild.nitz_long_ons_1=
-                persist.rild.nitz_long_ons_2=
-                persist.rild.nitz_long_ons_3=
-                persist.rild.nitz_short_ons_0=
-                persist.rild.nitz_short_ons_1=
-                persist.rild.nitz_short_ons_2=
-                persist.rild.nitz_short_ons_3=
-                ril.subscription.types=NV,RUIM \
-                DEVICE_PROVISIONED=1 \
-                dalvik.vm.heapsize=36m \
-                dev.pm.dyn_samplingrate=1 \
-                qcom.hw.aac.encoder=true
 
 # Set network mode to (T/L/G/W/1X/EVDO, T/L/G/W/1X/EVDO) for 7+7 mode device on DSDS mode
 PRODUCT_VENDOR_PROPERTIES += ro.telephony.default_network=22,22 \
