@@ -16,6 +16,12 @@ TARGET_2ND_CPU_ABI := armeabi-v7a
 TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := cortex-a9
 
+ifneq ( ,$(filter V VanillaIceCream 15, $(PLATFORM_VERSION)))
+TARGET_ANDROID_BELOW_V15 := false
+else
+TARGET_ANDROID_BELOW_V15 := true
+endif
+
 BOARD_SECCOMP_POLICY := device/qcom/$(TARGET_BOARD_PLATFORM)/seccomp
 
 TARGET_NO_BOOTLOADER := true
