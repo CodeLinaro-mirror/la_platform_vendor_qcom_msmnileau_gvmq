@@ -110,6 +110,10 @@ on boot
     write /data/vendor/netmgr/recovery/recovery_info ""
     chown radio radio /data/vendor/netmgr/recovery/recovery_info
 
+    #update cpusets for background tasks on gvm
+    write /dev/cpuset/background/cpus 4-7
+    write /dev/cpuset/system-background/cpus 4-7
+
 # Add a cpuset for the camera daemon
 # We want all cores for camera
     mkdir /dev/cpuset/camera-daemon
