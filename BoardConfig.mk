@@ -24,7 +24,7 @@ TARGET_NO_KERNEL := false
 
 
 TARGET_USES_IOPHAL := true
-
+TARGET_SCREEN_DENSITY := 160
 BUILD_BROKEN_DUP_RULES := true
 
 BOARD_RAMDISK_USE_LZ4 := true
@@ -143,8 +143,21 @@ ifneq ($(AB_OTA_UPDATER),true)
     TARGET_RECOVERY_UPDATER_LIBS += librecovery_updater_msm
 endif
 
-TARGET_RECOVERY_FSTAB := device/qcom/msmnile_gvmq/fstab.gen4.qti
+ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),34))
+    TARGET_RECOVERY_FSTAB := device/qcom/msmnile_gvmq/gen4_fstab_metadata_f2fs/fstab.gen4.qti
+else
+    TARGET_RECOVERY_FSTAB := device/qcom/msmnile_gvmq/fstab.gen4.qti
+endif
+
+#Enable Metadata compilation and adding metadata related attributes
 BOARD_USES_METADATA_PARTITION := true
+ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),34))
+    BOARD_METADATAIMAGE_FILE_SYSTEM_TYPE := f2fs
+    BOARD_METADATAIMAGE_PARTITION_SIZE := 67108864
+else
+    BOARD_METADATAIMAGE_FILE_SYSTEM_TYPE := ext4
+    BOARD_METADATAIMAGE_PARTITION_SIZE := 16777216
+endif
 
 TARGET_HW_DISK_ENCRYPTION := false
 TARGET_HW_DISK_ENCRYPTION_PERF := false
@@ -164,7 +177,6 @@ BOARD_VENDOR_BOOTIMAGE_PARTITION_SIZE := 0x04000000
 BOARD_INIT_BOOT_IMAGE_PARTITION_SIZE := 0x00800000
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 10737418240
 BOARD_PERSISTIMAGE_PARTITION_SIZE := 33554432
-BOARD_METADATAIMAGE_PARTITION_SIZE := 16777216
 BOARD_PREBUILT_DTBOIMAGE := out/target/product/msmnile_gvmq/prebuilt_dtbo.img
 BOARD_DTBOIMG_PARTITION_SIZE := 0x0800000
 BOARD_PERSISTIMAGE_FILE_SYSTEM_TYPE := ext4
@@ -196,7 +208,7 @@ TARGET_USES_QCOM_BSP := false
 
 BOARD_BOOTCONFIG := androidboot.hardware=qcom androidboot.selinux=enforcing androidboot.memcg=1 androidboot.recover_usb=1
 
-BOARD_KERNEL_CMDLINE := user_debug=31 print-fatal-signals=1  init=/init swiotlb=4096  kpti=0 pcie_ports=compat firmware_class.path=/vendor/firmware_mnt/image loop.max_part=7
+BOARD_KERNEL_CMDLINE := user_debug=31 print-fatal-signals=1  init=/init kpti=0 pcie_ports=compat firmware_class.path=/vendor/firmware_mnt/image loop.max_part=7
 
 ifeq ($(TARGET_CONSOLE_ENABLED),true)
 BOARD_KERNEL_CMDLINE += console=hvc0,115200 debug loglevel=9
