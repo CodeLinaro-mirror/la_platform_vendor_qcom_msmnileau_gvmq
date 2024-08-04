@@ -57,6 +57,10 @@ endif
 PRODUCT_VENDOR_PROPERTIES += \
     ro.soc.manufacturer=$(PRODUCT_MANUFACTURER) \
 
+
+PRODUCT_VENDOR_PROPERTIES += \
+    apexd.config.dm_create.timeout=3000 \
+
 # Enable support for APEX updates
 $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 
@@ -73,6 +77,7 @@ ifeq ($(ENABLE_VIRTUAL_AB), true)
   ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),34))
     # For OTA updates with shipping api level 34 and above.
     $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/vabc_features.mk)
+    $(call inherit-product, $(SRC_TARGET_DIR)/product/generic_ramdisk.mk)
     PRODUCT_VENDOR_PROPERTIES += ro.virtual_ab.compression.threads=true
   else
     # For OTA updates with shipping api level 33 and below.
@@ -406,6 +411,10 @@ PRODUCT_PACKAGES += gptp \
     libgptp.so \
     libgptp_test
 
+#eavb fe lib and app
+PRODUCT_PACKAGES += libeavbfe \
+    eavbfe_test
+
 PRODUCT_PACKAGES += fs_config_files
 
 #A/B related packages
@@ -511,12 +520,6 @@ TARGET_MOUNT_POINTS_SYMLINKS := false
 
 
 PRODUCT_PROPERTY_OVERRIDES += vendor.usb.diag_mdm.inst.name=diag_mdm2
-
-# Camera configuration file. Shared by passthrough/binderized camera HAL
-PRODUCT_PACKAGES += camera.device@3.2-impl
-PRODUCT_PACKAGES += camera.device@1.0-impl
-PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-impl
-PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-service
 
 # enable audio hidl hal 5.0
 PRODUCT_PACKAGES += \
