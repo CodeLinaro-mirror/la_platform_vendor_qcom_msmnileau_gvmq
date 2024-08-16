@@ -16,6 +16,12 @@ TARGET_2ND_CPU_ABI := armeabi-v7a
 TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := cortex-a9
 
+ifneq ( ,$(filter V VanillaIceCream 15, $(PLATFORM_VERSION)))
+TARGET_ANDROID_BELOW_V15 := false
+else
+TARGET_ANDROID_BELOW_V15 := true
+endif
+
 BOARD_SECCOMP_POLICY := device/qcom/$(TARGET_BOARD_PLATFORM)/seccomp
 
 TARGET_NO_BOOTLOADER := true
@@ -180,7 +186,7 @@ TARGET_USES_ION := true
 TARGET_USES_NEW_ION_API :=true
 TARGET_USES_QCOM_BSP := false
 
-BOARD_BOOTCONFIG := androidboot.hardware=qcom androidboot.selinux=enforcing androidboot.memcg=1 androidboot.recover_usb=1 androidboot.dtbo_idx=1
+BOARD_BOOTCONFIG := androidboot.hardware=qcom androidboot.selinux=enforcing androidboot.memcg=1 androidboot.recover_usb=1
 
 BOARD_KERNEL_CMDLINE := user_debug=31 print-fatal-signals=1  init=/init swiotlb=4096  kpti=0 pcie_ports=compat firmware_class.path=/vendor/firmware_mnt/image loop.max_part=7
 
@@ -288,10 +294,6 @@ SOONG_CONFIG_android_hardware_audio_run_64bit := true
 ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
 include device/qcom/wlan/msmnile_au/BoardConfigWlan.mk
 endif
-
-#Flag to enable System SDK Requirements.
-#All vendor APK will be compiled against system_current API set.
-BOARD_SYSTEMSDK_VERSIONS:= $(SHIPPING_API_LEVEL)
 
 #Enable VNDK Compliance
 BOARD_VNDK_VERSION:=current

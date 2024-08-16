@@ -15,6 +15,7 @@ TARGET_DISABLE_LIBVIRTDIAG := true
 
 SHIPPING_API_LEVEL := 34
 PRODUCT_SHIPPING_API_LEVEL := $(SHIPPING_API_LEVEL)
+BOARD_SHIPPING_API_LEVEL := 34
 
 AUDIO_USE_STUB_HAL := false
 # Skip VINTF checks for kernel configs since we do not have kernel source
@@ -38,6 +39,7 @@ ifeq ($(ENABLE_VIRTUAL_AB), true)
   ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),34))
     # For OTA updates with shipping api level 34 and above.
     $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/vabc_features.mk)
+    $(call inherit-product, $(SRC_TARGET_DIR)/product/generic_ramdisk.mk)
     PRODUCT_VENDOR_PROPERTIES += ro.virtual_ab.compression.threads=true
   else
     # For OTA updates with shipping api level 33 and below.
@@ -64,7 +66,7 @@ TARGET_NO_QTI_WFD := true
 BOARD_HAVE_QCOM_FM := false
 BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := false
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := false
-TARGET_FWK_SUPPORTS_AV_VALUEADDS := true
+TARGET_FWK_SUPPORTS_AV_VALUEADDS := false
 #TARGET_FWK_SUPPORTS_FULL_VALUEADDS := false
 TARGET_USES_AOSP_FOR_WLAN := true
 # U-BRINGUP disable wlan
@@ -121,6 +123,8 @@ PRODUCT_BUILD_USERDATA_IMAGE := true
 PRODUCT_BUILD_VENDOR_BOOT_IMAGE := true
 PRODUCT_BUILD_VENDOR_DLKM_IMAGE := true
 PRODUCT_BUILD_SYSTEM_DLKM_IMAGE := true
+
+PRODUCT_SOONG_NAMESPACES += hardware/qcom/wlan/qcwcn
 
 #Using sha256 for dm-verity partitions.
 #system, system_other, system_ext and product.
