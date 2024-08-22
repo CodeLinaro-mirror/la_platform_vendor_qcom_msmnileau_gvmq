@@ -79,6 +79,15 @@ TARGET_SUPPORT_DUAL_WLAN := true
 # to soong APK manifest_check tool errors. Enable the flag to fix this.
 RELAX_USES_LIBRARY_CHECK := true
 
+# Enable dual Bluetooth
+ifeq ($(TARGET_FWK_SUPPORTS_FULL_VALUEADDS),true)
+ifeq ($(TARGET_BOARD_TYPE),auto)
+ifeq ($(ENABLE_HYP),true)
+BOARD_HAVE_DUAL_BLUETOOTH := true
+endif
+endif
+endif
+
 ifneq ($(TARGET_BOARD_DERIVATIVE_SUFFIX), _ext4)
 ifeq ($(ENABLE_AB), true)
 PRODUCT_COPY_FILES += $(LOCAL_PATH)/fstab_AB_dynamic_partition_variant.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
@@ -341,7 +350,7 @@ ENABLE_VENDOR_RIL_SERVICE := true
 #----------------------------------------------------------------------
 ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
 # Multiple chips
-TARGET_WLAN_CHIP := qca6390 qca6490
+TARGET_WLAN_CHIP := qca6390 qca6490 qcn7605
 include device/qcom/wlan/msmnile_au/wlan.mk
 endif
 
@@ -381,7 +390,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += android.hardware.health-service.example \
                     android.hardware.dumpstate-service.example \
 
-PRODUCT_PACKAGES += android.hardware.gnss@2.0-service
+#PRODUCT_PACKAGES += android.hardware.gnss@2.0-service
 PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 
 #add vndservicemanager
