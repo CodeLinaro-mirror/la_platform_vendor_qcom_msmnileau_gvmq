@@ -670,6 +670,8 @@ PRODUCT_VENDOR_PROPERTIES += persist.bluetooth.enablenewavrcp=false
 # Add gsi avb keys
 PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 
+# Use AIDL for media.c2 HAL
+PRODUCT_VENDOR_PROPERTIES += media.c2.hal.selection=aidl
 ###################################################################################
 # This is the End of target.mk file.
 # Now, Pickup other split product.mk files:
