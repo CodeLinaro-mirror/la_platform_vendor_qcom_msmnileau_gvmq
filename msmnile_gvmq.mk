@@ -16,6 +16,7 @@ TARGET_DISABLE_LIBVIRTDIAG := true
 
 SHIPPING_API_LEVEL := 34
 PRODUCT_SHIPPING_API_LEVEL := $(SHIPPING_API_LEVEL)
+BOARD_SHIPPING_API_LEVEL := $(SHIPPING_API_LEVEL)
 
 AUDIO_USE_STUB_HAL := false
 # Skip VINTF checks for kernel configs since we do not have kernel source
@@ -661,6 +662,8 @@ PRODUCT_VENDOR_PROPERTIES += telephony.lteOnCdmaDevice=1
 
 #Simulate sdcard on /data/media
 PRODUCT_VENDOR_PROPERTIES += persist.fuse_sdcard=true
+
+BOARD_HAVE_QCOM_BLE_AUDIO := true
 
 #system prop for wipower support
 PRODUCT_VENDOR_PROPERTIES += ro.bluetooth.emb_wp_mode=false \
