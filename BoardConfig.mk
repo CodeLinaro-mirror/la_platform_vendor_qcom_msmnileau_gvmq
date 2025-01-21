@@ -181,7 +181,7 @@ ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
 endif
 
 BOARD_DO_NOT_STRIP_VENDOR_MODULES := true
-BOARD_VENDOR_KERNEL_MODULES += $(shell ls $(KERNEL_MODULES_OUT)/*.ko)
+BOARD_VENDOR_KERNEL_MODULES += $(wildcard $(KERNEL_MODULES_OUT)/*.ko)
 TARGET_USES_ION := true
 TARGET_USES_NEW_ION_API :=true
 TARGET_USES_QCOM_BSP := false
@@ -208,15 +208,15 @@ BOARD_RAMDISK_OFFSET     := 0x02000000
 
 TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_HEADER_ARCH := arm64
-TARGET_KERNEL_CROSS_COMPILE_PREFIX := $(shell pwd)/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-androidkernel-
-
+TARGET_KERNEL_CROSS_COMPILE_PREFIX := $(CURDIR)/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-androidkernel-
 KERN_CONF_PATH := kernel_platform/msm-kernel/arch/arm64/configs/vendor/
-KERN_CONF_FILE := $(shell ls $(KERN_CONF_PATH) | grep sa8..._defconfig)
-KERNEL_UNCOMPRESSED_DEFCONFIG := $(shell grep "CONFIG_BUILD_ARM64_UNCOMPRESSED_KERNEL=y" $(KERN_CONF_PATH)$(KERN_CONF_FILE))
+KERN_CONF_FILE := $(filter sa8%_defconfig, $(notdir $(wildcard $(KERN_CONF_PATH)*)))
+KERNEL_UNCOMPRESSED_DEFCONFIG := $((if $(findstring y,$(CONFIG_BUILD_ARM64_UNCOMPRESSED_KERNEL)),y)$(KERN_CONF_PATH)$(KERN_CONF_FILE))
+$(warning KERNEL_UNCOMPESSED_DEFCONFIG: $(KERNEL_UNCOMPRESSED_DEFCONFIG))
 ifeq ($(KERNEL_UNCOMPRESSED_DEFCONFIG),)
-	TARGET_USES_UNCOMPRESSED_KERNEL := false
+        TARGET_USES_UNCOMPRESSED_KERNEL := false
 else
-	TARGET_USES_UNCOMPRESSED_KERNEL := true
+        TARGET_USES_UNCOMPRESSED_KERNEL := true
 endif
 
 
@@ -273,20 +273,14 @@ TARGET_ENABLE_MEDIADRM_64 := true
 
 #namespace definition for librecovery_updater
 #differentiate legacy 'sg' or 'bsg' framework
-SOONG_CONFIG_NAMESPACES += ufsbsg
-SOONG_CONFIG_ufsbsg += ufsframework
-SOONG_CONFIG_ufsbsg_ufsframework := bsg
+$(call soong_config_set,ufsbsg,ufsframework,bsg)
 
 #namespace definition for qtiwifi
 #differentiate auto and non-auto target
-SOONG_CONFIG_NAMESPACES += qtiwifi
-SOONG_CONFIG_qtiwifi += automobile
-SOONG_CONFIG_qtiwifi_automobile := true
+$(call soong_config_set,qtiwifi,automobile,true)
 
 #enable 64bit audioservice
-SOONG_CONFIG_NAMESPACES += android_hardware_audio
-SOONG_CONFIG_android_hardware_audio += run_64bit
-SOONG_CONFIG_android_hardware_audio_run_64bit := true
+$(call soong_config_set,android_hardware_audio,run_64bit,true)
 
 #----------------------------------------------------------------------
 # wlan specific
