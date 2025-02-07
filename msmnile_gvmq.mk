@@ -23,6 +23,12 @@ PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
 PRODUCT_MANUFACTURER := Qualcomm
 PRODUCT_DEVICE := msmnile_gvmq
 
+#Enable AOSP to determine page size runtime, this removes PAGE_SIZE macro
+PRODUCT_NO_BIONIC_PAGE_SIZE_MACRO := true
+
+#Align all 64-bit userspace ELF binaries to 16 KB
+PRODUCT_MAX_PAGE_SIZE_SUPPORTED := 16384
+
 PRODUCT_VENDOR_PROPERTIES += \
     ro.soc.manufacturer=$(PRODUCT_MANUFACTURER) \
 
