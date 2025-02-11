@@ -352,6 +352,12 @@ PRODUCT_PACKAGES += gptp \
     libgptp.so \
     libgptp_test
 
+#eavb fe lib and app
+PRODUCT_PACKAGES += libeavbfe \
+            eavbfe_test \
+            libqavb_fe_pcm_plugin \
+            tinyalsa_eavbfe
+
 PRODUCT_PACKAGES += fs_config_files
 
 #A/B related packages
