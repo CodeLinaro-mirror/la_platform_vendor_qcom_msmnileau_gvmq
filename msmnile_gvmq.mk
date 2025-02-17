@@ -23,6 +23,12 @@ PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
 PRODUCT_MANUFACTURER := Qualcomm
 PRODUCT_DEVICE := msmnile_gvmq
 
+#Enable AOSP to determine page size runtime, this removes PAGE_SIZE macro
+PRODUCT_NO_BIONIC_PAGE_SIZE_MACRO := true
+
+#Align all 64-bit userspace ELF binaries to 16 KB
+PRODUCT_MAX_PAGE_SIZE_SUPPORTED := 16384
+
 PRODUCT_VENDOR_PROPERTIES += \
     ro.soc.manufacturer=$(PRODUCT_MANUFACTURER) \
 
@@ -46,7 +52,7 @@ ifeq ($(ENABLE_VIRTUAL_AB), true)
     $(call inherit-product, $(SRC_TARGET_DIR)/product/generic_ramdisk.mk)
     $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/android_t_baseline.mk)
   endif
-  PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := gz
+  PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := lz4
 endif
 # Enable AVB 2.0
 BOARD_AVB_ENABLE := true
@@ -346,6 +352,12 @@ PRODUCT_PACKAGES += gptp \
     libgptp.so \
     libgptp_test
 
+#eavb fe lib and app
+PRODUCT_PACKAGES += libeavbfe \
+            eavbfe_test \
+            libqavb_fe_pcm_plugin \
+            tinyalsa_eavbfe
+
 PRODUCT_PACKAGES += fs_config_files
 
 #A/B related packages
@@ -409,6 +421,12 @@ PRODUCT_COPY_FILES += \
 #    device/qcom/msmnile_gvmq/msmnile_gvmq_excluded_features.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/msmnile_gvmq_excluded_features.xml
 
 
+#sysprofiler
+PRODUCT_PACKAGES += libsysprofiler \
+    sysprofiler_app \
+    libQProfilerInterface \
+    sysprofiler.h
+
 # Kernel modules install path
 KERNEL_MODULES_INSTALL := dlkm
 KERNEL_MODULES_OUT := out/target/product/msmnile_gvmq/$(KERNEL_MODULES_INSTALL)/lib/modules
@@ -464,6 +482,10 @@ PRODUCT_PACKAGES += \
 
 #Boot control HAL test app
 PRODUCT_PACKAGES_DEBUG += bootctl
+
+#Enable fuzzers for userdebug builds
+PRODUCT_PACKAGES_DEBUG += aidl_fuzzer_bootctrl
+PRODUCT_PACKAGES_DEBUG += vhalserver_fuzzer
 
 PRODUCT_PACKAGES += \
    update_engine_sideload
