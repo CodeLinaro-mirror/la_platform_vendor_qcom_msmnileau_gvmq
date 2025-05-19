@@ -636,10 +636,6 @@ PRODUCT_VENDOR_PROPERTIES += media.stagefright.enable-player=true \
                             media.stagefright.enable-qcp=true \
                             media.stagefright.enable-fma2dp=true \
                             media.stagefright.enable-scan=true \
-                            mmp.enable.3g2=true \
-                            media.aac_51_output_enabled=true \
-                            mm.enable.smoothstreaming=true \
-                            persist.mm.enable.prefetch=true
 
 # system props for the data modules
 PRODUCT_VENDOR_PROPERTIES += ro.vendor.use_data_netmgrd=true \
@@ -764,9 +760,6 @@ PRODUCT_VENDOR_PROPERTIES += ro.lmk.kill_heaviest_task=true \
 
 #Property to enable scroll pre-obtain view
 PRODUCT_VENDOR_PROPERTIES += ro.vendor.scroll.preobtain.enable=true
-
-#Expose aux camera for below packages
-PRODUCT_VENDOR_PROPERTIES += vendor.camera.aux.packagelist=org.codeaurora.snapcam
 
 #Display mirroring
 PRODUCT_VENDOR_PROPERTIES += vendor.display.builtin_mirroring=true
