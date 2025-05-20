@@ -352,3 +352,7 @@ BUILD_BROKEN_USES_SOONG_PYTHON2_MODULES := true
 endif
 #Enable Camera2 APIs on automotive builds
 ENABLE_CAMERA_SERVICE := true
+ifeq ($(filter $(PLATFORM_VERSION), 15 VanillaIceCream V),$(PLATFORM_VERSION))
+$(call add_soong_config_namespace,qti)
+$(call soong_config_set,qti,qti_android_version_is_15,true)
+endif
