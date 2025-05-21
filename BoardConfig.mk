@@ -355,4 +355,16 @@ ENABLE_CAMERA_SERVICE := true
 ifeq ($(filter $(PLATFORM_VERSION), 15 VanillaIceCream V),$(PLATFORM_VERSION))
 $(call add_soong_config_namespace,qti)
 $(call soong_config_set,qti,qti_android_version_is_15,true)
+#used in hardware/qcom/display to determine which version of vndk to be used.
+$(call add_soong_config_var_value,qti,vndk,version_2)
+else
+$(call add_soong_config_namespace,qti)
+#used in hardware/qcom/display to determine which version of vndk to be used.
+$(call add_soong_config_var_value,qti,vndk,version_1)
+endif
+
+ifeq ($(filter $(PLATFORM_VERSION), 15 VanillaIceCream V),$(PLATFORM_VERSION))
+TARGET_SUPPORTS_VM_AUTO := false
+else
+TARGET_SUPPORTS_VM_AUTO := true
 endif
