@@ -370,3 +370,9 @@ TARGET_SUPPORTS_VM_AUTO := false
 else
 TARGET_SUPPORTS_VM_AUTO := true
 endif
+
+#We are sorting BOARD_VENDOR_KERNEL_MODULES due to BoardConfig.mk invoked twice
+#   1. From vendor/qcom/proprietary/common/config/device-vendor.mk
+#   2. From build/make/core/board_config.mk
+#which impacts duplicates found in vendor_dlkm partition while building image
+BOARD_VENDOR_KERNEL_MODULES := $(sort $(BOARD_VENDOR_KERNEL_MODULES))
