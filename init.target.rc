@@ -32,6 +32,7 @@
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 import /vendor/etc/init/hw/init.qti.kernel.rc
+import /system_ext/etc/init/automs_vlan.rc
 
 on early-init
     write /proc/sys/kernel/sched_boost 1
