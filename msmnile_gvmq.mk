@@ -163,6 +163,11 @@ TARGET_DEFINES_DALVIK_HEAP := true
 # Disable 32bit App support.
 # This value should be set before including device/qcom/common/common64.mk
 DEVICE_SUPPORTS_64_BIT_APPS_ONLY := true
+
+#Add soong variable for auto board targets
+$(call add_soong_config_namespace,qti)
+$(call soong_config_set,qti,qti_target_board_auto,true)
+
 $(call inherit-product, device/qcom/common/common64.mk)
 #Inherit all except heap growth limit from phone-xhdpi-2048-dalvik-heap.mk
 PRODUCT_PROPERTY_OVERRIDES  += \
