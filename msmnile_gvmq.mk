@@ -237,7 +237,7 @@ TARGET_USES_QMAA_OVERRIDE_TFTP := false
 TARGET_USES_QMAA_OVERRIDE_USB := true
 TARGET_USES_QMAA_OVERRIDE_VIBRATOR := false
 TARGET_USES_QMAA_OVERRIDE_VIDEO   := true
-TARGET_USES_QMAA_OVERRIDE_VPP := false
+TARGET_USES_QMAA_OVERRIDE_VPP := true
 TARGET_USES_QMAA_OVERRIDE_WFD     := true
 TARGET_USES_QMAA_OVERRIDE_WLAN    := true
 
@@ -303,6 +303,7 @@ endif
 
 TARGET_DISABLE_DASH := true
 TARGET_DISABLE_QTI_VPP := false
+TARGET_DISABLE_GLOBAL_VPP := false
 
 ifneq ($(TARGET_DISABLE_DASH), true)
     PRODUCT_BOOT_JARS += qcmediaplayer
@@ -476,12 +477,6 @@ TARGET_MOUNT_POINTS_SYMLINKS := false
 
 PRODUCT_PROPERTY_OVERRIDES += vendor.usb.diag_mdm.inst.name=diag_mdm2
 
-# Camera configuration file. Shared by passthrough/binderized camera HAL
-PRODUCT_PACKAGES += camera.device@3.2-impl
-PRODUCT_PACKAGES += camera.device@1.0-impl
-PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-impl
-PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-service
-
 # enable audio hidl hal 5.0
 PRODUCT_PACKAGES += \
     android.hardware.audio@5.0 \
@@ -507,6 +502,10 @@ PRODUCT_PACKAGES += android.hardware.health-service.example \
                     android.hardware.dumpstate-service.example
 
 PRODUCT_PACKAGES += qcar-gsi.avbpubkey
+
+
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.software.managed_users.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.managed_users.xml
 
 #add vndservicemanager
 PRODUCT_PACKAGES += vndservicemanager
