@@ -712,6 +712,13 @@ PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 
 # Use AIDL for media.c2 HAL
 PRODUCT_VENDOR_PROPERTIES += media.c2.hal.selection=aidl
+
+
+PRODUCT_COPY_FILES += \
+    device/qcom/msmnile_gvmq/multi-display/input/Vendor_0eef_Product_0210.idc:$(TARGET_COPY_OUT_VENDOR)/usr/idc/Vendor_0eef_Product_0210.idc \
+    device/qcom/msmnile_gvmq/multi-display/input/Vendor_0eef_Product_c000.idc:$(TARGET_COPY_OUT_VENDOR)/usr/idc/Vendor_0eef_Product_c000.idc
+
+
 ###################################################################################
 # This is the End of target.mk file.
 # Now, Pickup other split product.mk files:
