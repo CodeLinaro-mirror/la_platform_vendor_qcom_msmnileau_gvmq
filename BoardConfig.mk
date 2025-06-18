@@ -319,9 +319,11 @@ ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
 include device/qcom/wlan/msmnile_au/BoardConfigWlan.mk
 endif
 
+ifneq ($(PLATFORM_VERSION),$(filter V VanillaIceCream 15, $(PLATFORM_VERSION)))
 #Flag to enable System SDK Requirements.
 #All vendor APK will be compiled against system_current API set.
 BOARD_SYSTEMSDK_VERSIONS:= $(SHIPPING_API_LEVEL)
+endif
 
 #Enable VNDK Compliance
 BOARD_VNDK_VERSION:=current
@@ -345,6 +347,24 @@ BUILD_BROKEN_USES_BUILD_HOST_EXECUTABLE := true
 BUILD_BROKEN_USES_BUILD_COPY_HEADERS := true
 BUILD_BROKEN_USES_BUILD_HOST_STATIC_LIBRARY := true
 BUILD_BROKEN_CLANG_PROPERTY := true
+ifneq ($(PLATFORM_VERSION),$(filter V VanillaIceCream 15, $(PLATFORM_VERSION)))
 BUILD_BROKEN_USES_SOONG_PYTHON2_MODULES := true
+endif
 #Enable Camera2 APIs on automotive builds
 ENABLE_CAMERA_SERVICE := true
+ifeq ($(filter $(PLATFORM_VERSION), 15 VanillaIceCream V),$(PLATFORM_VERSION))
+$(call add_soong_config_namespace,qti)
+$(call soong_config_set,qti,qti_android_version_is_15,true)
+#used in hardware/qcom/display to determine which version of vndk to be used.
+$(call add_soong_config_var_value,qti,vndk,version_2)
+else
+$(call add_soong_config_namespace,qti)
+#used in hardware/qcom/display to determine which version of vndk to be used.
+$(call add_soong_config_var_value,qti,vndk,version_1)
+endif
+
+ifeq ($(filter $(PLATFORM_VERSION), 15 VanillaIceCream V),$(PLATFORM_VERSION))
+TARGET_SUPPORTS_VM_AUTO := false
+else
+TARGET_SUPPORTS_VM_AUTO := true
+endif

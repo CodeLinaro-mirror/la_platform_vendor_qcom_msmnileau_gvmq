@@ -192,6 +192,8 @@ PRODUCT_BUILD_VENDOR_BOOT_IMAGE := true
 PRODUCT_BUILD_VENDOR_DLKM_IMAGE := true
 PRODUCT_BUILD_SYSTEM_DLKM_IMAGE := true
 
+PRODUCT_SOONG_NAMESPACES += hardware/qcom/wlan/qcwcn
+
 #Using sha256 for dm-verity partitions.
 #system, system_other, system_ext and product.
 #TODO @asmemoha cleanup syste/system_ext avb configs. No impact either way
@@ -665,15 +667,6 @@ PRODUCT_VENDOR_PROPERTIES += persist.vendor.service.bt.a2dp.sink=true \
 PRODUCT_VENDOR_PROPERTIES += ro.hardware.type=automotive
 
 PRODUCT_VENDOR_PROPERTIES += ro.hardware.sensors=msmnile.asm_auto
-
-# snapdragon value add features
-PRODUCT_VENDOR_PROPERTIES += ro.qc.sdk.audio.ssr=false
-
-# fluencetype can be "fluence" or "fluencepro" or "none"
-PRODUCT_VENDOR_PROPERTIES += ro.qc.sdk.audio.fluencetype=none \
-                            persist.audio.fluence.voicecall=true \
-                            persist.audio.fluence.voicerec=false \
-                            persist.audio.fluence.speaker=true
 
 # system prop for RmNet Data
 PRODUCT_VENDOR_PROPERTIES += persist.rmnet.data.enable=true \
