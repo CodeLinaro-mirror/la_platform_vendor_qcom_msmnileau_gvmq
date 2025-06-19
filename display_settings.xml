@@ -30,14 +30,10 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 <config identifier="1" />
 <display
   name="port:129"
-  shouldShowIme="true"
-  shouldShowSystemDecors="true"
-  forcedDensity="120"/>
+  shouldShowIme="true" />
 <display
   name="port:3"
-  shouldShowIme="true"
-  shouldShowSystemDecors="true"
-  forcedDensity="120"/>
+  shouldShowIme="true" />
 <display
   name="port:4"
   shouldShowIme="true" />
