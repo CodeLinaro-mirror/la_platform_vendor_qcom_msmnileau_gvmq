@@ -27,8 +27,8 @@
 #
 #
 
-# Changes from Qualcomm Innovation Center are provided under the following license:
-# Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+#Changes from Qualcomm Technologies, Inc. are provided under the following license:
+#Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 
 import /vendor/etc/init/hw/init.qti.kernel.rc
@@ -142,16 +142,20 @@ on property:vendor.usb.controller=*
     setprop sys.usb.controller ${vendor.usb.controller}
 
 on property:init.svc.zygote=running
-    write /dev/kmsg "boot_kpi: M - USER Zygote Start"
+    #write /dev/kmsg "boot_kpi: M - USER Zygote Start"
+    write /sys/kernel/boot_kpi/kpi_values "M - USER Zygote Start"
 
 on property:service.bootanim.exit=0
-    write /dev/kmsg "boot_kpi: K - USER Boot Animation Start"
+    #write /dev/kmsg "boot_kpi: K - USER Boot Animation Start"
+    write /sys/kernel/boot_kpi/kpi_values "K - USER Boot Animation Start"
 
 on property:sys.boot_completed=1
-    write /dev/kmsg "boot_kpi: K - USER Android Boot Complete"
+    #write /dev/kmsg "boot_kpi: K - USER Android Boot Complete"
+    write /sys/kernel/boot_kpi/kpi_values "K - USER Android Boot Complete"
 
 on property:init.svc.surfaceflinger=running
-    write /dev/kmsg "boot_kpi: M - USER SurfaceFlinger Start"
+    #write /dev/kmsg "boot_kpi: M - USER SurfaceFlinger Start"
+    write /sys/kernel/boot_kpi/kpi_values "M - USER SurfaceFlinger Start"
 
 #pd-mapper
 service vendor.pd_mapper /vendor/bin/pd-mapper
