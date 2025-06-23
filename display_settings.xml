@@ -34,22 +34,11 @@ SPDX-License-Identifier: BSD-3-Clause-Clear
 <config identifier="1" />
 <display
   name="port:129"
-  shouldShowIme="true"
-  shouldShowSystemDecors="true"
-  forcedDensity="120" />
+  shouldShowIme="true" />
 <display
   name="port:3"
-  shouldShowIme="true"
-  shouldShowSystemDecors="true"
-  forcedDensity="120" />
+  shouldShowIme="true" />
 <display
   name="port:4"
-  shouldShowIme="true"
-  shouldShowSystemDecors="true"
-  forcedDensity="120"/>
-<display
-  name="port:5"
-  shouldShowIme="true"
-  shouldShowSystemDecors="true"
-  forcedDensity="120"/>
+  shouldShowIme="true" />
 </display-settings>

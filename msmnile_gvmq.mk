@@ -509,9 +509,6 @@ PRODUCT_PACKAGES += android.hardware.health-service.example \
 PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 
 
-PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/android.software.managed_users.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.managed_users.xml
-
 #add vndservicemanager
 PRODUCT_PACKAGES += vndservicemanager
 
@@ -700,11 +697,6 @@ PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 
 # Use AIDL for media.c2 HAL
 PRODUCT_VENDOR_PROPERTIES += media.c2.hal.selection=aidl
-
-
-PRODUCT_COPY_FILES += \
-    device/qcom/msmnile_gvmq/multi-display/input/Vendor_0eef_Product_0210.idc:$(TARGET_COPY_OUT_VENDOR)/usr/idc/Vendor_0eef_Product_0210.idc \
-    device/qcom/msmnile_gvmq/multi-display/input/Vendor_0eef_Product_c000.idc:$(TARGET_COPY_OUT_VENDOR)/usr/idc/Vendor_0eef_Product_c000.idc
 
 
 ###################################################################################
