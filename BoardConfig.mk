@@ -357,6 +357,8 @@ $(call add_soong_config_namespace,qti)
 $(call soong_config_set,qti,qti_android_version_is_15,true)
 #used in hardware/qcom/display to determine which version of vndk to be used.
 $(call add_soong_config_var_value,qti,vndk,version_2)
+#QIIFA python2 deprecation for Vendor Re-compile
+$(call soong_config_set,qti,qti_target_board_auto,true)
 else
 $(call add_soong_config_namespace,qti)
 #used in hardware/qcom/display to determine which version of vndk to be used.
