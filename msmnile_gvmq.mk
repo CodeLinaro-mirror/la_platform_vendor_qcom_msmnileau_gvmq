@@ -655,27 +655,13 @@ PRODUCT_VENDOR_PROPERTIES += telephony.lteOnCdmaDevice=1
 BOARD_HAVE_QCOM_BLE_AUDIO := true
 
 #system prop for wipower support
-PRODUCT_VENDOR_PROPERTIES += ro.bluetooth.emb_wp_mode=false \
-                            ro.bluetooth.wipower=false
 
-PRODUCT_VENDOR_PROPERTIES += persist.vendor.service.bt.a2dp.sink=true \
-                            persist.vendor.btstack.enable.splita2dp=false \
-                            persist.vendor.service.bdroid.sibs=false \
-                            persist.bt.clock_boottime_alarm=false
+PRODUCT_VENDOR_PROPERTIES += persist.vendor.service.bdroid.sibs=false
 
 # system prop for Hardware type Automotive
 PRODUCT_VENDOR_PROPERTIES += ro.hardware.type=automotive
 
 PRODUCT_VENDOR_PROPERTIES += ro.hardware.sensors=msmnile.asm_auto
-
-# snapdragon value add features
-PRODUCT_VENDOR_PROPERTIES += ro.qc.sdk.audio.ssr=false
-
-# fluencetype can be "fluence" or "fluencepro" or "none"
-PRODUCT_VENDOR_PROPERTIES += ro.qc.sdk.audio.fluencetype=none \
-                            persist.audio.fluence.voicecall=true \
-                            persist.audio.fluence.voicerec=false \
-                            persist.audio.fluence.speaker=true
 
 # system prop for RmNet Data
 PRODUCT_VENDOR_PROPERTIES += persist.rmnet.data.enable=true \
