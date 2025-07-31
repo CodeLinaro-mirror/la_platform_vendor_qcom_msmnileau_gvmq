@@ -17,6 +17,7 @@ TARGET_DISABLE_LIBVIRTDIAG := true
 SHIPPING_API_LEVEL := 34
 PRODUCT_SHIPPING_API_LEVEL := $(SHIPPING_API_LEVEL)
 BOARD_SHIPPING_API_LEVEL := $(SHIPPING_API_LEVEL)
+BOARD_API_LEVEL_PROP_OVERRIDE := $(SHIPPING_API_LEVEL)
 
 AUDIO_USE_STUB_HAL := false
 # Skip VINTF checks for kernel configs since we do not have kernel source
@@ -741,7 +742,6 @@ PRODUCT_VENDOR_PROPERTIES += vendor.perf.gestureflingboost.enable=true
 #Enable ULMK properties
 PRODUCT_VENDOR_PROPERTIES += ro.lmk.kill_heaviest_task=true \
                             ro.lmk.kill_timeout_ms=15 \
-                            ro.lmk.use_minfree_levels=true \
                             ro.lmk.enhance_batch_kill=true \
                             ro.lmk.enable_adaptive_lmk=true \
                             ro.lmk.vmpressure_file_min=80640 \
