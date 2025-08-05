@@ -730,7 +730,7 @@ PRODUCT_VENDOR_PROPERTIES += use.voice.path.for.pcm.voip=true
 PRODUCT_VENDOR_PROPERTIES += ro.nfc.port=I2C
 
 # Enable dsp gapless mode by default
-PRODUCT_VENDOR_PROPERTIES += audio.offload.gapless.enabled=true
+PRODUCT_VENDOR_PROPERTIES += audio.offload.gapless.enabled=false
 
 # initialize QCA1530 detection
 PRODUCT_VENDOR_PROPERTIES += sys.qca1530=detect
