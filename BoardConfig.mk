@@ -175,7 +175,7 @@ BOARD_BOOTIMAGE_PARTITION_SIZE := 0x04000000
 BOARD_KERNEL-GKI_BOOTIMAGE_PARTITION_SIZE := $(BOARD_BOOTIMAGE_PARTITION_SIZE)
 BOARD_VENDOR_BOOTIMAGE_PARTITION_SIZE := 0x04000000
 BOARD_INIT_BOOT_IMAGE_PARTITION_SIZE := 0x00800000
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 10737418240
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 26843545600
 BOARD_PERSISTIMAGE_PARTITION_SIZE := 33554432
 BOARD_PREBUILT_DTBOIMAGE := out/target/product/msmnile_gvmq/prebuilt_dtbo.img
 BOARD_DTBOIMG_PARTITION_SIZE := 0x0800000
@@ -319,9 +319,11 @@ ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
 include device/qcom/wlan/msmnile_au/BoardConfigWlan.mk
 endif
 
+ifneq ($(PLATFORM_VERSION),$(filter V VanillaIceCream 15 W Baklava 16, $(PLATFORM_VERSION)))
 #Flag to enable System SDK Requirements.
 #All vendor APK will be compiled against system_current API set.
 BOARD_SYSTEMSDK_VERSIONS:= $(SHIPPING_API_LEVEL)
+endif
 
 #Enable VNDK Compliance
 BOARD_VNDK_VERSION:=current
@@ -345,6 +347,32 @@ BUILD_BROKEN_USES_BUILD_HOST_EXECUTABLE := true
 BUILD_BROKEN_USES_BUILD_COPY_HEADERS := true
 BUILD_BROKEN_USES_BUILD_HOST_STATIC_LIBRARY := true
 BUILD_BROKEN_CLANG_PROPERTY := true
+ifneq ($(PLATFORM_VERSION),$(filter V VanillaIceCream 15 W Baklava 16, $(PLATFORM_VERSION)))
 BUILD_BROKEN_USES_SOONG_PYTHON2_MODULES := true
+endif
 #Enable Camera2 APIs on automotive builds
 ENABLE_CAMERA_SERVICE := true
+ifeq ($(filter $(PLATFORM_VERSION), 15 VanillaIceCream V W Baklava 16),$(PLATFORM_VERSION))
+$(call add_soong_config_namespace,qti)
+$(call soong_config_set,qti,qti_android_version_is_15,true)
+#used in hardware/qcom/display to determine which version of vndk to be used.
+$(call add_soong_config_var_value,qti,vndk,version_2)
+#QIIFA python2 deprecation for Vendor Re-compile
+$(call soong_config_set,qti,qti_target_board_auto,true)
+else
+$(call add_soong_config_namespace,qti)
+#used in hardware/qcom/display to determine which version of vndk to be used.
+$(call add_soong_config_var_value,qti,vndk,version_1)
+endif
+
+ifeq ($(filter $(PLATFORM_VERSION), 15 VanillaIceCream V W Baklava 16),$(PLATFORM_VERSION))
+TARGET_SUPPORTS_VM_AUTO := false
+else
+TARGET_SUPPORTS_VM_AUTO := true
+endif
+
+#We are sorting BOARD_VENDOR_KERNEL_MODULES due to BoardConfig.mk invoked twice
+#   1. From vendor/qcom/proprietary/common/config/device-vendor.mk
+#   2. From build/make/core/board_config.mk
+#which impacts duplicates found in vendor_dlkm partition while building image
+BOARD_VENDOR_KERNEL_MODULES := $(sort $(BOARD_VENDOR_KERNEL_MODULES))

@@ -17,6 +17,7 @@ TARGET_DISABLE_LIBVIRTDIAG := true
 SHIPPING_API_LEVEL := 34
 PRODUCT_SHIPPING_API_LEVEL := $(SHIPPING_API_LEVEL)
 BOARD_SHIPPING_API_LEVEL := $(SHIPPING_API_LEVEL)
+BOARD_API_LEVEL_PROP_OVERRIDE := $(SHIPPING_API_LEVEL)
 
 AUDIO_USE_STUB_HAL := false
 # Skip VINTF checks for kernel configs since we do not have kernel source
@@ -191,6 +192,8 @@ PRODUCT_BUILD_USERDATA_IMAGE := true
 PRODUCT_BUILD_VENDOR_BOOT_IMAGE := true
 PRODUCT_BUILD_VENDOR_DLKM_IMAGE := true
 PRODUCT_BUILD_SYSTEM_DLKM_IMAGE := true
+
+PRODUCT_SOONG_NAMESPACES += hardware/qcom/wlan/qcwcn
 
 #Using sha256 for dm-verity partitions.
 #system, system_other, system_ext and product.
@@ -636,10 +639,6 @@ PRODUCT_VENDOR_PROPERTIES += media.stagefright.enable-player=true \
                             media.stagefright.enable-qcp=true \
                             media.stagefright.enable-fma2dp=true \
                             media.stagefright.enable-scan=true \
-                            mmp.enable.3g2=true \
-                            media.aac_51_output_enabled=true \
-                            mm.enable.smoothstreaming=true \
-                            persist.mm.enable.prefetch=true
 
 # system props for the data modules
 PRODUCT_VENDOR_PROPERTIES += ro.vendor.use_data_netmgrd=true \
@@ -657,38 +656,13 @@ PRODUCT_VENDOR_PROPERTIES += telephony.lteOnCdmaDevice=1
 BOARD_HAVE_QCOM_BLE_AUDIO := true
 
 #system prop for wipower support
-PRODUCT_VENDOR_PROPERTIES += ro.bluetooth.emb_wp_mode=false \
-                            ro.bluetooth.wipower=false
 
-PRODUCT_VENDOR_PROPERTIES += persist.vendor.service.bt.a2dp.sink=true \
-                            persist.vendor.btstack.enable.splita2dp=false \
-                            persist.vendor.service.bdroid.sibs=false \
-                            persist.bt.clock_boottime_alarm=false
+PRODUCT_VENDOR_PROPERTIES += persist.vendor.service.bdroid.sibs=false
 
 # system prop for Hardware type Automotive
 PRODUCT_VENDOR_PROPERTIES += ro.hardware.type=automotive
 
 PRODUCT_VENDOR_PROPERTIES += ro.hardware.sensors=msmnile.asm_auto
-
-# snapdragon value add features
-PRODUCT_VENDOR_PROPERTIES += ro.qc.sdk.audio.ssr=false
-
-# fluencetype can be "fluence" or "fluencepro" or "none"
-PRODUCT_VENDOR_PROPERTIES += ro.qc.sdk.audio.fluencetype=none \
-                            persist.audio.fluence.voicecall=true \
-                            persist.audio.fluence.voicerec=false \
-                            persist.audio.fluence.speaker=true
-
-# system prop for RmNet Data
-PRODUCT_VENDOR_PROPERTIES += persist.rmnet.data.enable=true \
-                            persist.data.wda.enable=true \
-                            persist.data.df.dl_mode=5 \
-                            persist.data.df.ul_mode=5 \
-                            persist.data.df.agg.dl_pkt=10 \
-                            persist.data.df.agg.dl_size=4096 \
-                            persist.data.df.mux_count=8 \
-                            persist.data.df.iwlan_mux=9 \
-                            persist.data.df.dev_name=rmnet_usb0
 
 # property to enable user to access Google WFD settings
 PRODUCT_VENDOR_PROPERTIES += persist.debug.wfd.enable=1
@@ -757,16 +731,12 @@ PRODUCT_VENDOR_PROPERTIES += vendor.perf.gestureflingboost.enable=true
 #Enable ULMK properties
 PRODUCT_VENDOR_PROPERTIES += ro.lmk.kill_heaviest_task=true \
                             ro.lmk.kill_timeout_ms=15 \
-                            ro.lmk.use_minfree_levels=true \
                             ro.lmk.enhance_batch_kill=true \
                             ro.lmk.enable_adaptive_lmk=true \
                             ro.lmk.vmpressure_file_min=80640 \
 
 #Property to enable scroll pre-obtain view
 PRODUCT_VENDOR_PROPERTIES += ro.vendor.scroll.preobtain.enable=true
-
-#Expose aux camera for below packages
-PRODUCT_VENDOR_PROPERTIES += vendor.camera.aux.packagelist=org.codeaurora.snapcam
 
 #Display mirroring
 PRODUCT_VENDOR_PROPERTIES += vendor.display.builtin_mirroring=true
