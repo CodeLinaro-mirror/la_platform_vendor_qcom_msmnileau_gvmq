@@ -829,6 +829,11 @@ ifeq ($(TARGET_SINGLE_TREE), true)
   PRODUCT_PACKAGES += vendor.qti.qesdsys
 endif
 
+ifeq ($(filter $(PLATFORM_VERSION), 15 VanillaIceCream V),$(PLATFORM_VERSION))
+TARGET_SUPPORTS_VM_AUTO := false
+else
+TARGET_SUPPORTS_VM_AUTO := true
+endif
 
 ###################################################################################
 # This is the End of target.mk file.
