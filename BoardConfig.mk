@@ -365,12 +365,6 @@ $(call add_soong_config_namespace,qti)
 $(call add_soong_config_var_value,qti,vndk,version_1)
 endif
 
-ifeq ($(filter $(PLATFORM_VERSION), 15 VanillaIceCream V W Baklava 16),$(PLATFORM_VERSION))
-TARGET_SUPPORTS_VM_AUTO := false
-else
-TARGET_SUPPORTS_VM_AUTO := true
-endif
-
 #We are sorting BOARD_VENDOR_KERNEL_MODULES due to BoardConfig.mk invoked twice
 #   1. From vendor/qcom/proprietary/common/config/device-vendor.mk
 #   2. From build/make/core/board_config.mk
