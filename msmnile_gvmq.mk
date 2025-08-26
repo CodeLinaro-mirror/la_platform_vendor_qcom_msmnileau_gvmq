@@ -428,11 +428,6 @@ PRODUCT_PACKAGES += update_engine \
     android.hardware.boot-service.qti.recovery \
     android.hardware.boot-service.qti \
 
-ifeq ($(TARGET_SINGLE_TREE), true)
-PRODUCT_PACKAGES += android.hardware.boot@1.0-impl \
-                    android.hardware.boot@1.0-service \
-                    update_engine_sideload
-endif
 # bootctrl property
 PRODUCT_VENDOR_PROPERTIES += \
     ro.vendor.bootctrl.enable=true
