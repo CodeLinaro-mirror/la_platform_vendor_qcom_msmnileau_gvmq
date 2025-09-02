@@ -17,6 +17,7 @@ TARGET_DISABLE_LIBVIRTDIAG := true
 SHIPPING_API_LEVEL := 34
 PRODUCT_SHIPPING_API_LEVEL := $(SHIPPING_API_LEVEL)
 BOARD_SHIPPING_API_LEVEL := $(SHIPPING_API_LEVEL)
+BOARD_API_LEVEL_PROP_OVERRIDE := $(SHIPPING_API_LEVEL)
 
 AUDIO_USE_STUB_HAL := false
 # Skip VINTF checks for kernel configs since we do not have kernel source
@@ -427,11 +428,6 @@ PRODUCT_PACKAGES += update_engine \
     android.hardware.boot-service.qti.recovery \
     android.hardware.boot-service.qti \
 
-ifeq ($(TARGET_SINGLE_TREE), true)
-PRODUCT_PACKAGES += android.hardware.boot@1.0-impl \
-                    android.hardware.boot@1.0-service \
-                    update_engine_sideload
-endif
 # bootctrl property
 PRODUCT_VENDOR_PROPERTIES += \
     ro.vendor.bootctrl.enable=true
@@ -663,17 +659,6 @@ PRODUCT_VENDOR_PROPERTIES += ro.hardware.type=automotive
 
 PRODUCT_VENDOR_PROPERTIES += ro.hardware.sensors=msmnile.asm_auto
 
-# system prop for RmNet Data
-PRODUCT_VENDOR_PROPERTIES += persist.rmnet.data.enable=true \
-                            persist.data.wda.enable=true \
-                            persist.data.df.dl_mode=5 \
-                            persist.data.df.ul_mode=5 \
-                            persist.data.df.agg.dl_pkt=10 \
-                            persist.data.df.agg.dl_size=4096 \
-                            persist.data.df.mux_count=8 \
-                            persist.data.df.iwlan_mux=9 \
-                            persist.data.df.dev_name=rmnet_usb0
-
 # property to enable user to access Google WFD settings
 PRODUCT_VENDOR_PROPERTIES += persist.debug.wfd.enable=1
 
@@ -786,6 +771,12 @@ ifeq ($(TARGET_SINGLE_TREE), true)
   endif
 
   PRODUCT_PACKAGES += vendor.qti.qesdsys
+endif
+
+ifeq ($(filter $(PLATFORM_VERSION), 15 VanillaIceCream V),$(PLATFORM_VERSION))
+TARGET_SUPPORTS_VM_AUTO := false
+else
+TARGET_SUPPORTS_VM_AUTO := true
 endif
 
 ###################################################################################
