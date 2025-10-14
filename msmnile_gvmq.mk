@@ -12,6 +12,7 @@ TARGET_DISABLE_HSI2S_DLKM := true
 TARGET_DISABLE_DISPLAY_DLKM := false
 TARGET_DISABLE_AIS_DLKM := true
 TARGET_DISABLE_LIBVIRTDIAG := true
+TARGET_SINGLE_TREE ?= false
 
 SHIPPING_API_LEVEL := 35
 PRODUCT_SHIPPING_API_LEVEL := $(SHIPPING_API_LEVEL)
@@ -22,7 +23,29 @@ AUDIO_USE_STUB_HAL := false
 PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
 PRODUCT_MANUFACTURER := Qualcomm
 PRODUCT_DEVICE := msmnile_gvmq
+ifeq ($(TARGET_SINGLE_TREE), true)
+  PRODUCT_PRODUCT_VNDK_VERSION := current
+  PRODUCT_EXTRA_VNDK_VERSIONS := 33 34
+  PRODUCT_ENFORCE_PRODUCT_PARTITION_INTERFACE := true
 
+  # Enable debugfs restrictions
+  PRODUCT_SET_DEBUGFS_RESTRICTIONS := true
+
+  PRODUCT_SOONG_NAMESPACES += \
+      frameworks/base/boot \
+      cts/tests/signature/api-check \
+      hardware/google/av \
+      hardware/google/interfaces
+
+  TARGET_USES_NEW_ION := true
+
+  TARGET_USES_AOSP_FOR_AUDIO := false
+
+  # Audio configuration file
+  #-include $(TOPDIR)vendor/qcom/opensource/audio-hal/primary-hal/configs/qssi/qssi.mk
+  #-include $(TOPDIR)vendor/qcom/opensource/commonsys/audio/configs/qssi/qssi.mk
+  AUDIO_FEATURE_ENABLED_SVA_MULTI_STAGE := true
+endif
 #Enable AOSP to determine page size runtime, this removes PAGE_SIZE macro
 PRODUCT_NO_BIONIC_PAGE_SIZE_MACRO := true
 
@@ -42,6 +65,9 @@ ifeq ($(ENABLE_AB), true)
   ENABLE_VIRTUAL_AB ?= true
 endif
 ifeq ($(ENABLE_VIRTUAL_AB), true)
+  ifeq ($(TARGET_SINGLE_TREE), true)
+    $(call inherit-product, $(SRC_TARGET_DIR)/product/generic_ramdisk.mk)
+  endif
   ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),34))
     # For OTA updates with shipping api level 34 and above.
     $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/vabc_features.mk)
@@ -74,6 +100,10 @@ BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := false
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := false
 TARGET_FWK_SUPPORTS_AV_VALUEADDS := false
 #TARGET_FWK_SUPPORTS_FULL_VALUEADDS := false
+ifeq ($(TARGET_SINGLE_TREE), true)
+  TARGET_FWK_SUPPORTS_FULL_VALUEADDS := false
+endif
+
 TARGET_USES_AOSP_FOR_WLAN := true
 # U-BRINGUP disable wlan
 BOARD_HAS_QCOM_WLAN := true
@@ -145,6 +175,13 @@ PRODUCT_BUILD_VENDOR_BOOT_IMAGE := true
 PRODUCT_BUILD_VENDOR_DLKM_IMAGE := true
 PRODUCT_BUILD_SYSTEM_DLKM_IMAGE := true
 
+TARGET_SKIP_OTA_PACKAGE := true
+ifeq ($(TARGET_SINGLE_TREE), true)
+  PRODUCT_BUILD_SYSTEM_IMAGE := true
+  PRODUCT_BUILD_PRODUCT_IMAGE := true
+  TARGET_SKIP_OTA_PACKAGE := false
+endif
+
 PRODUCT_SOONG_NAMESPACES += hardware/qcom/wlan/qcwcn
 
 #Using sha256 for dm-verity partitions.
@@ -154,6 +191,9 @@ BOARD_AVB_SYSTEM_EXT_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
 BOARD_AVB_VENDOR_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
 BOARD_AVB_SYSTEM_DLKM_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
 BOARD_AVB_VENDOR_DLKM_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
+ifeq ($(TARGET_SINGLE_TREE), true)
+  BOARD_AVB_PRODUCT_ADD_HASHTREE_FOOTER_ARGS += --hash_algorithm sha256
+endif
 
 ifneq ("$(wildcard device/qcom/$(TARGET_BOARD_PLATFORM)-kernel/vendor_dlkm/system_dlkm.modules.blocklist)", "")
 PRODUCT_COPY_FILES += device/qcom/$(TARGET_BOARD_PLATFORM)-kernel/vendor_dlkm/system_dlkm.modules.blocklist:$(TARGET_COPY_OUT_VENDOR_DLKM)/lib/modules/system_dlkm.modules.blocklist
@@ -385,6 +425,12 @@ PRODUCT_PACKAGES += update_engine \
     android.hardware.boot-service.qti \
     update_engine_sideload
 
+ifeq ($(TARGET_SINGLE_TREE), true)
+PRODUCT_PACKAGES += android.hardware.boot@1.0-impl \
+                    android.hardware.boot@1.0-service
+
+endif
+
 # bootctrl property
 PRODUCT_VENDOR_PROPERTIES += \
     ro.vendor.bootctrl.enable=true
@@ -410,6 +456,10 @@ DEVICE_MANIFEST_FILE := device/qcom/msmnile_gvmq/manifest.xml
 DEVICE_MATRIX_FILE   := device/qcom/common/compatibility_matrix.xml
 DEVICE_FRAMEWORK_MANIFEST_FILE := device/qcom/msmnile_gvmq/framework_manifest.xml
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := vendor/qcom/opensource/core-utils/vendor_framework_compatibility_matrix.xml
+
+ifeq ($(TARGET_SINGLE_TREE), true)
+  DEVICE_FRAMEWORK_MANIFEST_FILE := device/qcom/qssi_au/framework_manifest.xml
+endif
 
 # Enable Scoped Storage related
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
@@ -524,6 +574,76 @@ PRODUCT_PACKAGES += libnbaio
 
 PRODUCT_PRODUCT_PROPERTIES += persist.adb.tcp.port=5555
 
+ifeq ($(TARGET_SINGLE_TREE), true)
+  # Context hub HAL
+  PRODUCT_PACKAGES += \
+    android.hardware.contexthub@1.0-impl.generic \
+    android.hardware.contexthub@1.0-service
+
+  # system prop for enabling QFS (QTI Fingerprint Solution)
+  PRODUCT_PROPERTY_OVERRIDES += \
+    persist.vendor.qfp=true
+
+  PRODUCT_SYSTEM_PROPERTIES += \
+    persist.device_config.runtime_native_boot.iorap_perfetto_enable=true
+
+  PRODUCT_SYSTEM_PROPERTIES += ro.android.car.audio.enableaudiopatch=true
+
+  # USB default HAL
+  #PRODUCT_PACKAGES += \
+    android.hardware.usb@1.0-service
+
+  #PASR HAL and APP
+  PRODUCT_PACKAGES += \
+    vendor.qti.power.pasrmanager@1.0-service \
+    vendor.qti.power.pasrmanager@1.0-impl \
+    pasrservice
+
+  # CAN utils
+  PRODUCT_PACKAGES += candump \
+                    cansend \
+                    bcmserver \
+                    can-calc-bit-timing \
+                    canbusload \
+                    canfdtest \
+                    cangen \
+                    cangw \
+                    canlogserver \
+                    canplayer \
+                    cansniffer \
+                    isotpdump \
+                    isotprecv \
+                    isotpsend \
+                    isotpserver \
+                    isotptun \
+                    log2asc \
+                    log2long \
+                    slcan_attach \
+                    slcand \
+                    slcanpty
+
+  # copy system_ext specific whitelisted libraries to system_ext/etc
+  PRODUCT_COPY_FILES += \
+    device/qcom/qssi_au/public.libraries.system_ext-qti.txt:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/public.libraries-qti.txt
+
+  PRODUCT_PACKAGES += android.frameworks.automotive.display@1.0-service
+
+  TARGET_USES_MKE2FS := true
+
+  PRODUCT_PROPERTY_OVERRIDES += \
+    ro.crypto.volume.filenames_mode = "aes-256-cts" \
+    ro.crypto.allow_encrypt_override = true
+
+  TARGET_USES_QCOM_DISPLAY_BSP := true
+
+  ifeq ($(TARGET_USES_NEW_ION),true)
+    AUDIO_FEATURE_ENABLED_DLKM := true
+  else
+    AUDIO_FEATURE_ENABLED_DLKM := false
+  endif
+
+endif
+
 # Set network mode to (T/L/G/W/1X/EVDO, T/L/G/W/1X/EVDO) for 7+7 mode device on DSDS mode
 PRODUCT_VENDOR_PROPERTIES += ro.telephony.default_network=22,22 \
                             ro.radio.noril=true
@@ -538,10 +658,7 @@ PRODUCT_VENDOR_PROPERTIES += media.stagefright.enable-player=true \
                             media.stagefright.enable-qcp=true \
                             media.stagefright.enable-fma2dp=true \
                             media.stagefright.enable-scan=true \
-                            mmp.enable.3g2=true \
-                            media.aac_51_output_enabled=true \
                             mm.enable.smoothstreaming=true \
-                            persist.mm.enable.prefetch=true
 
 # system props for the data modules
 PRODUCT_VENDOR_PROPERTIES += ro.vendor.use_data_netmgrd=true \
@@ -579,15 +696,6 @@ PRODUCT_VENDOR_PROPERTIES += ro.hardware.type=automotive
 
 PRODUCT_VENDOR_PROPERTIES += ro.hardware.sensors=msmnile.asm_auto
 
-# snapdragon value add features
-PRODUCT_VENDOR_PROPERTIES += ro.qc.sdk.audio.ssr=false
-
-# fluencetype can be "fluence" or "fluencepro" or "none"
-PRODUCT_VENDOR_PROPERTIES += ro.qc.sdk.audio.fluencetype=none \
-                            persist.audio.fluence.voicecall=true \
-                            persist.audio.fluence.voicerec=false \
-                            persist.audio.fluence.speaker=true
-
 # system prop for RmNet Data
 PRODUCT_VENDOR_PROPERTIES += persist.rmnet.data.enable=true \
                             persist.data.wda.enable=true \
@@ -621,7 +729,7 @@ PRODUCT_VENDOR_PROPERTIES += use.voice.path.for.pcm.voip=true
 PRODUCT_VENDOR_PROPERTIES += ro.nfc.port=I2C
 
 # Enable dsp gapless mode by default
-PRODUCT_VENDOR_PROPERTIES += audio.offload.gapless.enabled=true
+PRODUCT_VENDOR_PROPERTIES += audio.offload.gapless.enabled=false
 
 # initialize QCA1530 detection
 PRODUCT_VENDOR_PROPERTIES += sys.qca1530=detect
@@ -666,7 +774,6 @@ PRODUCT_VENDOR_PROPERTIES += vendor.perf.gestureflingboost.enable=true
 #Enable ULMK properties
 PRODUCT_VENDOR_PROPERTIES += ro.lmk.kill_heaviest_task=true \
                             ro.lmk.kill_timeout_ms=15 \
-                            ro.lmk.use_minfree_levels=true \
                             ro.lmk.enhance_batch_kill=true \
                             ro.lmk.enable_adaptive_lmk=true \
                             ro.lmk.vmpressure_file_min=80640 \
@@ -708,6 +815,25 @@ PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 
 # Use AIDL for media.c2 HAL
 PRODUCT_VENDOR_PROPERTIES += media.c2.hal.selection=aidl
+
+
+ifeq ($(TARGET_SINGLE_TREE), true)
+  # Include mainline components and QSSI whitelist
+  ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),29))
+    $(call inherit-product, device/qcom/qssi_au/qssi_au_whitelist.mk)
+    PRODUCT_ARTIFACT_PATH_REQUIREMENT_IGNORE_PATHS := /system/system_ext/
+    PRODUCT_ENFORCE_ARTIFACT_PATH_REQUIREMENTS := false
+  endif
+
+  PRODUCT_PACKAGES += vendor.qti.qesdsys
+endif
+
+ifeq ($(filter $(PLATFORM_VERSION), 15 VanillaIceCream V),$(PLATFORM_VERSION))
+TARGET_SUPPORTS_VM_AUTO := false
+else
+TARGET_SUPPORTS_VM_AUTO := true
+endif
+
 ###################################################################################
 # This is the End of target.mk file.
 # Now, Pickup other split product.mk files:
