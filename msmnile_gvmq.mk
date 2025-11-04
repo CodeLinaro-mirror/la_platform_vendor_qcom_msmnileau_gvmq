@@ -674,6 +674,9 @@ PRODUCT_VENDOR_PROPERTIES += audio.offload.buffer.size.kb=32
 # Enable offload audio video playback by default
 PRODUCT_VENDOR_PROPERTIES += av.offload.enable=true
 
+# Disable offload for audio playback by default
+PRODUCT_VENDOR_PROPERTIES += audio.offload.disable=true
+
 # Enable voice path for PCM VoIP by default
 PRODUCT_VENDOR_PROPERTIES += use.voice.path.for.pcm.voip=true
 
