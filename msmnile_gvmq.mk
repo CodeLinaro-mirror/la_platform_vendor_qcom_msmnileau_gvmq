@@ -553,8 +553,13 @@ PRODUCT_PACKAGES += \
 
 #PRODUCT_PACKAGES += android.hardware.automotive.audiocontrol@1.0-service
 
-PRODUCT_PACKAGES += android.hardware.health-service.example \
-                    android.hardware.dumpstate-service.example
+ifeq ($(PLATFORM_SDK_VERSION),36)
+    PRODUCT_PACKAGES += android.hardware.health-service.qti \
+                        android.hardware.health-service.qti_recovery
+else
+    PRODUCT_PACKAGES += android.hardware.health-service.example \
+                        android.hardware.health-service.example_recovery
+endif
 
 PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 
