@@ -743,8 +743,6 @@ PRODUCT_VENDOR_PROPERTIES += ro.hwui.texture_cache_size=72 \
                             ro.hwui.text_large_cache_width=2048 \
                             ro.hwui.text_large_cache_height=1024 \
 
-PRODUCT_VENDOR_PROPERTIES += config.disable_rtt=true
-
 #Bringup properties
 PRODUCT_VENDOR_PROPERTIES += persist.sys.force_sw_gles=1 \
                             persist.vendor.radio.atfwd.start=true \
