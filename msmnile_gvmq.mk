@@ -670,18 +670,6 @@ PRODUCT_VENDOR_PROPERTIES += persist.debug.wfd.enable=1
 # property to choose between virtual/external wfd display
 PRODUCT_VENDOR_PROPERTIES += persist.sys.wfd.virtual=0
 
-# enable tunnel encoding for amrwb
-PRODUCT_VENDOR_PROPERTIES += tunnel.audio.encode = true
-
-#Buffer size in kbytes for compress offload playback
-PRODUCT_VENDOR_PROPERTIES += audio.offload.buffer.size.kb=32
-
-# Enable offload audio video playback by default
-PRODUCT_VENDOR_PROPERTIES += av.offload.enable=true
-
-# Enable voice path for PCM VoIP by default
-PRODUCT_VENDOR_PROPERTIES += use.voice.path.for.pcm.voip=true
-
 # system prop for NFC DT
 PRODUCT_VENDOR_PROPERTIES += ro.nfc.port=I2C
 
