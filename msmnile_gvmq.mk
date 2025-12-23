@@ -752,6 +752,10 @@ PRODUCT_VENDOR_PROPERTIES += ro.boot.wificountrycode=us
 # So the property should be set as false.
 PRODUCT_VENDOR_PROPERTIES += persist.bluetooth.enablenewavrcp=false
 
+#enable default thermal
+PRODUCT_PACKAGES += android.hardware.thermal-service.example
+PRODUCT_PACKAGES += com.android.hardware.thermal
+
 # Add gsi avb keys
 PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 
