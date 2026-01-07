@@ -558,6 +558,11 @@ PRODUCT_PACKAGES += libnbaio
 
 PRODUCT_PRODUCT_PROPERTIES += persist.adb.tcp.port=5555
 
+# Enable Car Telemetry
+ENABLE_CARTELEMETRY_SERVICE := true
+PRODUCT_PACKAGES += android.automotive.telemetryd@1.0
+PRODUCT_PACKAGES += ScriptExecutor
+
 ifeq ($(TARGET_SINGLE_TREE), true)
   # Context hub HAL
   PRODUCT_PACKAGES += \
@@ -665,20 +670,8 @@ PRODUCT_VENDOR_PROPERTIES += persist.debug.wfd.enable=1
 # property to choose between virtual/external wfd display
 PRODUCT_VENDOR_PROPERTIES += persist.sys.wfd.virtual=0
 
-# enable tunnel encoding for amrwb
-PRODUCT_VENDOR_PROPERTIES += tunnel.audio.encode = true
-
-#Buffer size in kbytes for compress offload playback
-PRODUCT_VENDOR_PROPERTIES += audio.offload.buffer.size.kb=32
-
-# Enable offload audio video playback by default
-PRODUCT_VENDOR_PROPERTIES += av.offload.enable=true
-
 # Disable offload for audio playback by default
 PRODUCT_VENDOR_PROPERTIES += audio.offload.disable=true
-
-# Enable voice path for PCM VoIP by default
-PRODUCT_VENDOR_PROPERTIES += use.voice.path.for.pcm.voip=true
 
 # system prop for NFC DT
 PRODUCT_VENDOR_PROPERTIES += ro.nfc.port=I2C
@@ -762,6 +755,10 @@ PRODUCT_VENDOR_PROPERTIES += ro.boot.wificountrycode=us
 # So the property should be set as false.
 PRODUCT_VENDOR_PROPERTIES += persist.bluetooth.enablenewavrcp=false
 
+#enable default thermal
+PRODUCT_PACKAGES += android.hardware.thermal-service.example
+PRODUCT_PACKAGES += com.android.hardware.thermal
+
 # Add gsi avb keys
 PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 
@@ -774,6 +771,13 @@ ifeq ($(TARGET_SINGLE_TREE), true)
   endif
 
   PRODUCT_PACKAGES += vendor.qti.qesdsys
+endif
+
+ifneq ( , $(filter bp4a cp2a, $(TARGET_RELEASE_PLATFORM)))
+AB_OTA_POSTINSTALL_CONFIG += \
+               RUN_POSTINSTALL_vendor=true \
+               FILESYSTEM_TYPE_vendor=ext4 \
+               POSTINSTALL_OPTIONAL_vendor=true
 endif
 
 ifeq ($(filter $(PLATFORM_VERSION), 15 VanillaIceCream V),$(PLATFORM_VERSION))
