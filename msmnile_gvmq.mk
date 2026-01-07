@@ -3,6 +3,7 @@ TARGET_BOOTLOADER_BOARD_NAME := msmnile
 TARGET_BOARD_TYPE := auto
 TARGET_BOARD_SUFFIX := _gvmq
 ENABLE_AIDL_VHAL := true
+ENABLE_AIDL_SENSOR := true
 # U-BRINGUP disable display
 TARGET_DISABLE_DISPLAY := false
 TARGET_IS_HEADLESS := false
@@ -553,8 +554,13 @@ PRODUCT_PACKAGES += \
 
 #PRODUCT_PACKAGES += android.hardware.automotive.audiocontrol@1.0-service
 
-PRODUCT_PACKAGES += android.hardware.health-service.example \
-                    android.hardware.dumpstate-service.example
+ifeq ($(PLATFORM_SDK_VERSION),36)
+    PRODUCT_PACKAGES += android.hardware.health-service.qti \
+                        android.hardware.health-service.qti_recovery
+else
+    PRODUCT_PACKAGES += android.hardware.health-service.example \
+                        android.hardware.health-service.example_recovery
+endif
 
 PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 
@@ -665,32 +671,18 @@ PRODUCT_VENDOR_PROPERTIES += media.stagefright.enable-player=true \
 PRODUCT_VENDOR_PROPERTIES += ro.vendor.use_data_netmgrd=true \
                             persist.vendor.data.mode=concurrent
 
-#system props for time-services
-PRODUCT_VENDOR_PROPERTIES += persist.timed.enable=true
-
 # system prop for opengles version
 # 196608 is decimal for 0x30000 to report version 3
 # 196609 is decimal for 0x30001 to report version 3.1
 # 196610 is decimal for 0x30002 to report version 3.2
 PRODUCT_VENDOR_PROPERTIES += ro.opengles.version=196610
 
-# system property for maximum number of HFP client connections
-PRODUCT_VENDOR_PROPERTIES += bt.max.hfpclient.connections=1
-
 # system prop to turn on CdmaLTEPhone always
 PRODUCT_VENDOR_PROPERTIES += telephony.lteOnCdmaDevice=1
 
-#Simulate sdcard on /data/media
-PRODUCT_VENDOR_PROPERTIES += persist.fuse_sdcard=true
-
 #system prop for wipower support
-PRODUCT_VENDOR_PROPERTIES += ro.bluetooth.emb_wp_mode=false \
-                            ro.bluetooth.wipower=false
 
-PRODUCT_VENDOR_PROPERTIES += persist.vendor.service.bt.a2dp.sink=true \
-                            persist.vendor.btstack.enable.splita2dp=false \
-                            persist.vendor.service.bdroid.sibs=false \
-                            persist.bt.clock_boottime_alarm=false
+PRODUCT_VENDOR_PROPERTIES += persist.vendor.service.bdroid.sibs=false
 
 # system prop for Hardware type Automotive
 PRODUCT_VENDOR_PROPERTIES += ro.hardware.type=automotive
@@ -750,8 +742,6 @@ PRODUCT_VENDOR_PROPERTIES += ro.hwui.texture_cache_size=72 \
                             ro.hwui.text_small_cache_height=1024 \
                             ro.hwui.text_large_cache_width=2048 \
                             ro.hwui.text_large_cache_height=1024 \
-
-PRODUCT_VENDOR_PROPERTIES += config.disable_rtt=true
 
 #Bringup properties
 PRODUCT_VENDOR_PROPERTIES += persist.sys.force_sw_gles=1 \
@@ -829,6 +819,18 @@ ifeq ($(TARGET_SINGLE_TREE), true)
   PRODUCT_PACKAGES += vendor.qti.qesdsys
 endif
 
+ifneq ( , $(filter bp4a cp2a, $(TARGET_RELEASE_PLATFORM)))
+AB_OTA_POSTINSTALL_CONFIG += \
+               RUN_POSTINSTALL_vendor=true \
+               FILESYSTEM_TYPE_vendor=ext4 \
+               POSTINSTALL_OPTIONAL_vendor=true
+endif
+
+ifeq ($(filter $(PLATFORM_VERSION), 15 VanillaIceCream V),$(PLATFORM_VERSION))
+TARGET_SUPPORTS_VM_AUTO := false
+else
+TARGET_SUPPORTS_VM_AUTO := true
+endif
 
 ###################################################################################
 # This is the End of target.mk file.

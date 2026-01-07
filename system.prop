@@ -70,13 +70,8 @@ persist.fuse_sdcard=true
 vendor.qcom.bluetooth.soc=hastings
 
 #system prop for wipower support
-ro.bluetooth.emb_wp_mode=false
-ro.bluetooth.wipower=false
 
-persist.vendor.service.bt.a2dp.sink=true
-persist.vendor.btstack.enable.splita2dp=false
 persist.vendor.service.bdroid.sibs=false
-persist.bt.clock_boottime_alarm=false
 
 #system prop for Hardware type Automotive
 ro.hardware.type=automotive
@@ -135,8 +130,6 @@ ro.hwui.text_small_cache_width=1024
 ro.hwui.text_small_cache_height=1024
 ro.hwui.text_large_cache_width=2048
 ro.hwui.text_large_cache_height=1024
-
-config.disable_rtt=true
 
 #Bringup properties
 persist.sys.force_sw_gles=1
