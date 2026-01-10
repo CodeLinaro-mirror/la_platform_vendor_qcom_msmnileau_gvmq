@@ -561,6 +561,11 @@ PRODUCT_PACKAGES += libnbaio
 
 PRODUCT_PRODUCT_PROPERTIES += persist.adb.tcp.port=5555
 
+# Enable Car Telemetry
+ENABLE_CARTELEMETRY_SERVICE := true
+PRODUCT_PACKAGES += android.automotive.telemetryd@1.0
+PRODUCT_PACKAGES += ScriptExecutor
+
 ifeq ($(TARGET_SINGLE_TREE), true)
   # Context hub HAL
   PRODUCT_PACKAGES += \
