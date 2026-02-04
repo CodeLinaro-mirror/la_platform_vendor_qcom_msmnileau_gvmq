@@ -222,7 +222,11 @@ PRODUCT_PROPERTY_OVERRIDES  += \
 
 PRODUCT_PROPERTY_OVERRIDES += ro.control_privapp_permissions=enforce
 
-$(call inherit-product, packages/services/Car/car_product/build/car.mk)
+#$(call inherit-product, packages/services/Car/car_product/build/car.mk)
+$(call inherit-product, device/qcom/qssi_au/qssi_au_system_generic.mk)
+$(call inherit-product, packages/services/Car/car_product/build/car_generic_system.mk)
+$(call inherit-product, packages/services/Car/car_product/build/car_system_ext.mk)
+$(call inherit-product, packages/services/Car/car_product/build/car_product.mk)
 
 PRODUCT_NAME := msmnile_gvmq
 PRODUCT_BRAND := qti
