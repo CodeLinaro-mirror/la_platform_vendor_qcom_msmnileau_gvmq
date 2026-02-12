@@ -109,7 +109,11 @@ TARGET_NO_QTI_WFD := true
 BOARD_HAVE_QCOM_FM := false
 BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := false
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := false
+ifeq ($(PLATFORM_VERSION), $(filter CinnamonBun 17, $(PLATFORM_VERSION)))
+TARGET_FWK_SUPPORTS_AV_VALUEADDS := false
+else
 TARGET_FWK_SUPPORTS_AV_VALUEADDS := true
+endif
 #TARGET_FWK_SUPPORTS_FULL_VALUEADDS := false
 ifeq ($(TARGET_SINGLE_TREE), true)
   TARGET_FWK_SUPPORTS_FULL_VALUEADDS := true
@@ -558,6 +562,11 @@ PRODUCT_PACKAGES += libnbaio
 
 PRODUCT_PRODUCT_PROPERTIES += persist.adb.tcp.port=5555
 
+# Enable Car Telemetry
+ENABLE_CARTELEMETRY_SERVICE := true
+PRODUCT_PACKAGES += android.automotive.telemetryd@1.0
+PRODUCT_PACKAGES += ScriptExecutor
+
 ifeq ($(TARGET_SINGLE_TREE), true)
   # Context hub HAL
   PRODUCT_PACKAGES += \
@@ -659,23 +668,8 @@ PRODUCT_VENDOR_PROPERTIES += ro.hardware.type=automotive
 
 PRODUCT_VENDOR_PROPERTIES += ro.hardware.sensors=msmnile.asm_auto
 
-# property to enable user to access Google WFD settings
-PRODUCT_VENDOR_PROPERTIES += persist.debug.wfd.enable=1
-
 # property to choose between virtual/external wfd display
 PRODUCT_VENDOR_PROPERTIES += persist.sys.wfd.virtual=0
-
-# enable tunnel encoding for amrwb
-PRODUCT_VENDOR_PROPERTIES += tunnel.audio.encode = true
-
-#Buffer size in kbytes for compress offload playback
-PRODUCT_VENDOR_PROPERTIES += audio.offload.buffer.size.kb=32
-
-# Enable offload audio video playback by default
-PRODUCT_VENDOR_PROPERTIES += av.offload.enable=true
-
-# Enable voice path for PCM VoIP by default
-PRODUCT_VENDOR_PROPERTIES += use.voice.path.for.pcm.voip=true
 
 # system prop for NFC DT
 PRODUCT_VENDOR_PROPERTIES += ro.nfc.port=I2C
@@ -688,21 +682,6 @@ PRODUCT_VENDOR_PROPERTIES += sys.qca1530=detect
 
 # Enable stm events
 PRODUCT_VENDOR_PROPERTIES += persist.debug.coresight.config=stm-events
-
-# hwui properties
-PRODUCT_VENDOR_PROPERTIES += ro.hwui.texture_cache_size=72 \
-                            ro.hwui.layer_cache_size=48 \
-                            ro.hwui.r_buffer_cache_size=8 \
-                            ro.hwui.path_cache_size=32 \
-                            ro.hwui.gradient_cache_size=1 \
-                            ro.hwui.drop_shadow_cache_size=6 \
-                            ro.hwui.texture_cache_flushrate=0.4 \
-                            ro.hwui.text_small_cache_width=1024 \
-                            ro.hwui.text_small_cache_height=1024 \
-                            ro.hwui.text_large_cache_width=2048 \
-                            ro.hwui.text_large_cache_height=1024 \
-
-PRODUCT_VENDOR_PROPERTIES += config.disable_rtt=true
 
 #Bringup properties
 PRODUCT_VENDOR_PROPERTIES += persist.sys.force_sw_gles=1 \
@@ -759,6 +738,10 @@ PRODUCT_VENDOR_PROPERTIES += ro.boot.wificountrycode=us
 # So the property should be set as false.
 PRODUCT_VENDOR_PROPERTIES += persist.bluetooth.enablenewavrcp=false
 
+#enable default thermal
+PRODUCT_PACKAGES += android.hardware.thermal-service.example
+PRODUCT_PACKAGES += com.android.hardware.thermal
+
 # Add gsi avb keys
 PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 
@@ -771,6 +754,13 @@ ifeq ($(TARGET_SINGLE_TREE), true)
   endif
 
   PRODUCT_PACKAGES += vendor.qti.qesdsys
+endif
+
+ifneq ( , $(filter bp4a cp2a, $(TARGET_RELEASE_PLATFORM)))
+AB_OTA_POSTINSTALL_CONFIG += \
+               RUN_POSTINSTALL_vendor=true \
+               FILESYSTEM_TYPE_vendor=ext4 \
+               POSTINSTALL_OPTIONAL_vendor=true
 endif
 
 ifeq ($(filter $(PLATFORM_VERSION), 15 VanillaIceCream V),$(PLATFORM_VERSION))
