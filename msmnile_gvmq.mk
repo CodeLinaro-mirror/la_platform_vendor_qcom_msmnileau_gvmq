@@ -109,7 +109,11 @@ TARGET_NO_QTI_WFD := true
 BOARD_HAVE_QCOM_FM := false
 BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := false
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := false
+ifeq ($(PLATFORM_VERSION), $(filter CinnamonBun 17, $(PLATFORM_VERSION)))
+TARGET_FWK_SUPPORTS_AV_VALUEADDS := false
+else
 TARGET_FWK_SUPPORTS_AV_VALUEADDS := true
+endif
 #TARGET_FWK_SUPPORTS_FULL_VALUEADDS := false
 ifeq ($(TARGET_SINGLE_TREE), true)
   TARGET_FWK_SUPPORTS_FULL_VALUEADDS := true
@@ -664,9 +668,6 @@ PRODUCT_VENDOR_PROPERTIES += ro.hardware.type=automotive
 
 PRODUCT_VENDOR_PROPERTIES += ro.hardware.sensors=msmnile.asm_auto
 
-# property to enable user to access Google WFD settings
-PRODUCT_VENDOR_PROPERTIES += persist.debug.wfd.enable=1
-
 # property to choose between virtual/external wfd display
 PRODUCT_VENDOR_PROPERTIES += persist.sys.wfd.virtual=0
 
@@ -681,21 +682,6 @@ PRODUCT_VENDOR_PROPERTIES += sys.qca1530=detect
 
 # Enable stm events
 PRODUCT_VENDOR_PROPERTIES += persist.debug.coresight.config=stm-events
-
-# hwui properties
-PRODUCT_VENDOR_PROPERTIES += ro.hwui.texture_cache_size=72 \
-                            ro.hwui.layer_cache_size=48 \
-                            ro.hwui.r_buffer_cache_size=8 \
-                            ro.hwui.path_cache_size=32 \
-                            ro.hwui.gradient_cache_size=1 \
-                            ro.hwui.drop_shadow_cache_size=6 \
-                            ro.hwui.texture_cache_flushrate=0.4 \
-                            ro.hwui.text_small_cache_width=1024 \
-                            ro.hwui.text_small_cache_height=1024 \
-                            ro.hwui.text_large_cache_width=2048 \
-                            ro.hwui.text_large_cache_height=1024 \
-
-PRODUCT_VENDOR_PROPERTIES += config.disable_rtt=true
 
 #Bringup properties
 PRODUCT_VENDOR_PROPERTIES += persist.sys.force_sw_gles=1 \
