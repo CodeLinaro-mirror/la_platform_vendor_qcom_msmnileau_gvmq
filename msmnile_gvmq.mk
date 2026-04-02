@@ -541,8 +541,7 @@ PRODUCT_PACKAGES += \
 
 #PRODUCT_PACKAGES += android.hardware.automotive.audiocontrol@1.0-service
 
-PRODUCT_PACKAGES += android.hardware.health-service.example \
-                    android.hardware.dumpstate-service.example
+PRODUCT_PACKAGES += android.hardware.dumpstate-service.example
 
 PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 
@@ -671,17 +670,11 @@ PRODUCT_VENDOR_PROPERTIES += ro.hardware.sensors=msmnile.asm_auto
 # property to choose between virtual/external wfd display
 PRODUCT_VENDOR_PROPERTIES += persist.sys.wfd.virtual=0
 
-# system prop for NFC DT
-PRODUCT_VENDOR_PROPERTIES += ro.nfc.port=I2C
-
 # Enable dsp gapless mode by default
 PRODUCT_VENDOR_PROPERTIES += audio.offload.gapless.enabled=true
 
 # initialize QCA1530 detection
 PRODUCT_VENDOR_PROPERTIES += sys.qca1530=detect
-
-# Enable stm events
-PRODUCT_VENDOR_PROPERTIES += persist.debug.coresight.config=stm-events
 
 #Bringup properties
 PRODUCT_VENDOR_PROPERTIES += persist.sys.force_sw_gles=1 \
