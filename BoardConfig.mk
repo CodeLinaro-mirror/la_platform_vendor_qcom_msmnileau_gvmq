@@ -2,6 +2,10 @@
 #
 # Product-specific compile-time definitions.
 #
+
+# Bypass global flag to make source tree READ-ONLY
+BUILD_BROKEN_SRC_DIR_IS_WRITABLE := true
+
 TARGET_KERNEL_DLKM_DISABLE := false
 TARGET_SEPOLICY_DIR := gen3_gvmq
 
@@ -319,7 +323,7 @@ ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
 include device/qcom/wlan/msmnile_au/BoardConfigWlan.mk
 endif
 
-ifneq ($(PLATFORM_VERSION),$(filter V VanillaIceCream 15 W Baklava 16, $(PLATFORM_VERSION)))
+ifneq ($(PLATFORM_VERSION),$(filter V VanillaIceCream 15 W Baklava 16 CinnamonBun 17, $(PLATFORM_VERSION)))
 #Flag to enable System SDK Requirements.
 #All vendor APK will be compiled against system_current API set.
 BOARD_SYSTEMSDK_VERSIONS:= $(SHIPPING_API_LEVEL)
@@ -347,12 +351,12 @@ BUILD_BROKEN_USES_BUILD_HOST_EXECUTABLE := true
 BUILD_BROKEN_USES_BUILD_COPY_HEADERS := true
 BUILD_BROKEN_USES_BUILD_HOST_STATIC_LIBRARY := true
 BUILD_BROKEN_CLANG_PROPERTY := true
-ifneq ($(PLATFORM_VERSION),$(filter V VanillaIceCream 15 W Baklava 16, $(PLATFORM_VERSION)))
+ifneq ($(PLATFORM_VERSION),$(filter V VanillaIceCream 15 W Baklava 16 CinnamonBun 17, $(PLATFORM_VERSION)))
 BUILD_BROKEN_USES_SOONG_PYTHON2_MODULES := true
 endif
 #Enable Camera2 APIs on automotive builds
 ENABLE_CAMERA_SERVICE := true
-ifeq ($(filter $(PLATFORM_VERSION), 15 VanillaIceCream V W Baklava 16),$(PLATFORM_VERSION))
+ifeq ($(filter $(PLATFORM_VERSION), 15 VanillaIceCream V W Baklava 16 CinnamonBun 17),$(PLATFORM_VERSION))
 $(call add_soong_config_namespace,qti)
 $(call soong_config_set,qti,qti_android_version_is_15,true)
 #used in hardware/qcom/display to determine which version of vndk to be used.
