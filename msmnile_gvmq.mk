@@ -17,7 +17,6 @@ TARGET_DISABLE_LIBVIRTDIAG := true
 SHIPPING_API_LEVEL := 34
 PRODUCT_SHIPPING_API_LEVEL := $(SHIPPING_API_LEVEL)
 BOARD_SHIPPING_API_LEVEL := $(SHIPPING_API_LEVEL)
-BOARD_API_LEVEL_PROP_OVERRIDE := $(SHIPPING_API_LEVEL)
 
 AUDIO_USE_STUB_HAL := false
 # Skip VINTF checks for kernel configs since we do not have kernel source
@@ -109,7 +108,11 @@ TARGET_NO_QTI_WFD := true
 BOARD_HAVE_QCOM_FM := false
 BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := false
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := false
+ifeq ($(PLATFORM_VERSION), $(filter CinnamonBun 17, $(PLATFORM_VERSION)))
+TARGET_FWK_SUPPORTS_AV_VALUEADDS := false
+else
 TARGET_FWK_SUPPORTS_AV_VALUEADDS := true
+endif
 #TARGET_FWK_SUPPORTS_FULL_VALUEADDS := false
 ifeq ($(TARGET_SINGLE_TREE), true)
   TARGET_FWK_SUPPORTS_FULL_VALUEADDS := true
@@ -228,7 +231,14 @@ PRODUCT_PROPERTY_OVERRIDES  += \
 
 PRODUCT_PROPERTY_OVERRIDES += ro.control_privapp_permissions=enforce
 
-$(call inherit-product, packages/services/Car/car_product/build/car.mk)
+ifeq (true,$(call math_gt_or_eq,$(PLATFORM_SDK_VERSION),36))
+  $(call inherit-product, device/qcom/qssi_au/qssi_au_system_generic.mk)
+  $(call inherit-product, packages/services/Car/car_product/build/car_generic_system.mk)
+  $(call inherit-product, packages/services/Car/car_product/build/car_system_ext.mk)
+  $(call inherit-product, packages/services/Car/car_product/build/car_product.mk)
+else
+  $(call inherit-product, packages/services/Car/car_product/build/car.mk)
+endif
 
 PRODUCT_NAME := msmnile_gvmq
 PRODUCT_BRAND := qti
@@ -537,8 +547,15 @@ PRODUCT_PACKAGES += \
 
 #PRODUCT_PACKAGES += android.hardware.automotive.audiocontrol@1.0-service
 
-PRODUCT_PACKAGES += android.hardware.health-service.example \
-                    android.hardware.dumpstate-service.example
+PRODUCT_PACKAGES += android.hardware.dumpstate-service.example
+
+# Native service to load modules
+ifneq (,$(filter $(TARGET_BOARD_PLATFORM)$(TARGET_BOARD_SUFFIX), msmnile_gvmq))
+PRODUCT_VENDOR_PROPERTIES += ro.vendor.qti.load_dlkm.service=native
+PRODUCT_VENDOR_PROPERTIES += ro.vendor.qti.sysdep.modlist=stmmac,stmmac_platform,dwmac-qcom-ethqos,btpower,btpower_new
+PRODUCT_VENDOR_PROPERTIES += ro.vendor.qti.sysdep.wlan.modlist=cfg80211,mac80211,qca_cld3_qca6390,qca_cld3_qca6490,qca_cld3_kiwi_v2,qca_cld3_qcn7605
+endif
+
 
 PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 
@@ -664,9 +681,6 @@ PRODUCT_VENDOR_PROPERTIES += ro.hardware.type=automotive
 
 PRODUCT_VENDOR_PROPERTIES += ro.hardware.sensors=msmnile.asm_auto
 
-# property to enable user to access Google WFD settings
-PRODUCT_VENDOR_PROPERTIES += persist.debug.wfd.enable=1
-
 # property to choose between virtual/external wfd display
 PRODUCT_VENDOR_PROPERTIES += persist.sys.wfd.virtual=0
 
@@ -681,24 +695,6 @@ PRODUCT_VENDOR_PROPERTIES += audio.offload.gapless.enabled=true
 
 # initialize QCA1530 detection
 PRODUCT_VENDOR_PROPERTIES += sys.qca1530=detect
-
-# Enable stm events
-PRODUCT_VENDOR_PROPERTIES += persist.debug.coresight.config=stm-events
-
-# hwui properties
-PRODUCT_VENDOR_PROPERTIES += ro.hwui.texture_cache_size=72 \
-                            ro.hwui.layer_cache_size=48 \
-                            ro.hwui.r_buffer_cache_size=8 \
-                            ro.hwui.path_cache_size=32 \
-                            ro.hwui.gradient_cache_size=1 \
-                            ro.hwui.drop_shadow_cache_size=6 \
-                            ro.hwui.texture_cache_flushrate=0.4 \
-                            ro.hwui.text_small_cache_width=1024 \
-                            ro.hwui.text_small_cache_height=1024 \
-                            ro.hwui.text_large_cache_width=2048 \
-                            ro.hwui.text_large_cache_height=1024 \
-
-PRODUCT_VENDOR_PROPERTIES += config.disable_rtt=true
 
 #Bringup properties
 PRODUCT_VENDOR_PROPERTIES += persist.sys.force_sw_gles=1 \
@@ -765,8 +761,10 @@ PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 ifeq ($(TARGET_SINGLE_TREE), true)
   # Include mainline components and QSSI whitelist
   ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),29))
-    $(call inherit-product, device/qcom/qssi_au/qssi_au_whitelist.mk)
-    PRODUCT_ARTIFACT_PATH_REQUIREMENT_IGNORE_PATHS := /system/system_ext/
+    ifeq (true,$(call math_lt,$(PLATFORM_SDK_VERSION),36))
+      $(call inherit-product, device/qcom/qssi_au/qssi_au_whitelist.mk)
+      PRODUCT_ARTIFACT_PATH_REQUIREMENT_IGNORE_PATHS := /system/system_ext/
+    endif
     PRODUCT_ENFORCE_ARTIFACT_PATH_REQUIREMENTS := false
   endif
 
