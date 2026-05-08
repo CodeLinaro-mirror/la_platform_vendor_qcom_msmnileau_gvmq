@@ -17,7 +17,6 @@ TARGET_DISABLE_LIBVIRTDIAG := true
 SHIPPING_API_LEVEL := 34
 PRODUCT_SHIPPING_API_LEVEL := $(SHIPPING_API_LEVEL)
 BOARD_SHIPPING_API_LEVEL := $(SHIPPING_API_LEVEL)
-BOARD_API_LEVEL_PROP_OVERRIDE := $(SHIPPING_API_LEVEL)
 
 AUDIO_USE_STUB_HAL := false
 # Skip VINTF checks for kernel configs since we do not have kernel source
@@ -232,7 +231,14 @@ PRODUCT_PROPERTY_OVERRIDES  += \
 
 PRODUCT_PROPERTY_OVERRIDES += ro.control_privapp_permissions=enforce
 
-$(call inherit-product, packages/services/Car/car_product/build/car.mk)
+ifeq (true,$(call math_gt_or_eq,$(PLATFORM_SDK_VERSION),36))
+  $(call inherit-product, device/qcom/qssi_au/qssi_au_system_generic.mk)
+  $(call inherit-product, packages/services/Car/car_product/build/car_generic_system.mk)
+  $(call inherit-product, packages/services/Car/car_product/build/car_system_ext.mk)
+  $(call inherit-product, packages/services/Car/car_product/build/car_product.mk)
+else
+  $(call inherit-product, packages/services/Car/car_product/build/car.mk)
+endif
 
 PRODUCT_NAME := msmnile_gvmq
 PRODUCT_BRAND := qti
@@ -741,8 +747,10 @@ PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 ifeq ($(TARGET_SINGLE_TREE), true)
   # Include mainline components and QSSI whitelist
   ifeq (true,$(call math_gt_or_eq,$(SHIPPING_API_LEVEL),29))
-    $(call inherit-product, device/qcom/qssi_au/qssi_au_whitelist.mk)
-    PRODUCT_ARTIFACT_PATH_REQUIREMENT_IGNORE_PATHS := /system/system_ext/
+    ifeq (true,$(call math_lt,$(PLATFORM_SDK_VERSION),36))
+      $(call inherit-product, device/qcom/qssi_au/qssi_au_whitelist.mk)
+      PRODUCT_ARTIFACT_PATH_REQUIREMENT_IGNORE_PATHS := /system/system_ext/
+    endif
     PRODUCT_ENFORCE_ARTIFACT_PATH_REQUIREMENTS := false
   endif
 
