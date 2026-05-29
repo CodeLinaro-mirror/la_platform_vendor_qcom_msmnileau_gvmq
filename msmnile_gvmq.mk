@@ -130,8 +130,6 @@ ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
   BOARD_BUILD_SUPER_IMAGE_BY_DEFAULT := true
   PRODUCT_BUILD_SUPER_PARTITION := true
   PRODUCT_BUILD_RAMDISK_IMAGE := true
-  # Enable System_ext
-  PRODUCT_BUILD_SYSTEM_EXT_IMAGE := true
   PRODUCT_PACKAGES += fastbootd
    # Add default implementation of fastboot AIDL.
   PRODUCT_PACKAGES += android.hardware.fastboot-service.example_recovery
@@ -163,10 +161,11 @@ ifeq ($(strip $(BOARD_DYNAMIC_PARTITION_ENABLE)),true)
   endif
 endif
 
-#PRODUCT_BUILD_SYSTEM_IMAGE := true
 PRODUCT_BUILD_SYSTEM_OTHER_IMAGE := false
-#PRODUCT_BUILD_VENDOR_IMAGE := true
+PRODUCT_BUILD_SYSTEM_IMAGE := false
+PRODUCT_BUILD_SYSTEM_EXT_IMAGE := false
 PRODUCT_BUILD_PRODUCT_IMAGE := false
+PRODUCT_BUILD_VENDOR_IMAGE := true
 PRODUCT_BUILD_PRODUCT_SERVICES_IMAGE := false
 #PRODUCT_BUILD_ODM_IMAGE := true
 PRODUCT_BUILD_CACHE_IMAGE := false
@@ -179,6 +178,7 @@ PRODUCT_BUILD_SYSTEM_DLKM_IMAGE := true
 TARGET_SKIP_OTA_PACKAGE := true
 ifeq ($(TARGET_SINGLE_TREE), true)
   PRODUCT_BUILD_SYSTEM_IMAGE := true
+  PRODUCT_BUILD_SYSTEM_EXT_IMAGE := true
   PRODUCT_BUILD_PRODUCT_IMAGE := true
   TARGET_SKIP_OTA_PACKAGE := false
 endif
@@ -222,7 +222,11 @@ PRODUCT_PROPERTY_OVERRIDES  += \
 
 PRODUCT_PROPERTY_OVERRIDES += ro.control_privapp_permissions=enforce
 
-$(call inherit-product, packages/services/Car/car_product/build/car.mk)
+#$(call inherit-product, packages/services/Car/car_product/build/car.mk)
+$(call inherit-product, device/qcom/qssi_au/qssi_au_system_generic.mk)
+$(call inherit-product, packages/services/Car/car_product/build/car_generic_system.mk)
+$(call inherit-product, packages/services/Car/car_product/build/car_system_ext.mk)
+$(call inherit-product, packages/services/Car/car_product/build/car_product.mk)
 
 PRODUCT_NAME := msmnile_gvmq
 PRODUCT_BRAND := qti
@@ -340,7 +344,6 @@ ENABLE_MEMTRACK_AIDL_HAL := true
 
 -include $(QCPATH)/common/config/qtic-config.mk
 
-PRODUCT_BOOT_JARS += tcmiface
 
 ifneq ($(TARGET_NO_TELEPHONY), true)
  PRODUCT_BOOT_JARS += telephony-ext
@@ -553,14 +556,6 @@ PRODUCT_PACKAGES += \
    update_engine_sideload
 
 #PRODUCT_PACKAGES += android.hardware.automotive.audiocontrol@1.0-service
-
-ifeq ($(PLATFORM_SDK_VERSION),36)
-    PRODUCT_PACKAGES += android.hardware.health-service.qti \
-                        android.hardware.health-service.qti_recovery
-else
-    PRODUCT_PACKAGES += android.hardware.health-service.example \
-                        android.hardware.health-service.example_recovery
-endif
 
 PRODUCT_PACKAGES += qcar-gsi.avbpubkey
 
