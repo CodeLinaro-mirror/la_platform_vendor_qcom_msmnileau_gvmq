@@ -178,6 +178,7 @@ PRODUCT_BUILD_SYSTEM_DLKM_IMAGE := true
 TARGET_SKIP_OTA_PACKAGE := true
 ifeq ($(TARGET_SINGLE_TREE), true)
   PRODUCT_BUILD_SYSTEM_IMAGE := true
+  PRODUCT_BUILD_SYSTEM_EXT_IMAGE := true
   PRODUCT_BUILD_PRODUCT_IMAGE := true
   TARGET_SKIP_OTA_PACKAGE := false
 endif
@@ -343,7 +344,6 @@ ENABLE_MEMTRACK_AIDL_HAL := true
 
 -include $(QCPATH)/common/config/qtic-config.mk
 
-PRODUCT_BOOT_JARS += tcmiface
 
 ifneq ($(TARGET_NO_TELEPHONY), true)
  PRODUCT_BOOT_JARS += telephony-ext
