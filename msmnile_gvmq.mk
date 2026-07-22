@@ -687,8 +687,6 @@ PRODUCT_VENDOR_PROPERTIES += persist.sys.wfd.virtual=0
 # Disable offload for audio playback by default
 PRODUCT_VENDOR_PROPERTIES += audio.offload.disable=true
 
-# system prop for NFC DT
-PRODUCT_VENDOR_PROPERTIES += ro.nfc.port=I2C
 
 # Enable dsp gapless mode by default
 PRODUCT_VENDOR_PROPERTIES += audio.offload.gapless.enabled=true
