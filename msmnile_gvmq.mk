@@ -725,15 +725,6 @@ PRODUCT_VENDOR_PROPERTIES += persist.vendor.car.lpm=true
 # default wifi country code
 PRODUCT_VENDOR_PROPERTIES += ro.boot.wificountrycode=us
 
-# The property "persist.bluetooth.enablenewavrcp" is introduced in AOSP.
-# See commit e63f6d6bda16bd94d43537fc5db754a103c6a757
-# (1) If the property is set as true, it indicates that AVRCP(TG) is enabled.
-# (2) If the property is set as false, it indicates that AVRCP(CT) is enabled.
-# In Fluoride Bluetooth stack, the default value for the property is true. This is valid with Mobile SP.
-# However in Automotive SP, AVRCP(CT) is enabled in Car UI.
-# So the property should be set as false.
-PRODUCT_VENDOR_PROPERTIES += persist.bluetooth.enablenewavrcp=false
-
 #enable default thermal
 PRODUCT_PACKAGES += android.hardware.thermal-service.example
 PRODUCT_PACKAGES += com.android.hardware.thermal
