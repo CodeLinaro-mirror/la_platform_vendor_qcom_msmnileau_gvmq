@@ -576,6 +576,13 @@ PRODUCT_PACKAGES += libnbaio
 
 PRODUCT_PRODUCT_PROPERTIES += persist.adb.tcp.port=5555
 
+ifneq (,$(filter Baklava W 16, $(PLATFORM_VERSION)))
+TARGET_USES_CAPE_FOR_AUDIO := true
+else
+TARGET_USES_CAPE_FOR_AUDIO := false
+endif
+
+
 ifeq ($(TARGET_SINGLE_TREE), true)
   # Context hub HAL
   PRODUCT_PACKAGES += \
@@ -644,6 +651,17 @@ ifeq ($(TARGET_SINGLE_TREE), true)
     AUDIO_FEATURE_ENABLED_DLKM := false
   endif
 
+ifeq ($(TARGET_USES_CAPE_FOR_AUDIO), true)
+  PRODUCT_SYSTEM_PROPERTIES += \
+      ro.config.media_vol_steps=40 \
+      ro.config.vc_call_vol_steps=40 \
+      ro.config.system_vol_steps=40 \
+      ro.config.alarm_vol_steps=40 \
+      ro.config.media_vol_default=36 \
+      ro.config.alarm_vol_default=36 \
+      ro.config.system_vol_default=36 \
+      ro.config.vc_call_vol_default=36
+endif
 endif
 
 # Set network mode to (T/L/G/W/1X/EVDO, T/L/G/W/1X/EVDO) for 7+7 mode device on DSDS mode
