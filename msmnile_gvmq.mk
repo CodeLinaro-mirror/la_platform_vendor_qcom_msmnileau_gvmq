@@ -221,6 +221,7 @@ PRODUCT_PROPERTY_OVERRIDES  += \
 
 
 PRODUCT_PROPERTY_OVERRIDES += ro.control_privapp_permissions=enforce
+PRODUCT_PROPERTY_OVERRIDES += ro.vendor.asymmetric_support=true
 
 #$(call inherit-product, packages/services/Car/car_product/build/car.mk)
 $(call inherit-product, device/qcom/qssi_au/qssi_au_system_generic.mk)
