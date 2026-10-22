@@ -566,9 +566,6 @@ PRODUCT_VENDOR_PROPERTIES += persist.rmnet.data.enable=true \
                             persist.data.df.iwlan_mux=9 \
                             persist.data.df.dev_name=rmnet_usb0
 
-# property to enable user to access Google WFD settings
-PRODUCT_VENDOR_PROPERTIES += persist.debug.wfd.enable=1
-
 # property to choose between virtual/external wfd display
 PRODUCT_VENDOR_PROPERTIES += persist.sys.wfd.virtual=0
 
